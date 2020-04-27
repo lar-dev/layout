@@ -1,0 +1,45 @@
+{
+    "name": "lar/layout",
+    "description": "Laravel Application React Layout",
+    "type": "library",
+    "keywords": ["laravel", "application", "react", "layout"],
+    "homepage": "https://bitbucket.org/lar-repo/layout",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "xsaven",
+            "email": "dev.xsaven@gmail.com"
+        }
+    ],
+    "prefer-stable": true,
+    "require": {
+        "php": ">=7.1.0",
+        "predis/predis": "^1.1",
+        "nikic/php-parser": "~4.0",
+        "voku/simple_html_dom": "^4.7",
+        "lar/entity-carrier": "1.0.*",
+        "lar/developer": "v1.0.*",
+        "lar/tagable": "v1.0.*",
+        "lar/roads": "2.0.*",
+        "lar/ljs": "2.0.*"
+    },
+    "require-dev": {},
+    "autoload": {
+        "psr-4": {
+            "Lar\\Layout\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Lar\\Layout\\ServiceProvider"
+            ],
+            "aliases": {
+                "Layout": "Lar\\Layout\\Facade"
+            }
+        }
+    }
+}

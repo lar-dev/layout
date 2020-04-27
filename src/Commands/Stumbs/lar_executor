@@ -1,0 +1,13 @@
+class {CLASS} extends Executor {
+
+    __invoke () {
+
+    }
+
+    static __name () {
+
+        return "{NAME}";
+    }
+}
+
+module.exports = {CLASS};
