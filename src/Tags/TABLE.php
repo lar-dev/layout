@@ -450,8 +450,6 @@ class TABLE extends Component implements onRender
 
             $m1 = array_reverse(explode(":", $m[1]));
 
-            //dd($field, $m1);
-
             $field = $m1[0];
 
             unset($m1[0]);

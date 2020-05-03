@@ -105,8 +105,6 @@ class MakeComponent extends Command
 
             $this->info("Dump autoload...");
 
-            //system("composer dump-autoload");
-
             $this->call('lar:dump', [
                 '--class' => GenerateBladeHelpers::class
             ]);

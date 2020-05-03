@@ -149,13 +149,6 @@ class LayoutComponent extends HTML
 
         $this->assetsBottomInject();
 
-//        $this->metaConfig("env", config('app.env'))
-//            ->metaConfig("token", csrf_token())
-//            ->headerConfig("route_name", Str::slug(str_replace(".", "_", \Route::currentRouteName()), "_"))
-//            ->headerConfig("route_url", request()->url())
-//            ->headerConfig("methods", json_encode(\Route::current()->methods))
-//            ->headerConfig("route_params", json_encode(get_route_params()));
-
         $this->toExecute("init_scripts")
             ->toExecute("metaConfigs")
             ->toExecute("createConsole");
@@ -317,7 +310,7 @@ class LayoutComponent extends HTML
             $obj = $this->container;
         }
 
-        $obj->toBottom()->script(["data-exec-on-popstate" => ""]); //->text(\LJS::render());
+        $obj->toBottom()->script(["data-exec-on-popstate" => ""]);
     }
 
     /**

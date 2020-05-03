@@ -141,14 +141,6 @@ class BladeDirectives
     {
         $ljs = function ($data = "") {
 
-//            $data = explode(",", $data);
-//
-//            foreach ($data as $key => $datum) {
-//
-/*                $data[$key] = "<?php echo " . trim($datum) . "; ?>";*/
-//            }
-
-            //return "data-ljs=\"" . implode("||", $data) . "\"";
             return "data-ljs=\"<?php echo " . trim((string)$data) . "; ?>\"";
         };
 
