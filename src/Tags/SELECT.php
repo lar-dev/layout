@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Tags;
 
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Database\Eloquent\Collection;
 use Lar\Layout\Abstracts\Component;
 
 class SELECT extends Component
@@ -22,6 +24,15 @@ class SELECT extends Component
      */
     public function options($data = [], $select = null)
     {
+        if ($select instanceof Collection) {
+
+            $select = $select->pluck('id');
+        }
+
+        if ($select instanceof Arrayable) {
+
+            $select = $select->toArray();
+        }
 
         foreach ($data as $key => $val) {
 
