@@ -128,9 +128,7 @@ class MakeJaxExecutor extends Command
 
             $this->info("Executor [{$file}] created!");
 
-            $this->call('lar:dump', [
-                '--class' => GenerateJaxHelper::class
-            ]);
+            $this->call('lar:dump');
         }
 
         return ;

@@ -9,8 +9,6 @@ use Illuminate\Support\Collection;
 use Lar\Layout\Respond\AlertSystemsTrait;
 use Lar\Layout\Respond\Core;
 use Lar\Layout\Respond\DocTrait;
-use Lar\Layout\Respond\Form;
-use Lar\Layout\Respond\HtmlTrait;
 use Lar\Layout\Respond\jQueryDecoratorTrait;
 use Lar\Layout\Respond\State;
 use Lar\Layout\Respond\Systems;
@@ -22,8 +20,9 @@ use Lar\Tagable\Tag;
  * Class Respond
  *
  * @package Lar\Layout
+ * @mixin RespondDoc
  */
-class Respond extends RespondDoc implements Renderable, Htmlable {
+class Respond extends Collection implements Renderable, Htmlable {
 
     use Core,
         jQueryDecoratorTrait,

@@ -3,13 +3,15 @@
 namespace Lar\Layout;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 /**
  * Class AjaxExecutor
  *
  * @package Lar\Layout
+ * @mixin RespondDoc
  */
-abstract class JaxExecutor extends RespondDoc
+abstract class JaxExecutor extends Collection
 {
     /**
      * Response status

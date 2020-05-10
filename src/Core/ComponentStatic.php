@@ -2,13 +2,12 @@
 
 namespace Lar\Layout\Core;
 
-use Lar\Layout\LarDoc;
-
 /**
  * Class ComponentStatic
  * @package Lar\Layout\Core
+ * @mixin \Lar\Layout\LarDoc
  */
-class ComponentStatic extends LarDoc {
+class ComponentStatic extends \Lar\Tagable\Tag {
 
 
 }

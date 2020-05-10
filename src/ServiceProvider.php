@@ -76,11 +76,6 @@ class ServiceProvider extends ServiceProviderIlluminate
 
         new BladeDirectives();
 
-        register_shutdown_function(function () {
-
-
-        });
-
         if (Layout::$lang_select) {
 
             \App::setLocale(Layout::$lang_select);
@@ -94,11 +89,6 @@ class ServiceProvider extends ServiceProviderIlluminate
      */
     public function register()
     {
-        $this->app->resolving(Respond::class, function()
-        {
-            return 1;
-        });
-
         $this->mergeConfigFrom(
             __DIR__.'/../config/layout.php', 'layout'
         );
@@ -106,35 +96,6 @@ class ServiceProvider extends ServiceProviderIlluminate
         if (config('layout.lang_mode', false)) {
 
             $this->makeLang();
-        }
-
-        if (!is_file(app()->bootstrapPath("lar_doc.php"))) {
-
-            $this->createDocFile();
-        }
-
-
-        if (!class_exists('Lar\Layout\LarDoc')) {
-
-            if (!is_file(app()->bootstrapPath("lar_doc.php"))) {
-
-                include __DIR__ . '/lar_doc';
-            }
-
-            else {
-
-                include app()->bootstrapPath("lar_doc.php");
-            }
-        }
-
-        if (!is_file(app()->bootstrapPath("respond_doc.php"))) {
-
-            $this->createRespondDocFile();
-        }
-
-        if (!class_exists('Lar\Layout\RespondDoc')) {
-
-            include app()->bootstrapPath("respond_doc.php");
         }
 
         $this->app->instance(Respond::class, Respond::glob());
@@ -169,66 +130,6 @@ class ServiceProvider extends ServiceProviderIlluminate
         foreach ($this->routeMiddleware as $key => $middleware) {
             app('router')->aliasMiddleware($key, $middleware);
         }
-    }
-
-    /**
-     * @param \Closure|null $closure
-     */
-    public static function createDocFile(\Closure $closure = null)
-    {
-        $namespace = namespace_entity("Lar\Layout");
-
-        $namespace->wrap("php");
-
-        $namespace->class("LarDoc", function (ClassEntity $class) use ($closure) {
-
-            $class->extend("\\Lar\\Tagable\\Tag");
-
-            $globals = GenerateHelper::getGenerateClosures();
-
-            foreach ($globals as $global) {
-
-                $global($class);
-            }
-
-            if ($closure) {
-
-                $closure($class);
-            }
-
-        });
-
-        file_put_contents(app()->bootstrapPath("lar_doc.php"), $namespace->render());
-    }
-
-    /**
-     * @param \Closure|null $closure
-     */
-    public static function createRespondDocFile(\Closure $closure = null)
-    {
-        $namespace = namespace_entity("Lar\Layout");
-
-        $namespace->wrap("php");
-
-        $namespace->class("RespondDoc", function (ClassEntity $class) use ($closure) {
-
-            $globals = GenerateRespondHelper::getGenerateClosures();
-
-            $class->extend(Collection::class);
-
-            foreach ($globals as $global) {
-
-                $global($class);
-            }
-
-            if ($closure) {
-
-                $closure($class);
-            }
-
-        });
-
-        file_put_contents(app()->bootstrapPath("respond_doc.php"), $namespace->render());
     }
 }
 
