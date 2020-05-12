@@ -1,7 +1,7 @@
 {
     "name": "lar/layout",
     "description": "Laravel Application React Layout",
-    "type": "library",
+    "type": "lar-library",
     "keywords": ["laravel", "application", "react", "layout"],
     "homepage": "https://bitbucket.org/lar-repo/layout",
     "license": "MIT",
