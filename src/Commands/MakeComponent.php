@@ -22,7 +22,7 @@ class MakeComponent extends Command
      *
      * @var string
      */
-    protected $signature = 'make:component {component_name : The component name}
+    protected $signature = 'make:tag {component_name : The component name}
     {--dir= : Dir in to created path}';
 
     /**
