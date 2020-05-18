@@ -409,6 +409,29 @@ class TABLE extends Component implements onRender
     }
 
     /**
+     * @param  string  $name
+     * @param $params
+     * @throws \Exception
+     * @return mixed
+     */
+    public static function callMacro(string $name, ...$params)
+    {
+        if (!isset(static::$column_macros[$name])) {
+
+            throw new \Exception("Macro [{$name}] not found!");
+        }
+
+        $data = static::$column_macros[$name];
+
+        if (is_array($data)) {
+
+            return $data[0]->{$data[1]}(...$params);
+        }
+
+        return $data(...$params);
+    }
+
+    /**
      * Register Extension
      *
      * @param string $name
