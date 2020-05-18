@@ -172,14 +172,7 @@ class LayoutComponent extends HTML
             })
             ->mapCollect($this->head_links, function (LINK $link, $row) {
 
-                if (is_array($row)) {
-
-                    $link->when([$row]);
-
-                } else {
-
-                    $link->when($row);
-                }
+                $link->when($row);
             })
             ->when(function (HEAD $head) {
 
