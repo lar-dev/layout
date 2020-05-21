@@ -3,6 +3,8 @@
 namespace Lar\Layout;
 
 use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Htmlable;
+use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Lar\Layout\Interfaces\GuardExecutor;
@@ -204,6 +206,14 @@ class Executor
                             if ($result instanceof Arrayable) {
 
                                 $result = $result->toArray();
+
+                            } else if ($result instanceof Htmlable) {
+
+                                $result = $result->toHtml();
+
+                            } else if ($result instanceof Renderable) {
+
+                                $result = $result->render();
                             }
 
                             if (!is_array($result)) {
@@ -261,6 +271,14 @@ class Executor
                                         if ($result instanceof Arrayable) {
 
                                             $result = $result->toArray();
+
+                                        } else if ($result instanceof Htmlable) {
+
+                                            $result = $result->toHtml();
+
+                                        } else if ($result instanceof Renderable) {
+
+                                            $result = $result->render();
                                         }
 
                                         if (!is_array($result)) {
@@ -301,6 +319,14 @@ class Executor
                                 if ($d instanceof Arrayable) {
 
                                     $d = $d->toArray();
+
+                                } else if ($d instanceof Htmlable) {
+
+                                    $d = $d->toHtml();
+
+                                } else if ($d instanceof Renderable) {
+
+                                    $d = $d->render();
                                 }
 
                                 if (is_array($d)) {

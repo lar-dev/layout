@@ -4,6 +4,7 @@ namespace Lar\Layout\Abstracts;
 
 use Lar\Developer\Core\Traits\Eventable;
 use Lar\Layout\Core\ComponentStatic;
+use Lar\Layout\Traits\DataTrait;
 use Lar\Layout\Traits\LjsDataAttributes;
 use Lar\Tagable\Core\HTML5Library;
 
@@ -13,7 +14,7 @@ use Lar\Tagable\Core\HTML5Library;
  */
 class Component extends ComponentStatic
 {
-    use LjsDataAttributes, Eventable;
+    use LjsDataAttributes, Eventable, DataTrait;
 
     /**
      * @var array
@@ -32,6 +33,8 @@ class Component extends ComponentStatic
      */
     public function __construct(...$params)
     {
+        $this->toExecute('makeDataEvents');
+
         parent::__construct($params);
 
         foreach ($this->apply as $item) {
@@ -45,6 +48,17 @@ class Component extends ComponentStatic
 
                 custom_closure_call($item);
             }
+        }
+    }
+
+    /**
+     * Make data events
+     */
+    protected function makeDataEvents () {
+
+        if (!$this->only_content) {
+
+            $this->setDatas($this->data);
         }
     }
 
