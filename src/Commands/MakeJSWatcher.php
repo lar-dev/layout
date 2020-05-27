@@ -11,14 +11,14 @@ use Lar\Layout\Core\LarJsonResource;
  *
  * @package Lar\Layout\Commands
  */
-class MakeJSExecutor extends Command
+class MakeJSWatcher extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'make:js-executor {js_name : The js name of the Executor}
+    protected $signature = 'make:js-watcher {js_name : The js name of the Executor}
     {--dir= : Dir in to created path}';
 
     /**
@@ -52,7 +52,7 @@ class MakeJSExecutor extends Command
     {
         $path = config('layout.resource_js_path', 'js');
 
-        $dir = resource_path($path.'/executors');
+        $dir = resource_path($path.'/watchers');
 
         if ($dir_set = $this->option("dir")) {
 
@@ -74,22 +74,22 @@ class MakeJSExecutor extends Command
 
         if (is_file($file)) {
 
-            $this->error("The js executor [{$this->camel_name()}] already exists!"); return ;
+            $this->error("The js watcher [{$this->camel_name()}] already exists!"); return ;
         }
 
         $exec_data = str_replace([
             "{CLASS}", "{NAME}"
         ], [
             $this->camel_name(), $this->name()
-        ], file_get_contents(__DIR__ . "/Stumbs/lar_executor"));
+        ], file_get_contents(__DIR__ . "/Stumbs/lar_watcher"));
 
         $ins_file = str_replace(resource_path() . "/{$path}/", "", $file);
         
         if (file_put_contents($file, $exec_data)) {
 
-            $this->info("Executor [{$this->name()}][{$ins_file}] created!");
+            $this->info("Watcher [{$this->name()}][{$ins_file}] created!");
 
-            (new LarJsonResource())->addExecutor($file_name);
+            (new LarJsonResource())->addWatcher($file_name);
         }
     }
 

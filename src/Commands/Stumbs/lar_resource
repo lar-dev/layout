@@ -1,5 +1,22 @@
-const load = () => {
+let resources = require('./lar_resources.json');
+let map = require('lodash/map');
 
+const load = () => {
+    let state_watchers = 'state_watchers' in resources ? resources.state_watchers : [];
+    let executors = 'executors' in resources ? resources.executors : [];
+    let vue_components = 'vue_components' in resources ? resources.vue_components : {};
+
+    map(state_watchers, (watcher) => {
+        ljs.stateWatcher(require(`./watchers/${watcher}`));
+    });
+    map(executors, (executor) => {
+        ljs.regExec(require(`./executors/${executor}`));
+    });
+    if (ljs.vue !== undefined) {
+        map(vue_components, (vue, name) => {
+            ljs.vue.component(name, require(`./components/${vue}`).default);
+        });
+    }
 };
 
 const methods = require('./lar_methods.js');

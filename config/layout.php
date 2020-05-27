@@ -9,5 +9,6 @@ return [
     "lang_mode" => true,
     "languages" => [
         "en", "uk", "ru"
-    ]
+    ],
+    "resource_js_path" => 'js'
 ];

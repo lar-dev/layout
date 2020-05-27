@@ -2,19 +2,16 @@
 
 namespace Lar\Layout;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\ServiceProvider as ServiceProviderIlluminate;
-use Lar\EntityCarrier\Core\Entities\ClassEntity;
 use Lar\Layout\Commands\ComponentList;
-use Lar\Developer\Commands\Dump\GenerateHelper;
-use Lar\Developer\Commands\Dump\GenerateRespondHelper;
 use Lar\Layout\Commands\JaxList;
 use Lar\Layout\Commands\MakeComponent;
 use Lar\Layout\Commands\MakeJaxExecutor;
 use Lar\Layout\Commands\MakeJSExecutor;
+use Lar\Layout\Commands\MakeJSWatcher;
 use Lar\Layout\Commands\MakeLayout;
+use Lar\Layout\Commands\MakeLjsProject;
 use Lar\Layout\Commands\MakeVue;
-use Lar\Layout\Commands\MakeVueProject;
 use Lar\Layout\Middleware\CorsMiddleware;
 use Lar\Layout\Middleware\DomMiddleware;
 use Lar\Layout\Middleware\ExecutorMiddleware;
@@ -36,12 +33,13 @@ class ServiceProvider extends ServiceProviderIlluminate
     protected $commands = [
         MakeJaxExecutor::class,
         MakeJSExecutor::class,
-        MakeVueProject::class,
+        MakeLjsProject::class,
         MakeComponent::class,
         ComponentList::class,
         JaxList::class,
         MakeLayout::class,
-        MakeVue::class
+        MakeVue::class,
+        MakeJSWatcher::class
     ];
 
     /**

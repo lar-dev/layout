@@ -375,6 +375,26 @@ trait DataTrait {
     }
 
     /**
+     * @param  string  $command
+     * @param  null  $value
+     * @return $this
+     */
+    public function on_load_jax(string $command, $value = null)
+    {
+        return $this->addDataRule('load-jax', $command, $value, 'props');
+    }
+
+    /**
+     * @param  string  $command
+     * @param  null  $value
+     * @return $this
+     */
+    public function on_load(string $command, $value = null)
+    {
+        return $this->addDataRule('load', $command, $value);
+    }
+
+    /**
      * @param  string  $event
      * @param  string  $command
      * @param  null  $value

@@ -8,6 +8,7 @@ use Lar\EntityCarrier\Core\Entities\DocumentorEntity;
 use Lar\Layout\Abstracts\Component;
 use Lar\Layout\Abstracts\LayoutComponent;
 use Lar\Layout\CfgFile;
+use Lar\Layout\Core\LarJsonResource;
 use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
 
@@ -23,7 +24,7 @@ class MakeVue extends Command
      *
      * @var string
      */
-    protected $signature = 'make:vue {vue_name : The vue component name}
+    protected $signature = 'make:js-vue {vue_name : The vue component name}
     {--dir= : Dir in to created path}';
 
     /**
@@ -147,17 +148,13 @@ HTML;
         if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
 
             $this->info("Vue component [{$file_resource}] created!");
-
-            $this->writeResourceFile(
-                str_replace(resource_path() . "/js/", "", $file_resource)
-            );
         }
 
-        $this->info("Dump autoload...");
-
-        system("composer dump-autoload");
+        (new LarJsonResource())->addVueComponent($this->name(), $this->class_name() . ".vue");
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
+
+        $this->call('lar:dump');
 
         return ;
     }
@@ -194,15 +191,5 @@ HTML;
     protected function component_segments()
     {
         return array_map("Str::snake", explode("/", $this->input->getArgument('vue_name')));
-    }
-
-    /**
-     * @param string $file
-     */
-    protected function writeResourceFile (string $file) {
-
-        MakeVueProject::addVueComponent($this->name(), $file);
-
-        $this->info("Lar resources file [resources/js/lar_resource.js] updated!");
     }
 }

@@ -1,0 +1,6 @@
+class {CLASS} extends StateWatcher {
+
+
+}
+
+module.exports = {CLASS};

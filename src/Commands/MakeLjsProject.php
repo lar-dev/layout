@@ -4,14 +4,18 @@ namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
 
-class MakeVueProject extends Command
+/**
+ * Class MakeLjsProject
+ * @package Lar\Layout\Commands
+ */
+class MakeLjsProject extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'init:ljs-project';
+    protected $signature = 'ljs-project';
 
     /**
      * The console command description.
@@ -38,43 +42,75 @@ class MakeVueProject extends Command
      */
     public function handle()
     {
-        if (!is_dir(resource_path('js'))) {
+        $path = config('layout.resource_js_path', 'js');
 
-            mkdir(resource_path('js'), 0777, true);
+        if (!is_dir(resource_path($path))) {
+
+            mkdir(resource_path($path), 0777, true);
         }
 
-        $resource_file = resource_path('js/lar_resource.js');
+        if (!is_dir(resource_path($path.'/components'))) {
+
+            mkdir(resource_path($path.'/components'), 0777, true);
+        }
+
+        if (!is_dir(resource_path($path.'/executors'))) {
+
+            mkdir(resource_path($path.'/executors'), 0777, true);
+        }
+
+        if (!is_dir(resource_path($path.'/watchers'))) {
+
+            mkdir(resource_path($path.'/watchers'), 0777, true);
+        }
+
+        $resource_json = resource_path($path.'/lar_resources.json');
+
+        if (!is_file($resource_json)) {
+
+            $rf = <<<JSON
+{
+    "state_watchers": [],
+    "executors": [],
+    "vue_components": {}
+}
+JSON;
+
+            file_put_contents($resource_json, $rf);
+        }
+
+        $resource_file = resource_path($path.'/lar_resource.js');
 
         if (!is_file($resource_file)) {
 
             $data = file_get_contents(__DIR__ . "/Stumbs/lar_resource");
 
-            file_put_contents(resource_path('js/lar_scripts.js'), file_get_contents(__DIR__ . "/Stumbs/lar_scripts"));
-            $this->info("Lar script file [resources/js/lar_scripts.js] created!");
+            file_put_contents(resource_path($path.'/lar_scripts.js'), file_get_contents(__DIR__ . "/Stumbs/lar_scripts"));
+            $this->info("Lar script file [resources/{$path}/lar_scripts.js] created!");
 
-            file_put_contents(resource_path('js/lar_instance.js'), file_get_contents(__DIR__ . "/Stumbs/lar_instance"));
-            $this->info("Lar instance file [resources/js/lar_instance.js] created!");
+            file_put_contents(resource_path($path.'/lar_instance.js'), file_get_contents(__DIR__ . "/Stumbs/lar_instance"));
+            $this->info("Lar instance file [resources/{$path}/lar_instance.js] created!");
 
-            file_put_contents(resource_path('js/lar_methods.js'), file_get_contents(__DIR__ . "/Stumbs/lar_methods"));
-            $this->info("Lar instance file [resources/js/lar_methods.js] created!");
+            file_put_contents(resource_path($path.'/lar_methods.js'), file_get_contents(__DIR__ . "/Stumbs/lar_methods"));
+            $this->info("Lar instance file [resources/{$path}/lar_methods.js] created!");
 
-            file_put_contents(resource_path('js/app.js'), '');
-            $this->info("Laravel application file [resources/js/app.js] created!");
+            file_put_contents(resource_path($path.'/app.js'), '');
+            $this->info("Laravel application file [resources/{$path}/app.js] created!");
 
-            $file_data = file_get_contents(resource_path('js/app.js'));
+            $file_data = is_file(resource_path($path.'/app.js')) ? file_get_contents(resource_path($path.'/app.js')) : '';
 
             if (!preg_match('/require\s*\(.*lar_resource .*\)/', $file_data)) {
 
                 file_put_contents(
-                    resource_path('js/app.js'),
+                    resource_path($path.'/app.js'),
                     $file_data . "\nrequire('./lar_resource.js')"
                 );
 
-                $this->info(" > Required this file in you [resources/js/app.js]!");
+                $this->info(" > Required this file in you [resources/{$path}/app.js]!");
             }
 
             file_put_contents($resource_file, $data);
-            $this->info("Lar resources file [resources/js/lar_resource.js] created!");
+            $this->info("Lar resources file [resources/{$path}/lar_resource.js] created!");
         }
 
         else {
