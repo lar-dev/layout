@@ -156,9 +156,27 @@ HTML;
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
 
-        $this->call('lar:dump');
+        $this->call_composer('dump-autoload');
 
         return ;
+    }
+
+    /**
+     * @param  string  $command
+     * @return null
+     */
+    protected function call_composer(string $command)
+    {
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+
+            $this->comment("> Use \"composer {$command}\" for finish!");
+
+        } else {
+
+            exec('cd ' . base_path() . " && composer {$command}");
+        }
+
+        return null;
     }
 
     /**
