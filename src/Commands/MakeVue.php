@@ -51,8 +51,10 @@ class MakeVue extends Command
      */
     public function handle()
     {
+        $path = config('layout.resource_js_path', 'js');
+
         $dir = app_path('Components/Vue');
-        $dir_resource = resource_path('js/components');
+        $dir_resource = resource_path($path.'/components');
 
         $namespace = "App\\Components\\Vue";
 
