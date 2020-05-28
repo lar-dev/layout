@@ -11,6 +11,8 @@ use Lar\Layout\CfgFile;
 use Lar\Layout\Core\LarJsonResource;
 use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class ContentableCommand
@@ -24,8 +26,7 @@ class MakeVue extends Command
      *
      * @var string
      */
-    protected $signature = 'make:js-vue {vue_name : The vue component name}
-    {--dir= : Dir in to created path}';
+    protected $name = 'make:js-vue';
 
     /**
      * The console command description.
@@ -54,7 +55,7 @@ class MakeVue extends Command
         $path = config('layout.resource_js_path', 'js');
 
         $dir = app_path('Components/Vue');
-        $dir_resource = resource_path($path.'/components');
+        $dir_resource = $d_res = resource_path($path.'/components');
 
         $namespace = "App\\Components\\Vue";
 
@@ -81,6 +82,8 @@ class MakeVue extends Command
                 $namespace .= "\\{$normal_part}";
 
                 $dir .= "/{$normal_part}";
+
+                $dir_resource .= "/{$normal_part}";
             }
         }
 
@@ -93,42 +96,45 @@ class MakeVue extends Command
 
         $file = $dir . "/" . $this->class_name() . ".php";
 
-        if (!is_dir($dir)) {
-
-            mkdir($dir, 0777, 1);
-        }
-
         if (!is_dir($dir_resource)) {
 
             mkdir($dir_resource, 0777, 1);
         }
 
-        if (is_file($file)) {
+        if ($this->option('global')) {
 
-            $this->error("The vue [{$this->class_name()}] already exists!"); return ;
+            if (!is_dir($dir)) {
+
+                mkdir($dir, 0777, 1);
+            }
+
+            if (is_file($file)) {
+                $this->error("The vue [{$this->class_name()}] already exists!");
+                return;
+            }
+
+            $entity = class_entity($this->class_name());
+            $entity->wrap('php');
+            $entity->namespace($namespace);
+            $entity->extend(Vue::class);
+
+            $entity->prop('protected:element', $this->name());
+
+            if (file_put_contents($file, $entity->render())) {
+                $this->info("Lar component [{$file}] created!");
+
+                CfgFile::open(config_path('components.php'))->write($this->name(), $class_namespace);
+
+                $this->info("Config [config/components.php] updated!");
+            }
         }
 
-        $entity = class_entity($this->class_name());
-        $entity->wrap('php');
-        $entity->namespace($namespace);
-        $entity->extend(Vue::class);
-
-        $entity->prop('protected:element', $this->name());
-        $entity->prop('protected:name', $this->name());
-        $entity->prop('protected:handler_name', $this->name());
-
-        if (file_put_contents($file, $entity->render())) {
-
-            $this->info("Lar component [{$file}] created!");
-
-            CfgFile::open(config_path('components.php'))->write($this->name(), $class_namespace);
-
-            $this->info("Config [config/components.php] updated!");
-        }
+        $file_resource = $dir_resource . "/" . $this->class_name() . ".vue";
+        $inner_path = str_replace($d_res.'/', '', $file_resource);
 
         $js_template = <<<HTML
 <template>
-    <div>{$this->class_name()} Component</div>
+    <div>{$inner_path} Component</div>
 </template>
 
 <script>
@@ -145,18 +151,19 @@ class MakeVue extends Command
 </script>
 HTML;
 
-        $file_resource = $dir_resource . "/" . $this->class_name() . ".vue";
-
         if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
 
             $this->info("Vue component [{$file_resource}] created!");
         }
 
-        (new LarJsonResource())->addVueComponent($this->name(), $this->class_name() . ".vue");
+        (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
 
-        $this->call_composer('dump-autoload');
+        if ($this->option('global')) {
+
+            $this->call_composer('dump-autoload');
+        }
 
         return ;
     }
@@ -186,7 +193,7 @@ HTML;
      */
     protected function class_name()
     {
-        return ucfirst(Str::camel($this->name()));
+        return ucfirst(Str::camel(Str::slug($this->component_name(), '_')));
     }
 
     /**
@@ -194,7 +201,7 @@ HTML;
      */
     protected function name () {
 
-        return Str::slug($this->component_name(), '_');
+        return Str::slug(implode('_', $this->component_segments()), '_');
     }
 
     /**
@@ -211,5 +218,30 @@ HTML;
     protected function component_segments()
     {
         return array_map("Str::snake", explode("/", $this->input->getArgument('vue_name')));
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['vue_name', InputArgument::OPTIONAL, 'The vue component name'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['global', 'g', InputOption::VALUE_NONE, 'Create global component'],
+            ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
+        ];
     }
 }
