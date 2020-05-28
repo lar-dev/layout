@@ -156,7 +156,10 @@ HTML;
             $this->info("Vue component [{$file_resource}] created!");
         }
 
-        (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
+        if ($this->option('global')) {
+
+            (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
+        }
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
 
