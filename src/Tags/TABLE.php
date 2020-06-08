@@ -98,6 +98,11 @@ class TABLE extends Component implements onRender
     private $order_by_type = "asc";
 
     /**
+     * @var bool
+     */
+    protected $auto_tbody = true;
+
+    /**
      * TABLE constructor.
      *
      * @param mixed ...$params
@@ -109,7 +114,9 @@ class TABLE extends Component implements onRender
 
         $this->when($params);
 
-        $this->tbody()->haveLink($this->tbody);
+        if ($this->auto_tbody) {
+            $this->tbody()->haveLink($this->tbody);
+        }
     }
 
     /**
@@ -458,10 +465,11 @@ class TABLE extends Component implements onRender
     /**
      * @param $title
      * @param $field
-     * @param bool $prepend
+     * @param  bool  $prepend
+     * @param  bool  $th
      * @return TD
      */
-    public function column($title, $field, bool $prepend = false)
+    public function column($title, $field, bool $prepend = false, bool $th = false)
     {
         $params = [];
 
@@ -517,7 +525,7 @@ class TABLE extends Component implements onRender
 
         $num = !$prepend ? count($this->columns) : -count($this->columns);
 
-        $this->columns[$num] =  ['th' => $title, 'td' => $this->createTD($field, $params, $ext, $add), 'order' => $num];
+        $this->columns[$num] =  ['th' => $title, 'td' => $this->createTD($field, $params, $ext, $add, $th), 'order' => $num];
 
         return $this->columns[$num];
     }
@@ -527,11 +535,12 @@ class TABLE extends Component implements onRender
      * @param  array  $params
      * @param  bool  $ext
      * @param  array  $add
+     * @param  bool  $th
      * @return Component
      */
-    public function createTD($wrapper, array $params = [], bool $ext = false, array $add = [])
+    public function createTD($wrapper, array $params = [], bool $ext = false, array $add = [], $th = false)
     {
-        return TD::create(function (TD $td) use ($wrapper, $params, $ext, $add) {
+        $func = function (Component $td) use ($wrapper, $params, $ext, $add) {
 
             $td->tr_field = !$ext ? $wrapper : (new $wrapper(...$params));
 
@@ -542,7 +551,13 @@ class TABLE extends Component implements onRender
             }
 
             $td->ext = $ext;
-        });
+        };
+
+        if (!$th) {
+            return TD::create($func);
+        } else {
+            return TH::create($func)->attr(['scope' => 'row']);
+        }
     }
 
     /**

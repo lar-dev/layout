@@ -5,6 +5,8 @@ namespace Lar\Layout\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Lar\Layout\Core\LarJsonResource;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class ContentableCommand
@@ -18,8 +20,7 @@ class MakeJSWatcher extends Command
      *
      * @var string
      */
-    protected $signature = 'make:js-watcher {js_name : The js name of the Executor}
-    {--dir= : Dir in to created path}';
+    protected $name = 'make:js-watcher';
 
     /**
      * @var string
@@ -50,19 +51,7 @@ class MakeJSWatcher extends Command
      */
     public function handle()
     {
-        $path = config('layout.resource_js_path', 'js');
-
-        $dir = resource_path($path.'/watchers');
-
-        if ($dir_set = $this->option("dir")) {
-
-            foreach (explode("/", $dir_set) as $item) {
-
-                $dir .= "/{$item}";
-
-                $this->prev_name .= $item . "_";
-            }
-        }
+        $dir = $this->rp('/watchers');
 
         if (!is_dir($dir)) {
 
@@ -83,7 +72,7 @@ class MakeJSWatcher extends Command
             $this->camel_name(), $this->name()
         ], file_get_contents(__DIR__ . "/Stumbs/lar_watcher"));
 
-        $ins_file = str_replace(resource_path() . "/{$path}/", "", $file);
+        $ins_file = str_replace($this->rp() . "/", "", $file);
         
         if (file_put_contents($file, $exec_data)) {
 
@@ -107,5 +96,42 @@ class MakeJSWatcher extends Command
     protected function name()
     {
         return Str::slug($this->prev_name.$this->argument('js_name'), '_');
+    }
+
+    /**
+     * Get the console command arguments.
+     *
+     * @return array
+     */
+    protected function getArguments()
+    {
+        return [
+            ['js_name', InputArgument::OPTIONAL, 'The js name of the Watcher'],
+        ];
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
+        ];
+    }
+
+    /**
+     * @param  string  $path
+     * @return string
+     */
+    protected function rp(string $path = "")
+    {
+        if ($this->option('dir')) {
+
+            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
+        }
+        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
     }
 }

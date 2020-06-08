@@ -121,7 +121,7 @@ class Respond extends Collection implements Renderable, Htmlable {
      *
      * @param $key
      * @param null $value
-     * @return Collection|Respond
+     * @return \Illuminate\Support\Collection|Respond
      */
     public function insert($key, $value = null)
     {
@@ -212,6 +212,10 @@ class Respond extends Collection implements Renderable, Htmlable {
         return $this->toJson();
     }
 
+    /**
+     * @param  int  $options
+     * @return string
+     */
     public function toJson($options = JSON_UNESCAPED_UNICODE)
     {
         return parent::toJson($options);

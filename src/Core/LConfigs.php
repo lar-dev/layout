@@ -69,6 +69,8 @@ class LConfigs {
 
             static::add('uri', $route->uri);
             static::add('name', $route->getName());
+            static::add('jax-route', route('jax.executor'));
+            static::add('jax-param', md5(route('jax.executor')));
         }
     }
 

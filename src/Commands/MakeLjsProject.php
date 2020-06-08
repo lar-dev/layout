@@ -3,6 +3,7 @@
 namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
+use Symfony\Component\Console\Input\InputOption;
 
 /**
  * Class MakeLjsProject
@@ -15,7 +16,7 @@ class MakeLjsProject extends Command
      *
      * @var string
      */
-    protected $signature = 'ljs-project';
+    protected $name = 'ljs-project';
 
     /**
      * The console command description.
@@ -42,33 +43,35 @@ class MakeLjsProject extends Command
      */
     public function handle()
     {
-        $path = config('layout.resource_js_path', 'js');
+        if (!is_dir($this->rp())) {
 
-        if (!is_dir(resource_path($path))) {
-
-            mkdir(resource_path($path), 0777, true);
+            mkdir($this->rp(), 0777, true);
         }
 
-        if (!is_dir(resource_path($path.'/components'))) {
+        if (!is_dir($this->rp('/components'))) {
 
-            mkdir(resource_path($path.'/components'), 0777, true);
+            mkdir($this->rp('/components'), 0777, true);
         }
 
-        if (!is_dir(resource_path($path.'/executors'))) {
+        if (!is_dir($this->rp('/executors'))) {
 
-            mkdir(resource_path($path.'/executors'), 0777, true);
+            mkdir($this->rp('/executors'), 0777, true);
         }
 
-        if (!is_dir(resource_path($path.'/watchers'))) {
+        if (!is_dir($this->rp('/watchers'))) {
 
-            mkdir(resource_path($path.'/watchers'), 0777, true);
+            mkdir($this->rp('/watchers'), 0777, true);
         }
 
-        $resource_json = resource_path($path.'/lar_resources.json');
+        $resource_file = $this->rp('/lar_resource.js');
 
-        if (!is_file($resource_json)) {
+        if (!is_file($resource_file)) {
 
-            $rf = <<<JSON
+            $resource_json = $this->rp('/lar_resources.json');
+
+            if (!is_file($resource_json)) {
+
+                $rf = <<<JSON
 {
     "state_watchers": [],
     "executors": [],
@@ -76,41 +79,37 @@ class MakeLjsProject extends Command
 }
 JSON;
 
-            file_put_contents($resource_json, $rf);
-        }
-
-        $resource_file = resource_path($path.'/lar_resource.js');
-
-        if (!is_file($resource_file)) {
+                file_put_contents($resource_json, $rf);
+            }
 
             $data = file_get_contents(__DIR__ . "/Stumbs/lar_resource");
 
-            file_put_contents(resource_path($path.'/lar_scripts.js'), file_get_contents(__DIR__ . "/Stumbs/lar_scripts"));
-            $this->info("Lar script file [resources/{$path}/lar_scripts.js] created!");
+            file_put_contents($this->rp('/lar_scripts.js'), file_get_contents(__DIR__ . "/Stumbs/lar_scripts"));
+            $this->info("Lar script file [/lar_scripts.js] created!");
 
-            file_put_contents(resource_path($path.'/lar_instance.js'), file_get_contents(__DIR__ . "/Stumbs/lar_instance"));
-            $this->info("Lar instance file [resources/{$path}/lar_instance.js] created!");
+            file_put_contents($this->rp('/lar_instance.js'), file_get_contents(__DIR__ . "/Stumbs/lar_instance"));
+            $this->info("Lar instance file [/lar_instance.js] created!");
 
-            file_put_contents(resource_path($path.'/lar_methods.js'), file_get_contents(__DIR__ . "/Stumbs/lar_methods"));
-            $this->info("Lar instance file [resources/{$path}/lar_methods.js] created!");
+            file_put_contents($this->rp('/lar_methods.js'), file_get_contents(__DIR__ . "/Stumbs/lar_methods"));
+            $this->info("Lar instance file [/lar_methods.js] created!");
 
-            file_put_contents(resource_path($path.'/app.js'), '');
-            $this->info("Laravel application file [resources/{$path}/app.js] created!");
+            file_put_contents($this->rp('/app.js'), '');
+            $this->info("Laravel application file [/app.js] created!");
 
-            $file_data = is_file(resource_path($path.'/app.js')) ? file_get_contents(resource_path($path.'/app.js')) : '';
+            $file_data = is_file($this->rp('/app.js')) ? file_get_contents($this->rp('/app.js')) : '';
 
             if (!preg_match('/require\s*\(.*lar_resource .*\)/', $file_data)) {
 
                 file_put_contents(
-                    resource_path($path.'/app.js'),
+                    $this->rp('/app.js'),
                     $file_data . "\nrequire('./lar_resource.js')"
                 );
 
-                $this->info(" > Required this file in you [resources/{$path}/app.js]!");
+                $this->info(" > Required this file in you [/app.js]!");
             }
 
             file_put_contents($resource_file, $data);
-            $this->info("Lar resources file [resources/{$path}/lar_resource.js] created!");
+            $this->info("Lar resources file [/lar_resource.js] created!");
         }
 
         else {
@@ -120,49 +119,27 @@ JSON;
     }
 
     /**
-     * @param string $name
-     * @param string $file
-     * @return bool|int
+     * Get the console command options.
+     *
+     * @return array
      */
-    public static function addVueComponent(string $name, string $file)
+    protected function getOptions()
     {
-        return static::addLineInToResource("ljs.vue.component('{$name}', require('./{$file}').default);");
+        return [
+            ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
+        ];
     }
 
     /**
-     * @param string $file
-     * @return bool|int
+     * @param  string  $path
+     * @return string
      */
-    public static function addExecutor(string $file)
+    protected function rp(string $path = "")
     {
-        return static::addLineInToResource("ljs.regExec(require('./{$file}'));", true);
-    }
+        if ($this->option('dir')) {
 
-    /**
-     * @param string $line
-     * @param bool $prepend
-     * @return bool|int
-     */
-    public static function addLineInToResource(string $line, bool $prepend = false)
-    {
-        $resource_file = resource_path('js/lar_resource.js');
-
-        if (!is_file($resource_file)) {
-
-            \Artisan::call("layout:make:vue-project");
+            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
         }
-
-        $data = file_get_contents($resource_file);
-
-        if (preg_match('/const\sload.*\{(.*)\}\;/sU', $data, $m)) {
-
-            $add_line = !$prepend ? "\n    " . trim($m[1]) . "\n    {$line}\n" : "\n    {$line}\n    " . trim($m[1]) . "\n";
-
-            $data = str_replace($m[1], $add_line, $data);
-
-            return file_put_contents($resource_file, $data);
-        }
-
-        return 0;
+        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
     }
 }

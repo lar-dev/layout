@@ -52,26 +52,10 @@ class MakeVue extends Command
      */
     public function handle()
     {
-        $path = config('layout.resource_js_path', 'js');
-
         $dir = app_path('Components/Vue');
-        $dir_resource = $d_res = resource_path($path.'/components');
+        $dir_resource = $d_res = $this->rp('/components');
 
         $namespace = "App\\Components\\Vue";
-
-        if ($dir_set = $this->option("dir")) {
-
-            foreach (explode("/", $dir_set) as $item) {
-
-                $normal_part = ucfirst(Str::camel(Str::snake($item)));
-
-                $namespace .= "\\{$normal_part}";
-
-                $dir .= "/{$normal_part}";
-
-                $dir_resource .= "/" . Str::snake($item);
-            }
-        }
 
         foreach ($this->component_segments() as $component_segment) {
 
@@ -156,10 +140,7 @@ HTML;
             $this->info("Vue component [{$file_resource}] created!");
         }
 
-        if ($this->option('global')) {
-
-            (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
-        }
+        (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
 
@@ -246,5 +227,18 @@ HTML;
             ['global', 'g', InputOption::VALUE_NONE, 'Create global component'],
             ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
         ];
+    }
+
+    /**
+     * @param  string  $path
+     * @return string
+     */
+    protected function rp(string $path = "")
+    {
+        if ($this->option('dir')) {
+
+            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
+        }
+        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
     }
 }

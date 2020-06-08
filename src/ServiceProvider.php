@@ -6,7 +6,6 @@ use Illuminate\Support\ServiceProvider as ServiceProviderIlluminate;
 use Lar\Layout\Commands\ComponentList;
 use Lar\Layout\Commands\JaxList;
 use Lar\Layout\Commands\MakeComponent;
-use Lar\Layout\Commands\MakeJaxExecutor;
 use Lar\Layout\Commands\MakeJSExecutor;
 use Lar\Layout\Commands\MakeJSWatcher;
 use Lar\Layout\Commands\MakeLayout;
@@ -14,7 +13,6 @@ use Lar\Layout\Commands\MakeLjsProject;
 use Lar\Layout\Commands\MakeVue;
 use Lar\Layout\Middleware\CorsMiddleware;
 use Lar\Layout\Middleware\DomMiddleware;
-use Lar\Layout\Middleware\ExecutorMiddleware;
 use Lar\Layout\Middleware\LanguageMiddleware;
 use Lar\Layout\Middleware\LayoutMiddleware;
 use Lar\Tagable\Tag;
@@ -31,7 +29,6 @@ class ServiceProvider extends ServiceProviderIlluminate
      * @var array
      */
     protected $commands = [
-        MakeJaxExecutor::class,
         MakeJSExecutor::class,
         MakeLjsProject::class,
         MakeComponent::class,
@@ -50,7 +47,6 @@ class ServiceProvider extends ServiceProviderIlluminate
     protected $routeMiddleware = [
         "dom" => DomMiddleware::class,
         "layout" => LayoutMiddleware::class,
-        "exec" => ExecutorMiddleware::class,
         "lang" => LanguageMiddleware::class,
         "cors" => CorsMiddleware::class
     ];
