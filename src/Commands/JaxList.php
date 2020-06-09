@@ -3,8 +3,7 @@
 namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
-use Lar\Layout\Executor;
-use Lar\Tagable\Tag;
+use Lar\LJS\JaxController;
 
 /**
  * Class compList
@@ -28,7 +27,7 @@ class JaxList extends Command
      */
     public function handle () {
 
-        $list = collect(Executor::executorList());
+        $list = collect(JaxController::$list);
 
         $i = 0;
 

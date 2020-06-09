@@ -66,8 +66,6 @@ class ServiceProvider extends ServiceProviderIlluminate
 
         Tag::injectCollection(config('components', []));
 
-        Executor::injectCollection(config('executors', []));
-
         new BladeDirectives();
 
         if (Layout::$lang_select) {

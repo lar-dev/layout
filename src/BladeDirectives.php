@@ -42,11 +42,10 @@ class BladeDirectives
 
     /**
      * BladeDirectives constructor.
-     * @param  JaxCollection|null  $with
      */
-    public function __construct(...$with)
+    public function __construct()
     {
-        foreach (config('layout.blade_drivers', []) as $driver) {
+        foreach (["vue", "components", "live", "attr_watch", "html5"] as $driver) {
 
             $this->{$driver}();
         }
@@ -99,70 +98,6 @@ class BladeDirectives
         \Blade::directive('ljsConfigs', function () {
 
             return '<?php echo ' . LConfigs::class . "::render(); ?>";
-        });
-    }
-
-    /**
-     * 'click', 'submit', 'dblclick', 'change', 'blur', 'focus',
-     * 'formchange', 'forminput', 'input', 'keydown', 'keypress',
-     * 'keyup', 'mousedown', 'mousemove', 'mouseout', 'mouseover',
-     * 'mouseup', 'mousewheel', 'load'
-     */
-    public function events()
-    {
-        $needle = ['click', 'submit', 'dblclick', 'change', 'blur', 'focus',
-            'formchange', 'forminput', 'input', 'keydown', 'keypress',
-            'keyup', 'mousedown', 'mousemove', 'mouseout', 'mouseover',
-            'mouseup', 'mousewheel', 'load'];
-
-        foreach ($needle as $item) {
-
-            \Blade::directive($item, function ($conditions) use ($item) {
-
-                return "data-{$item}='<?php echo {$conditions}; ?>'";
-            });
-        }
-
-        \Blade::directive('parse', function (){
-
-            return "data-parse";
-        });
-
-        \Blade::directive('parsed', function (){
-
-            return "data-parsed";
-        });
-    }
-
-    /**
-     * LJS tag
-     */
-    public function ljs()
-    {
-        $ljs = function ($data = "") {
-
-            return "data-ljs=\"<?php echo " . trim((string)$data) . "; ?>\"";
-        };
-
-        \Blade::directive('ljs', $ljs);
-        \Blade::directive('j', $ljs);
-
-        \Blade::directive('ahtml', function ($condition) {
-
-            dd(AHtml::create($condition)->render());
-
-            return "";
-        });
-    }
-
-    /**
-     * Href from any tag
-     */
-    public function href()
-    {
-        \Blade::directive('href', function ($conditions) {
-
-            return "data-href=\"<?php echo route({$conditions}); ?>\"";
         });
     }
 

@@ -2,9 +2,6 @@
 
 namespace Lar\Layout\Respond;
 
-use Lar\Layout\JaxCollection;
-use Lar\Layout\Respond;
-
 /**
  * Trait DocTrait
  *
@@ -109,42 +106,6 @@ trait DocTrait
         $this->put("doc::scrollTo", [$element, $ms]);
 
         return $this;
-    }
-
-    /**
-     * @param $handle
-     * @return JaxCollection
-     */
-    public function jax($handle)
-    {
-        if ($this->has("doc::jax")) {
-
-            $collect = $this->get("doc::jax");
-        }
-
-        else {
-
-            $collect = collect();
-
-            $this->put("doc::jax", $collect);
-        }
-
-        if ($collect->has($handle)) {
-
-            $jax_collect = $collect->get($handle);
-        }
-
-        else {
-
-            $jax_collect = new JaxCollection();
-
-            $jax_collect->parent($this->parent);
-
-            $collect->put($handle, $jax_collect);
-        }
-
-
-        return $jax_collect;
     }
 
     /**
