@@ -643,35 +643,7 @@ class TABLE extends Component implements onRender
 
                     $column->content();
 
-                    if (isset($column->ext) && $column->ext) {
-
-                        $field->row = $row;
-
-                        $field->td = $column;
-
-                        $field->tr = $tr;
-
-                        if (method_exists($field, 'build')) {
-
-                            custom_closure_call([$field, 'build'], [
-                                'row' => $row,
-                                'model' => $row,
-                                'column' => $column,
-                                'props' => isset($column->params) ? $column->params : [],
-                                'iteration' => $iteration,
-                                'i' => $iteration,
-                                'title' => $title,
-                                'label' => $title,
-                                TD::class => $column,
-                                TR::class => $tr,
-                                (is_object($row) ? get_class($row) : gettype($row)) => $row,
-                            ]);
-                        }
-
-                        $field = $field->render();
-                    }
-
-                    else if (is_string($field)) {
+                    if (is_string($field)) {
 
                         if (Tag::$components->has($field)) {
 

@@ -26,6 +26,14 @@ class LConfigs {
             $value = json_encode($value);
         }
 
+        if ($value === true) {
+            $value = 'true';
+        } else if ($value === false) {
+            $value = 'false';
+        } else if ($value === null) {
+            $value = 'null';
+        }
+
         static::$list['lar-' . $name] = $value;
     }
 
@@ -69,8 +77,7 @@ class LConfigs {
 
             static::add('uri', $route->uri);
             static::add('name', $route->getName());
-            static::add('jax-route', route('jax.executor'));
-            static::add('jax-param', md5(route('jax.executor')));
+            static::add('executed', array_search('exec', $route->action['middleware']) !== false);
         }
     }
 

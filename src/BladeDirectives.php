@@ -200,14 +200,12 @@ class BladeDirectives
 
                     if (!preg_match('/\@/', $controller)) { $controller .= "@__invoke"; }
 
-                    $class = explode('@', $controller)[0];
-
-                    list($controller, $action) = explode('@', $controller);
+                    list($controller, $action) = \Str::parseCallback($controller);
 
                     $view->with(['root' => (object)[
                         'controller' => $controller,
-                        'action' => $action,
-                        'class' => $class
+                        'class' => $controller,
+                        'action' => $action
                     ]]);
                 }
             }

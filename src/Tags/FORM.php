@@ -47,7 +47,7 @@ class FORM extends Component implements onRender
     {
         foreach ($hidden_datas as $name => $value) {
 
-            $this->input()->hidden($name, $value);
+            $this->appEnd(INPUT::create()->hidden($name, $value));
         }
     }
 
