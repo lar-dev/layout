@@ -2,16 +2,11 @@
 
 namespace Lar\Layout\Tags;
 
-use Carbon\Carbon;
-use Illuminate\Contracts\Support\Htmlable;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Lar\Admin\StageStudy\CardGridStage;
-use Lar\Developer\Core\Traits\Eventable;
 use Lar\Layout\Abstracts\Component;
 use Lar\Tagable\Events\onRender;
 use Lar\Tagable\Tag;
@@ -385,7 +380,10 @@ class TABLE extends Component implements onRender
 
             foreach ($refl->getMethods() as $method) {
 
-                static::addMacro($method->getName(), $class, $method->getName());
+                if ($method->isPublic()) {
+
+                    static::addMacro($method->getName(), $class, $method->getName());
+                }
             }
         }
     }
@@ -436,6 +434,22 @@ class TABLE extends Component implements onRender
         }
 
         return $data(...$params);
+    }
+
+    /**
+     * @param  string  $name
+     * @param  array  $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    public static function customCallMacro(string $name, array $arguments)
+    {
+        if (!isset(static::$column_macros[$name])) {
+
+            throw new \Exception("Macro [{$name}] not found!");
+        }
+
+        return custom_closure_call(static::$column_macros[$name], $arguments);
     }
 
     /**
@@ -711,7 +725,6 @@ class TABLE extends Component implements onRender
                             if(isset($method_params[0])) { unset($method_params[0]); $method_params = array_values($method_params); }
                             
                             $field = custom_closure_call([$obj, $method], [
-                                'row' => $row,
                                 'model' => $row,
                                 'value' => $f,
                                 'field' => $f_name,
@@ -720,9 +733,6 @@ class TABLE extends Component implements onRender
                                 'iteration' => $iteration,
                                 'i' => $iteration,
                                 'title' => $title,
-                                'label' => $title,
-                                'td' => $column,
-                                'tr' => $tr,
                                 TD::class => $column,
                                 TR::class => $tr,
                                 (is_object($row) ? get_class($row) : gettype($row)) => $row,
@@ -733,7 +743,6 @@ class TABLE extends Component implements onRender
                                 foreach ($column->chain as $kk => $item) {
 
                                     $field = custom_closure_call($item, [
-                                        'row' => $row,
                                         'model' => $row,
                                         'value' => $field,
                                         'field' => $f_name,
@@ -742,9 +751,6 @@ class TABLE extends Component implements onRender
                                         'iteration' => $iteration,
                                         'i' => $iteration,
                                         'title' => $title,
-                                        'label' => $title,
-                                        'td' => $column,
-                                        'tr' => $tr,
                                         TD::class => $column,
                                         TR::class => $tr,
                                         (is_object($row) ? get_class($row) : gettype($row)) => $row,
