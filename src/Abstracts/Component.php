@@ -17,6 +17,11 @@ class Component extends ComponentStatic
     use LjsDataAttributes, Eventable, DataTrait;
 
     /**
+     * @var Component
+     */
+    static $last_component;
+
+    /**
      * @var array
      */
     protected $props = [];
@@ -81,6 +86,8 @@ class Component extends ComponentStatic
 
         /** @var Component $new */
         $new = new $class(...$arguments);
+
+        static::$last_component = $new;
 
         $this->appEnd($new);
 
