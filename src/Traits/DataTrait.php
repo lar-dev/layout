@@ -1284,6 +1284,9 @@ trait DataTrait {
     public function addDataRule(string $event, string $command, $value = null, string $param_type = "params")
     {
         if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                if (is_array($item)) { $value[$key] = json_encode($item); }
+            }
             $value = implode(" && ", $value);
         }
 
