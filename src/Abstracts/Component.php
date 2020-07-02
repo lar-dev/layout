@@ -7,6 +7,7 @@ use Lar\Layout\Core\ComponentStatic;
 use Lar\Layout\Traits\DataTrait;
 use Lar\Layout\Traits\LjsDataAttributes;
 use Lar\Tagable\Core\HTML5Library;
+use Lar\Tagable\Tag;
 
 /**
  * Class Component
@@ -92,6 +93,28 @@ class Component extends ComponentStatic
         $this->appEnd($new);
 
         return $new;
+    }
+
+    /**
+     * If there is a component.
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function if_there_is_a_component($name, $arguments)
+    {
+        $object = static::$components->get($name);
+
+        $object::$_tmp_handler_name = $this->handler_name;
+
+        /** @var Tag $newObj */
+        $newObj = new $object(...$arguments);
+
+        $this->appEnd($newObj);
+
+        return $newObj;
     }
 
 
