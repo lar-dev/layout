@@ -125,7 +125,25 @@ class LayoutComponent extends HTML
     {
         parent::__construct();
 
+        $this->makeDefaultTitle();
+
         $this->initLayout();
+    }
+
+    /**
+     * Make default title from methods
+     */
+    protected function makeDefaultTitle()
+    {
+        $route = \Route::currentRouteName();
+        if ($route) {
+            $route = preg_replace('/[^a-z0-9]/', '_', $route);
+            $route = str_replace('__', '_', $route);
+            $method = \Str::camel("title_{$route}");
+            if (method_exists($this, $method)) {
+                $this->default_title = $this->{$method}();
+            }
+        }
     }
 
     /**
