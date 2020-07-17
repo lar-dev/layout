@@ -17,6 +17,7 @@ const load = () => {
             ljs.vue.component(name, require(`./components/${vue}`).default);
         });
     }
+    require('./components/Components')(ljs.vue);
 };
 
 const methods = require('./lar_methods.js');

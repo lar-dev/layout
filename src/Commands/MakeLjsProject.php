@@ -43,79 +43,52 @@ class MakeLjsProject extends Command
      */
     public function handle()
     {
-        if (!is_dir($this->rp())) {
+        $dirs = ['', '/components', '/executors', '/watchers'];
 
-            mkdir($this->rp(), 0777, true);
-        }
+        foreach ($dirs as $dir) {
 
-        if (!is_dir($this->rp('/components'))) {
+            $dir = $this->rp($dir);
 
-            mkdir($this->rp('/components'), 0777, true);
-        }
+            if (!is_dir($dir)) {
 
-        if (!is_dir($this->rp('/executors'))) {
-
-            mkdir($this->rp('/executors'), 0777, true);
-        }
-
-        if (!is_dir($this->rp('/watchers'))) {
-
-            mkdir($this->rp('/watchers'), 0777, true);
-        }
-
-        $resource_file = $this->rp('/lar_resource.js');
-
-        if (!is_file($resource_file)) {
-
-            $resource_json = $this->rp('/lar_resources.json');
-
-            if (!is_file($resource_json)) {
-
-                $rf = <<<JSON
-{
-    "state_watchers": [],
-    "executors": [],
-    "vue_components": {}
-}
-JSON;
-
-                file_put_contents($resource_json, $rf);
+                mkdir($dir, 0777, true);
+                $this->info("Folder [{$dir}] created!");
             }
+        }
 
-            $data = file_get_contents(__DIR__ . "/Stumbs/lar_resource");
+        $files = [
+            '/components/Components.js' => 'Components',
+            '/lar_scripts.js' => 'lar_scripts',
+            '/lar_instance.js' => 'lar_instance',
+            '/lar_methods.js' => 'lar_methods',
+            '/lar_resources.json' => 'lar_resources',
+            '/lar_resource.js' => 'lar_resource',
+            '/app.js' => null
+        ];
 
-            file_put_contents($this->rp('/lar_scripts.js'), file_get_contents(__DIR__ . "/Stumbs/lar_scripts"));
-            $this->info("Lar script file [/lar_scripts.js] created!");
+        foreach ($files as $path => $stub) {
 
-            file_put_contents($this->rp('/lar_instance.js'), file_get_contents(__DIR__ . "/Stumbs/lar_instance"));
-            $this->info("Lar instance file [/lar_instance.js] created!");
+            $path = $this->rp($path);
 
-            file_put_contents($this->rp('/lar_methods.js'), file_get_contents(__DIR__ . "/Stumbs/lar_methods"));
-            $this->info("Lar instance file [/lar_methods.js] created!");
-
-            file_put_contents($this->rp('/app.js'), '');
-            $this->info("Laravel application file [/app.js] created!");
-
-            $file_data = is_file($this->rp('/app.js')) ? file_get_contents($this->rp('/app.js')) : '';
-
-            if (!preg_match('/require\s*\(.*lar_resource .*\)/', $file_data)) {
-
-                file_put_contents(
-                    $this->rp('/app.js'),
-                    $file_data . "\nrequire('./lar_resource.js')"
-                );
-
-                $this->info(" > Required this file in you [/app.js]!");
+            if (!is_file($path)) {
+                file_put_contents($path, $stub ? file_get_contents(__DIR__ . "/Stumbs/{$stub}") : '');
+                $this->info("Script file [{$path}] created!");
             }
-
-            file_put_contents($resource_file, $data);
-            $this->info("Lar resources file [/lar_resource.js] created!");
         }
 
-        else {
+        $file_data = file_get_contents($this->rp('/app.js'));
 
-            $this->error("LJS project already exists!");
+        if (!preg_match('/require\s*\(.*lar_resource.*\)/', $file_data)) {
+
+            file_put_contents(
+                $this->rp('/app.js'),
+                $file_data . "\nrequire('./lar_resource.js')"
+            );
+
+            $this->info(" > Required lar in you [/app.js]!");
         }
+
+        $this->info("Lar resources file [/lar_resource.js] created!");
     }
 
     /**
