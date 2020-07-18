@@ -116,6 +116,9 @@ class MakeVue extends Command
         $file_resource = $dir_resource . "/" . $this->class_name() . ".vue";
         $inner_path = str_replace($d_res.'/', '', $file_resource);
 
+        $name = $this->argument('name');
+        $name = $name ? $name : $this->name();
+
         $js_template = <<<HTML
 <template>
     <div>{$inner_path} Component</div>
@@ -135,8 +138,6 @@ class MakeVue extends Command
 </script>
 HTML;
 
-        $name = $this->argument('name');
-
         if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
 
             $this->info("Vue component [{$file_resource}] created!");
@@ -144,7 +145,7 @@ HTML;
 
         if ($this->option('global')) {
 
-            (new LarJsonResource())->addVueComponent($name ? $name : $this->name(), $inner_path);
+            (new LarJsonResource())->addVueComponent($name, $inner_path);
 
             $this->call_composer('dump-autoload');
         }
@@ -154,11 +155,10 @@ HTML;
             $file = $this->rp('/components/Components.js');
             $data = explode("\n", file_get_contents($file));
             $d_count = count($data);
-            $n = $name ? $name : $this->name();
             for ($i=1;$i<=$d_count;$i++) {
                 $line = $data[$d_count-$i];
                 if (trim($line) == '}') {
-                    $data[$d_count-$i] = "    Vue.component('$n', require('./{$inner_path}').default);\n}";
+                    $data[$d_count-$i] = "    Vue.component('$name', require('./{$inner_path}').default);\n}";
                     break;
                 }
             }
