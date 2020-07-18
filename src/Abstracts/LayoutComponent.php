@@ -114,9 +114,7 @@ class LayoutComponent extends HTML
     /**
      * @var array
      */
-    protected $js_lang = [
-        'lte'
-    ];
+    protected $js_lang = [];
 
     /**
      * @var array
