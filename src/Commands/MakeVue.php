@@ -135,19 +135,38 @@ class MakeVue extends Command
 </script>
 HTML;
 
+        $name = $this->argument('name');
+
         if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
 
             $this->info("Vue component [{$file_resource}] created!");
         }
 
-        (new LarJsonResource())->addVueComponent($this->name(), $inner_path);
-
-        $this->info("Done! Vue component [{$this->class_name()}] created!");
-
         if ($this->option('global')) {
+
+            (new LarJsonResource())->addVueComponent($name ? $name : $this->name(), $inner_path);
 
             $this->call_composer('dump-autoload');
         }
+
+        else if (is_file($this->rp('/components/Components.js'))) {
+
+            $file = $this->rp('/components/Components.js');
+            $data = explode("\n", file_get_contents($file));
+            $d_count = count($data);
+            $n = $name ? $name : $this->name();
+            for ($i=1;$i<=$d_count;$i++) {
+                $line = $data[$d_count-$i];
+                if (trim($line) == '}') {
+                    $data[$d_count-$i] = "    Vue.component('$n', require('./{$inner_path}').default);\n}";
+                    break;
+                }
+            }
+
+            file_put_contents($file, implode("\n", $data));
+        }
+
+        $this->info("Done! Vue component [{$this->class_name()}] created!");
 
         return ;
     }
@@ -213,6 +232,7 @@ HTML;
     {
         return [
             ['vue_name', InputArgument::OPTIONAL, 'The vue component name'],
+            ['name', InputArgument::OPTIONAL, 'Inner name of vue component'],
         ];
     }
 
