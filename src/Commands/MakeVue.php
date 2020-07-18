@@ -127,12 +127,15 @@ class MakeVue extends Command
 <script>
     export default {
         name: "{$name}",
+        props: {},
         data () {
             return {
                 
             };
         },
         mounted () {},
+        computed: {},
+        watch: {},
         methods: {}
     }
 </script>
