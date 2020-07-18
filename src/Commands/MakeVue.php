@@ -126,7 +126,7 @@ class MakeVue extends Command
 
 <script>
     export default {
-        name: "{$this->name()}",
+        name: "{$name}",
         data () {
             return {
                 
