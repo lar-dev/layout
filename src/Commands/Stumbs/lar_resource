@@ -2,6 +2,9 @@ let resources = require('./lar_resources.json');
 let map = require('lodash/map');
 
 const load = () => {
+
+    //ljs.routeCollection(require('./route.json'))
+
     let state_watchers = 'state_watchers' in resources ? resources.state_watchers : [];
     let executors = 'executors' in resources ? resources.executors : [];
     let vue_components = 'vue_components' in resources ? resources.vue_components : {};

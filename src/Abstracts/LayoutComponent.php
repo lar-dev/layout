@@ -114,6 +114,11 @@ class LayoutComponent extends HTML
     /**
      * @var array
      */
+    protected $js_lang = [];
+
+    /**
+     * @var array
+     */
     public static $js_inits = [];
 
     /**
@@ -126,6 +131,11 @@ class LayoutComponent extends HTML
         parent::__construct();
 
         $this->makeDefaultTitle();
+
+        foreach ($this->js_lang as $lib) {
+
+            $this->head_scripts[] = "locales/" . \App::getLocale() . "/{$lib}.js";
+        }
 
         $this->initLayout();
     }
