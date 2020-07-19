@@ -65,7 +65,7 @@ trait AlertSystemsTrait
      */
     public function toast($type, $text, $title = null)
     {
-        $this->put("toast::{$type}", $title ? [[$text, $title]] : $text);
+        $this->put("toast::{$type}", $title ? [[__($text), __($title)]] : __($text));
 
         return $this;
     }
