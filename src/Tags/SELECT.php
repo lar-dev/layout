@@ -44,12 +44,12 @@ class SELECT extends Component
                 $last->setSelected();
             }
 
-            else if ($select == $key) {
+            else if ((string)$select === (string)$key) {
 
                 $last->setSelected();
             }
 
-            else if ($this->getValue() == $key) {
+            else if ((string)$this->getValue() === (string)$key) {
 
                 $last->setSelected();
             }
