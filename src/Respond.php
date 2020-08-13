@@ -13,7 +13,6 @@ use Lar\Layout\Respond\jQueryDecoratorTrait;
 use Lar\Layout\Respond\State;
 use Lar\Layout\Respond\Systems;
 use Lar\Layout\Respond\Vue;
-use Lar\Tagable\Core\LJ;
 use Lar\Tagable\Tag;
 
 /**
@@ -38,7 +37,7 @@ class Respond extends Collection implements Renderable, Htmlable {
     protected static $injects = false;
 
     /**
-     * @var Tag|LJ|object|null
+     * @var Tag|object|null
      */
     protected $parent;
 
@@ -77,7 +76,7 @@ class Respond extends Collection implements Renderable, Htmlable {
     }
 
     /**
-     * @return Tag|LJ|object|null
+     * @return Tag|object|null
      */
     public function parent()
     {
@@ -194,11 +193,6 @@ class Respond extends Collection implements Renderable, Htmlable {
      */
     public function __toString()
     {
-        if ($this->parent && $this->parent instanceof LJ) {
-
-            return (string)$this->parent;
-        }
-
         return $this->render();
     }
 

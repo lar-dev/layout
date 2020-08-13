@@ -44,17 +44,27 @@ class SELECT extends Component
                 $last->setSelected();
             }
 
-            else if ((string)$select === (string)$key) {
+            else if ($this->paramEq($select) === $this->paramEq($key)) {
 
                 $last->setSelected();
             }
 
-            else if ((string)$this->getValue() === (string)$key) {
+            else if ($this->paramEq($this->getValue()) === $this->paramEq($key)) {
 
                 $last->setSelected();
             }
         }
 
         return $this;
+    }
+
+    /**
+     * @param $value
+     * @return string
+     */
+    protected function paramEq($value)
+    {
+        if(is_array($value)) $value = json_encode($value);
+        return (string)$value;
     }
 }
