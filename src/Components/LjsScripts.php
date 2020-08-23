@@ -33,6 +33,11 @@ class LjsScripts implements Renderable
     {
         $js_path = \App::isLocal() && !is_link(base_path('lar')) ? 'js.dev' : 'js';
 
+        if (\App::isLocal() && request()->has('dev')) {
+
+            $js_path = 'js.dev';
+        }
+
         $scripts = [
             SCRIPT::create()->setType('text/javascript')->asset("ljs/{$js_path}/ljs.js")->render()
         ];
