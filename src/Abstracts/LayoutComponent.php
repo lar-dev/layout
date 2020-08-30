@@ -268,6 +268,20 @@ class LayoutComponent extends HTML
      */
     protected function assetsBottomInject()
     {
+        if (
+            config('app.debug') &&
+            ( config('debugbar.enabled') === null || config('debugbar.enabled') === true ) &&
+            class_exists("Barryvdh\\Debugbar\\LaravelDebugbar")
+        ) {
+
+            if (isset($this->body_scripts['ljs']) && !in_array('vue', $this->body_scripts['ljs'])) {
+                $this->body_scripts['ljs'][] = 'vue';
+            }
+
+            $this->body_scripts[] = 'ljs/plugins/ptty.jquery.js';
+            $this->body_scripts['ljs'][] = 'debug';
+        }
+
         $this->body->toBottom()->when(function (BODY $body) {
 
                 foreach ($this->body_scripts as $key => $script) {

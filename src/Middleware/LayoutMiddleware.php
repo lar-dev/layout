@@ -12,6 +12,11 @@ use Lar\Layout\Layout;
 class LayoutMiddleware
 {
     /**
+     * @var array
+     */
+    static protected $on_load = [];
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request $request
@@ -27,6 +32,8 @@ class LayoutMiddleware
 
             return $next($request);
         }
+
+        $this->run_on_load();
 
         $component = static::makeLayoutComponent($name);
 
@@ -62,8 +69,6 @@ class LayoutMiddleware
         return new $component();
     }
 
-
-
     /**
      * @param string $name
      * @return string
@@ -90,5 +95,24 @@ class LayoutMiddleware
 
             return LayoutComponent::class;
         }
+    }
+
+    /**
+     * @return $this
+     */
+    public function run_on_load()
+    {
+        foreach (static::$on_load as $item) {
+            $item($this);
+        }
+        return $this;
+    }
+
+    /**
+     * @param  Closure  $closure
+     */
+    public static function onLoad(Closure $closure)
+    {
+        static::$on_load[] = $closure;
     }
 }
