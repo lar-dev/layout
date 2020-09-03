@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Traits;
 
+use Lar\Layout\Core\HTMLCustomCommand;
+
 /**
  * Trait DataTrait
  * @package Lar\Layout\Traits
@@ -1276,13 +1278,42 @@ trait DataTrait {
 
     /**
      * @param  string  $event
-     * @param  string  $command
+     * @param  string|object  $command
      * @param  null  $value
      * @param  string  $param_type
      * @return $this
      */
-    public function addDataRule(string $event, string $command, $value = null, string $param_type = "params")
+    public function addDataRule(string $event, $command, $value = null, string $param_type = "params")
     {
+        if (is_string($command) && class_exists($command)) {
+
+            $val = [];
+
+            if (is_array($value) ? $value : []) {
+                $val = $value;
+                $value = null;
+            }
+
+            $cmd = new $command($val);
+
+            if ($cmd instanceof HTMLCustomCommand) {
+
+                $command = $cmd->render();
+            }
+
+        } else if (is_object($command)) {
+
+            if ($command instanceof HTMLCustomCommand) {
+
+                $command = $command->render();
+            }
+
+            else {
+
+                return $this;
+            }
+        }
+
         if (is_array($value)) {
             foreach ($value as $key => $item) {
                 if (is_array($item)) { $value[$key] = json_encode($item); }
