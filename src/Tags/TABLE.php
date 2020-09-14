@@ -322,7 +322,7 @@ class TABLE extends Component implements onRender
 
                 if ($item instanceof \Closure) {
 
-                    $item = custom_closure_call($item, [
+                    $item = embedded_call($item, [
                         TH::class => $th
                     ]);
                 }
@@ -449,7 +449,7 @@ class TABLE extends Component implements onRender
             throw new \Exception("Macro [{$name}] not found!");
         }
 
-        return custom_closure_call(static::$column_macros[$name], $arguments);
+        return embedded_call(static::$column_macros[$name], $arguments);
     }
 
     /**
@@ -674,7 +674,7 @@ class TABLE extends Component implements onRender
 
                     else if ($field instanceof \Closure) {
 
-                        $field = custom_closure_call($field, [
+                        $field = embedded_call($field, [
                             'row' => $row,
                             'model' => $row,
                             'column' => $column,
@@ -724,7 +724,7 @@ class TABLE extends Component implements onRender
 
                             if(isset($method_params[0])) { unset($method_params[0]); $method_params = array_values($method_params); }
                             
-                            $field = custom_closure_call([$obj, $method], [
+                            $field = embedded_call([$obj, $method], [
                                 'model' => $row,
                                 'value' => $f,
                                 'field' => $f_name,
@@ -742,7 +742,7 @@ class TABLE extends Component implements onRender
 
                                 foreach ($column->chain as $kk => $item) {
 
-                                    $field = custom_closure_call($item, [
+                                    $field = embedded_call($item, [
                                         'model' => $row,
                                         'value' => $field,
                                         'field' => $f_name,
