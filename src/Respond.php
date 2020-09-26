@@ -44,15 +44,15 @@ class Respond extends Collection implements Renderable, Htmlable {
     /**
      * Respond constructor.
      *
-     * @param null $parent
+     * @param \Closure|array|static|null $parent
      */
     public function __construct($parent = null)
     {
         if ($parent) {
 
-            if ($parent instanceof \Closure) {
+            if (is_embedded_call($parent)) {
 
-                $parent($this);
+                call_user_func($parent, $this);
             }
 
             else {

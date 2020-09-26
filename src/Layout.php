@@ -48,7 +48,7 @@ final class Layout
      * Registration component
      *
      * @param string $name
-     * @param \Closure|string $component
+     * @param \Closure|array|string $component
      * @throws \Exception
      */
     public static function registerComponent(string $name, $component)
@@ -58,7 +58,7 @@ final class Layout
             static::$collect = new Collection(config('app.layouts', []));
         }
 
-        if (is_string($component) || $component instanceof \Closure) {
+        if (is_embedded_call($component)) {
 
             static::$collect->put($name, $component);
         }
@@ -130,9 +130,9 @@ final class Layout
 
             $component = static::$collect->get($name);
 
-            if ($component instanceof \Closure) {
+            if (is_embedded_call($component)) {
 
-                return $component();
+                return call_user_func($component);
 
             } else if (is_string($component)) {
 

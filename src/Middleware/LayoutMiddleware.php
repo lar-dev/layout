@@ -103,16 +103,19 @@ class LayoutMiddleware
     public function run_on_load()
     {
         foreach (static::$on_load as $item) {
-            $item($this);
+            call_user_func($item, $this);
         }
         return $this;
     }
 
     /**
-     * @param  Closure  $closure
+     * @param  Closure|array  $call
      */
-    public static function onLoad(Closure $closure)
+    public static function onLoad($call)
     {
-        static::$on_load[] = $closure;
+        if (is_embedded_call($call)) {
+
+            static::$on_load[] = $call;
+        }
     }
 }

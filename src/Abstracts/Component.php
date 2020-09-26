@@ -50,7 +50,7 @@ class Component extends ComponentStatic
                 embedded_call([$this, $item]);
             }
 
-            else if (is_array($item) || $item instanceof \Closure) {
+            else if (is_embedded_call($item)) {
 
                 embedded_call($item);
             }
