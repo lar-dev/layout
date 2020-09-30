@@ -31,11 +31,6 @@ class FORM extends Component implements onRender
 
             $this->setMethod("get");
         }
-
-        if (strtolower($this->getAttribute("method")) != 'get') {
-
-            $this->appEnd(csrf_field());
-        }
     }
 
     /**
