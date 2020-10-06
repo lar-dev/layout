@@ -15,7 +15,7 @@ class JaxList extends Command
     /**
      * @var string
      */
-    protected $signature = "jax:list {--name= : Enter show nane}";
+    protected $signature = "jax:list";
 
     /**
      * @var string

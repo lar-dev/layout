@@ -106,7 +106,7 @@ class MakeJSExecutor extends Command
     protected function getArguments()
     {
         return [
-            ['js_name', InputArgument::OPTIONAL, 'The js name of the Executor'],
+            ['js_name', InputArgument::REQUIRED, 'The js name of the Executor'],
         ];
     }
 

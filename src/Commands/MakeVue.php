@@ -26,7 +26,7 @@ class MakeVue extends Command
      *
      * @var string
      */
-    protected $name = 'make:js-vue';
+    protected $name = 'make:vue';
 
     /**
      * The console command description.

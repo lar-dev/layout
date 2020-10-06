@@ -32,7 +32,7 @@ class MakeJSWatcher extends Command
      *
      * @var string
      */
-    protected $description = 'Command from make blank js executor';
+    protected $description = 'Command from make blank js watcher';
 
     /**
      * Create a new command instance.
