@@ -117,11 +117,6 @@ class LayoutComponent extends HTML
     protected $js_lang = [];
 
     /**
-     * @var array
-     */
-    public static $js_inits = [];
-
-    /**
      * LayoutComponent constructor.
      *
      * @throws \Exception
@@ -333,11 +328,6 @@ class LayoutComponent extends HTML
 
         $ljs = new LJS(static::class);
 
-        foreach (static::$js_inits as $js_init) {
-
-            $ljs->line($js_init);
-        }
-
         $obj = $this->body;
 
         if (request()->pjax()) {
@@ -345,7 +335,8 @@ class LayoutComponent extends HTML
             $obj = $this->container;
         }
 
-        $obj->toBottom()->script(["data-exec-on-popstate" => ""]);
+        $obj->script(["data-exec-on-popstate" => ""]);
+        //$obj->toBottom()->script(["data-exec-on-popstate" => ""]);
     }
 
     /**
@@ -371,24 +362,6 @@ class LayoutComponent extends HTML
     public function setInContent($data)
     {
         $this->container->appEnd($data);
-    }
-
-    /**
-     * Add script in to js init
-     *
-     * @param $data
-     */
-    public static function toJsInit($data)
-    {
-        if (is_array($data)) {
-
-            static::$js_inits = array_merge(static::$js_inits, $data);
-
-        } else {
-
-            static::$js_inits[] = $data;
-        }
-
     }
 
     /**
