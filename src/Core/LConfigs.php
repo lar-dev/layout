@@ -75,8 +75,9 @@ class LConfigs {
 
         if ($route = \Route::current()) {
 
+            $route_name = $route->getName();
             static::add('uri', $route->uri);
-            static::add('name', $route->getName());
+            if ($route_name !== "jax.executor") static::add('name', $route->getName());
             static::add('executed', array_search('exec', $route->action['middleware']) !== false);
         }
     }
