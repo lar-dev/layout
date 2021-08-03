@@ -4,6 +4,7 @@ namespace Lar\Layout\Abstracts;
 
 use Lar\Developer\Core\Traits\Eventable;
 use Lar\Layout\Core\ComponentStatic;
+use Lar\Layout\Tags\INPUT;
 use Lar\Layout\Traits\DataTrait;
 use Lar\Layout\Traits\LjsDataAttributes;
 use Lar\Tagable\Core\HTML5Library;
@@ -54,6 +55,19 @@ class Component extends ComponentStatic
 
                 embedded_call($item);
             }
+        }
+    }
+
+    /**
+     * Add hiddens inputs
+     *
+     * @param array $hidden_datas
+     */
+    public function hiddens(array $hidden_datas)
+    {
+        foreach ($hidden_datas as $name => $value) {
+
+            $this->appEnd(INPUT::create()->hidden($name, $value));
         }
     }
 

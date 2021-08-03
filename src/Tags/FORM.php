@@ -34,19 +34,6 @@ class FORM extends Component implements onRender
     }
 
     /**
-     * Add hiddens inputs
-     *
-     * @param array $hidden_datas
-     */
-    public function hiddens(array $hidden_datas)
-    {
-        foreach ($hidden_datas as $name => $value) {
-
-            $this->appEnd(INPUT::create()->hidden($name, $value));
-        }
-    }
-
-    /**
      * Set action by rout name
      *
      * @param $route
