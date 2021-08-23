@@ -4,12 +4,8 @@ namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Lar\EntityCarrier\Core\Entities\DocumentorEntity;
-use Lar\Layout\Abstracts\Component;
-use Lar\Layout\Abstracts\LayoutComponent;
 use Lar\Layout\CfgFile;
 use Lar\Layout\Core\LarJsonResource;
-use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;

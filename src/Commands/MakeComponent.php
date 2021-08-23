@@ -4,9 +4,6 @@ namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Lar\Developer\Commands\Dump\GenerateBladeHelpers;
-use Lar\Developer\Commands\Dump\GenerateHelper;
-use Lar\EntityCarrier\Core\Entities\DocumentorEntity;
 use Lar\Layout\Abstracts\Component;
 use Lar\Layout\CfgFile;
 

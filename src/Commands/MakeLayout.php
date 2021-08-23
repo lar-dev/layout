@@ -68,7 +68,8 @@ class MakeLayout extends Command
         $entity->prop('protected:head_styles', ['css/app.css','ljs/css/ljs.css', 'ljs']);
         $entity->prop('protected:body_scripts', ['js/app.js', 'ljs' => ['jquery', 'jq', 'alert', 'nav', 'vue']]);
         $entity->prop('protected:metas', entity('[]'));
-        $entity->prop('protected:pjax', false)->doc(function (DocumentorEntity $documentor) {
+        $entity->prop('protected:pjax', false)->doc(function ($documentor) {
+            /** @var DocumentorEntity $documentor */
             $documentor->description("To enable the module, specify the container identifier in the parameter.");
             $documentor->tagVar("bool|string");
         });
