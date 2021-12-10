@@ -16,7 +16,6 @@
         "php": ">=7.1.0",
         "predis/predis": "^1.1",
         "nikic/php-parser": "~4.0",
-        "voku/simple_html_dom": "^4.7.30",
         "lar/entity-carrier": "^1.0.4",
         "lar/developer": "^1.1.7",
         "lar/tagable": "^1.1.1",
