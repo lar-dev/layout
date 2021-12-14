@@ -95,7 +95,8 @@ class DomMiddleware
 
             $html = new Crawler($response->getContent());
 
-            $content = $html->filter($request->header('X-PJAX-CONTAINER'))->eq(0)->html();
+            $container_html = $html->filter($request->header('X-PJAX-CONTAINER'))->eq(0);
+            $content = $container_html->count() > 0 ? $container_html->html() : "";
 
             $ljs = new LJS("live");
 
