@@ -10,7 +10,6 @@ use Lar\Layout\Core\Dom;
 use Lar\Layout\Core\LConfigs;
 use Lar\Layout\Respond;
 use Lar\LJS\LJS;
-use voku\helper\HtmlDomParser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Symfony\Component\DomCrawler\Crawler;
@@ -94,16 +93,15 @@ class DomMiddleware
 
         if ($request->pjax() && $request->header('X-PJAX-CONTAINER')) {
 
-            $html = HtmlDomParser::str_get_html($response->getContent());
+            $html = new Crawler($response->getContent());
 
-            $content = $html->find($request->header('X-PJAX-CONTAINER'), 0)->innerText();
+            $content = $html->filter($request->header('X-PJAX-CONTAINER'))->eq(0)->html();
 
             $ljs = new LJS("live");
 
             $respond = new Respond();
 
-            $this->createAttributeWatcher($respond, $html)
-                ->createTagWatcher($respond, $html);
+            $this->createTagWatcher($respond, $html, $response->getContent());
 
             $ljs->line("ljs.exec(".$respond->toJson().")");
 
@@ -133,62 +131,22 @@ class DomMiddleware
     }
 
     /**
-     * @param Respond $respond
-     * @param HtmlDomParser $html
+     * @param  Respond  $respond
+     * @param  Crawler  $html
+     * @param $t
      * @return $this
      */
-    protected function createTagWatcher(Respond $respond, HtmlDomParser $html)
+    protected function createTagWatcher(Respond $respond, Crawler $html, $t)
     {
         foreach (BladeDirectives::$_lives as $life) {
 
             $respond->jq("[data-live='{$life}']")->html(
-                $html->find("[data-live='{$life}']", 0)->innerText()
+                $html->filter("[data-live='{$life}']")->eq(0)->html()
             );
         }
 
         $respond->dispatch_event("ljs:on_watch")
-            ->title($html->find('title', 0)->innerText());
-
-        return $this;
-    }
-
-    /**
-     * @param Respond $respond
-     * @param HtmlDomParser $html
-     * @return $this
-     */
-    protected function createAttributeWatcher(Respond $respond, HtmlDomParser $html)
-    {
-        $change_class = [];
-
-        foreach (BladeDirectives::$_attr_watches as $attr_watch) {
-
-            $id = "[data-attr-watch='{$attr_watch[0]}']";
-
-            $attributes = isset($attr_watch[1]) ? (is_string($attr_watch[1]) ? [$attr_watch[1]] : $attr_watch[1]) : false;
-
-            if ((is_array($attributes) && !count($attributes)) || !is_array($attributes)) {
-
-                $attributes = $html->find($id, 0)->getAllAttributes();
-            }
-
-            else {
-
-                $ff = $html->find($id, 0);
-
-                foreach ($attributes as $key => $attribute) {
-
-                    unset($attributes[$key]);
-
-                    $attributes[$attribute] = $ff->getAttribute($attribute);
-                }
-            }
-
-            $change_class[$id] = $attributes;
-        }
-
-        $respond->jq()->manyAttributes($change_class);
-        $respond->dispatch_event("ljs:on_attr_watch");
+            ->title($html->filter("title")->eq(0)->html());
 
         return $this;
     }
