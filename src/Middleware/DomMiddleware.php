@@ -13,6 +13,7 @@ use Lar\LJS\LJS;
 use voku\helper\HtmlDomParser;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * Class DomMiddleware

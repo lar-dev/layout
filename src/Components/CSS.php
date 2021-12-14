@@ -30,6 +30,7 @@ class CSS extends Component
 
         $this->setRel("stylesheet");
         $this->setType("text/css");
+        $this->attr('data-turbolinks-track', 'reload');
 
         if ($href) $this->setHref($href);
     }

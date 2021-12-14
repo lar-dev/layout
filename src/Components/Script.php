@@ -30,6 +30,7 @@ class Script extends \Lar\Layout\Tags\SCRIPT
         if ($src) {
 
             $this->setSrc($src);
+            $this->attr('data-turbolinks-track', 'reload');
         }
     }
 }

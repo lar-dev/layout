@@ -22,6 +22,7 @@ class SCRIPT extends Component
     public function asset($path)
     {
         $this->setSrc(asset($path));
+        $this->attr('data-turbolinks-track', 'reload');
 
         return $this;
     }
