@@ -158,7 +158,6 @@ HTML;
         }
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
-
     }
 
     /**

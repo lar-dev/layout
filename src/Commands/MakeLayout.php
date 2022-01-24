@@ -77,7 +77,6 @@ class MakeLayout extends Command
         if (file_put_contents($file, $entity->render())) {
             $this->info("Layout [{$file}] created!");
         }
-
     }
 
     /**

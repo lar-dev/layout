@@ -62,6 +62,7 @@ class MakeJSExecutor extends Command
 
         if (is_file($file)) {
             $this->error("The js executor [{$this->camel_name()}] already exists!");
+
             return;
         }
 
@@ -129,6 +130,7 @@ class MakeJSExecutor extends Command
         if ($this->option('dir')) {
             return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
         }
+
         return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

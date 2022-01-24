@@ -70,6 +70,7 @@ class MakeComponent extends Command
 
         if (is_file($file)) {
             $this->error("The component [{$this->class_name()}] already exists!");
+
             return;
         }
 
@@ -100,7 +101,6 @@ class MakeComponent extends Command
 
             $this->call('lar:dump');
         }
-
     }
 
     /**
