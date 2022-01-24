@@ -7,19 +7,19 @@ use Lar\Layout\Abstracts\Component;
 class HEAD extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "head";
+    protected $element = 'head';
 
     /**
-     * Create charset meta tag
+     * Create charset meta tag.
      *
      * @param string $charset
      * @return $this
      */
-    public function charset($charset = "utf-8")
+    public function charset($charset = 'utf-8')
     {
         $this->meta()->setCharset($charset);
 
@@ -27,7 +27,7 @@ class HEAD extends Component
     }
 
     /**
-     * Create csrf token meta tag
+     * Create csrf token meta tag.
      *
      * @return $this
      */

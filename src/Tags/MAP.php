@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class MAP extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "map";
+    protected $element = 'map';
 }

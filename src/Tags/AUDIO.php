@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class AUDIO extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "audio";
+    protected $element = 'audio';
 }

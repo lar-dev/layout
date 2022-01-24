@@ -3,38 +3,36 @@
 namespace Lar\Layout\Tags;
 
 use Lar\Layout\Abstracts\Component;
-use Lar\Layout\Core\Dom;
 use Lar\Tagable\Events\onRender;
 
 /**
- * Class FORM
+ * Class FORM.
  * @package Lar\Layout\Tags
  */
 class FORM extends Component implements onRender
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "form";
+    protected $element = 'form';
 
     /**
-     * Function execute on render component
+     * Function execute on render component.
      *
      * @return mixed
      * @throws \Exception
      */
     public function onRender()
     {
-        if (!$this->hasAttribute('method')) {
-
-            $this->setMethod("get");
+        if (! $this->hasAttribute('method')) {
+            $this->setMethod('get');
         }
     }
 
     /**
-     * Set action by rout name
+     * Set action by rout name.
      *
      * @param $route
      * @param array $parameters
@@ -49,27 +47,27 @@ class FORM extends Component implements onRender
     }
 
     /**
-     * Set POST Method
+     * Set POST Method.
      *
      * @return $this
      */
     public function post()
     {
-        $this->setMethod("post");
+        $this->setMethod('post');
 
         return $this;
     }
 
     /**
-     * Restore component in to log uot form
+     * Restore component in to log uot form.
      */
     public function logOutForm()
     {
-        $this->route("logout")->post()->setId("logout-form")->hide();
+        $this->route('logout')->post()->setId('logout-form')->hide();
     }
 
     /**
-     * Set action asset
+     * Set action asset.
      *
      * @param string $url
      * @return $this|Component

@@ -15,97 +15,97 @@ use Lar\Layout\Tags\TITLE;
 use Lar\LJS\LJS;
 
 /**
- * Class LayoutComponent
+ * Class LayoutComponent.
  * @package Lar\Layout\Abstracts
  */
 class LayoutComponent extends HTML
 {
     /**
-     * Layout name
+     * Layout name.
      *
      * @var string
      */
-    protected $name = "app";
+    protected $name = 'app';
 
     /**
-     * Title object
+     * Title object.
      *
      * @var TITLE
      */
     protected $title;
 
     /**
-     * Head tag link
+     * Head tag link.
      *
      * @var HEAD
      */
     protected $head;
 
     /**
-     * Metas Quick Infusion
+     * Metas Quick Infusion.
      *
      * @var array
      */
     protected $metas = [];
 
     /**
-     * Links Quick Infusion
+     * Links Quick Infusion.
      *
      * @var array
      */
     protected $links = [];
 
     /**
-     * Body tag link
+     * Body tag link.
      *
      * @var BODY
      */
     protected $body;
 
     /**
-     * Container object link
+     * Container object link.
      *
      * @var Component
      */
     public $container;
 
     /**
-     * Default title from head
+     * Default title from head.
      *
      * @var string
      */
-    protected $default_title = "Layout";
+    protected $default_title = 'Layout';
 
     /**
-     * Header Collection styles
+     * Header Collection styles.
      *
      * @var array
      */
     protected $head_styles = [];
 
     /**
-     * Header links
+     * Header links.
      *
      * @var array
      */
     protected $head_links = [];
 
     /**
-     * Header Collection scripts
+     * Header Collection scripts.
      *
      * @var array
      */
     protected $head_scripts = [];
 
     /**
-     * HTML Down Collection scripts
+     * HTML Down Collection scripts.
      *
      * @var array
      */
     protected $body_scripts = [];
 
     /**
-     * PJax id selector
+     * PJax id selector.
      *
      * @var bool|string
      */
@@ -128,15 +128,14 @@ class LayoutComponent extends HTML
         $this->makeDefaultTitle();
 
         foreach ($this->js_lang as $lib) {
-
-            $this->head_scripts[] = "locales/" . \App::getLocale() . "/{$lib}.js";
+            $this->head_scripts[] = 'locales/'.\App::getLocale()."/{$lib}.js";
         }
 
         $this->initLayout();
     }
 
     /**
-     * Make default title from methods
+     * Make default title from methods.
      */
     protected function makeDefaultTitle()
     {
@@ -157,98 +156,69 @@ class LayoutComponent extends HTML
     protected function initLayout()
     {
         if ($this->pjax) {
-
             $this->metas[] = [
-                ['http-equiv' => 'x-pjax-version', 'content' => 'v0']
+                ['http-equiv' => 'x-pjax-version', 'content' => 'v0'],
             ];
         }
 
-        $this->head()->charset()->haveLink($this->head)->name($this->name.":head")
-            ->title($this->default_title)->haveLink($this->title)->name($this->name.":title");
+        $this->head()->charset()->haveLink($this->head)->name($this->name.':head')
+            ->title($this->default_title)->haveLink($this->title)->name($this->name.':title');
 
         $this->assetInjects();
 
-        $this->body()->haveLink($this->body)->haveLink($this->container)->name($this->name.":body");
+        $this->body()->haveLink($this->body)->haveLink($this->container)->name($this->name.':body');
 
         $this->assetsBottomInject();
 
-        $this->toExecute("init_scripts")
-            ->toExecute("metaConfigs")
-            ->toExecute("createConsole");
+        $this->toExecute('init_scripts')
+            ->toExecute('metaConfigs')
+            ->toExecute('createConsole');
     }
 
     /**
-     * Inject Layout assets
+     * Inject Layout assets.
      *
      * @throws \Exception
      */
     protected function assetInjects()
     {
         $this->head->mapCollect($this->metas, function (META $meta, $row) {
-
             $meta->when([$row]);
         });
 
         $this->head->mapCollect($this->links, function (LINK $link, $row) {
-
-                $link->when([$row]);
-            })
+            $link->when([$row]);
+        })
             ->mapCollect($this->head_links, function (LINK $link, $row) {
-
                 $link->when($row);
             })
             ->when(function (HEAD $head) {
-
                 foreach ($this->head_styles as $key => $css) {
-
                     if ($key === 'ljs' && is_array($css)) {
-
                         $head->appEnd(LjsStyles::create($css));
-                    }
-
-                    else if ($css === 'ljs') {
-
+                    } elseif ($css === 'ljs') {
                         $head->appEnd(LjsStyles::create());
-                    }
-
-                    else if (is_array($css)) {
-
+                    } elseif (is_array($css)) {
                         $head->appEnd(CSS::create($css));
-
                     } else {
-
-                        if (strpos($css, "://") === false) {
-
+                        if (strpos($css, '://') === false) {
                             $head->appEnd(CSS::create()->asset($css));
-
                         } else {
-
                             $head->appEnd(CSS::create()->setHref($css));
                         }
                     }
                 }
             })
             ->when(function (HEAD $head) {
-
                 foreach ($this->head_scripts as $key => $script) {
-
                     if ($key === 'ljs' && is_array($script)) {
-
                         $head->appEnd(LjsScripts::create($script));
-                    }
-
-                    else if (is_array($script)) {
-
+                    } elseif (is_array($script)) {
                         $head->script($script);
-
                     } else {
-
-                        if (strpos($script, "://") === false) {
-
+                        if (strpos($script, '://') === false) {
                             $head->script()->asset($script);
-
                         } else {
-
                             $head->script()->setSrc($script);
                         }
                     }
@@ -257,7 +227,7 @@ class LayoutComponent extends HTML
     }
 
     /**
-     * Asset bottom assets
+     * Asset bottom assets.
      *
      * @throws \Exception
      */
@@ -265,11 +235,10 @@ class LayoutComponent extends HTML
     {
         if (
             config('app.debug') &&
-            ( config('debugbar.enabled') === null || config('debugbar.enabled') === true ) &&
-            class_exists("Barryvdh\\Debugbar\\LaravelDebugbar")
+            (config('debugbar.enabled') === null || config('debugbar.enabled') === true) &&
+            class_exists('Barryvdh\\Debugbar\\LaravelDebugbar')
         ) {
-
-            if (isset($this->body_scripts['ljs']) && !in_array('vue', $this->body_scripts['ljs'])) {
+            if (isset($this->body_scripts['ljs']) && ! in_array('vue', $this->body_scripts['ljs'])) {
                 $this->body_scripts['ljs'][] = 'vue';
             }
 
@@ -278,35 +247,24 @@ class LayoutComponent extends HTML
         }
 
         $this->body->toBottom()->when(function (BODY $body) {
-
-                foreach ($this->body_scripts as $key => $script) {
-
-                    if ($key === 'ljs' && is_array($script)) {
-
-                        $body->appEnd(LjsScripts::create($script));
-                    }
-
-                    else if (is_array($script)) {
-
-                        $body->script($script);
-
+            foreach ($this->body_scripts as $key => $script) {
+                if ($key === 'ljs' && is_array($script)) {
+                    $body->appEnd(LjsScripts::create($script));
+                } elseif (is_array($script)) {
+                    $body->script($script);
+                } else {
+                    if (strpos($script, '://') === false) {
+                        $body->script()->asset($script);
                     } else {
-
-                        if (strpos($script, "://") === false) {
-
-                            $body->script()->asset($script);
-
-                        } else {
-
-                            $body->script()->setSrc($script);
-                        }
+                        $body->script()->setSrc($script);
                     }
                 }
-            })->toBottom();
+            }
+        })->toBottom();
     }
 
     /**
-     * Add meta config
+     * Add meta config.
      *
      * @param string $name
      * @param $value
@@ -324,23 +282,21 @@ class LayoutComponent extends HTML
      *
      * @throws \Exception
      */
-    protected function init_scripts() {
-
+    protected function init_scripts()
+    {
         $ljs = new LJS(static::class);
 
         $obj = $this->body;
 
         if (request()->pjax()) {
-
             $obj = $this->container;
         }
 
-        $obj->script(["data-exec-on-popstate" => ""]);
-        //$obj->toBottom()->script(["data-exec-on-popstate" => ""]);
+        $obj->script(['data-exec-on-popstate' => '']);
     }
 
     /**
-     * Set container
+     * Set container.
      *
      * @param Component $component
      * @return $this
@@ -353,7 +309,7 @@ class LayoutComponent extends HTML
     }
 
     /**
-     * Add data in to layout content
+     * Add data in to layout content.
      *
      * @param $data
      * @return void
@@ -365,13 +321,12 @@ class LayoutComponent extends HTML
     }
 
     /**
-     * Create meta configs
+     * Create meta configs.
      */
     public function metaConfigs()
     {
         if ($this->pjax) {
-
-            $this->config("pjax-container", "#" . $this->pjax);
+            $this->config('pjax-container', '#'.$this->pjax);
         }
 
         $this->head->appEnd(LConfigs::render());

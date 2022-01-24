@@ -5,7 +5,7 @@ namespace Lar\Layout\Respond;
 use Lar\Layout\Respond;
 
 /**
- * Trait Systems
+ * Trait Systems.
  *
  * @package Lar\Layout\Respond
  */
@@ -72,14 +72,13 @@ trait Systems
      * @param  bool  $absolute
      * @return $this
      */
-    public function change_link($link, array $params = [], bool $absolute = true) {
-
+    public function change_link($link, array $params = [], bool $absolute = true)
+    {
         if (\Route::has($link)) {
-
             $link = route($link, $params, $absolute);
         }
 
-        $this->put("ljs.\$nav.change_url", $link);
+        $this->put('ljs.$nav.change_url', $link);
 
         return $this;
     }
@@ -92,7 +91,7 @@ trait Systems
     {
         $respond = new Respond($this->parent);
 
-        $this->put("timer::out", [$ms => $respond]);
+        $this->put('timer::out', [$ms => $respond]);
 
         return $respond;
     }

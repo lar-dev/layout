@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class IFRAME extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "iframe";
+    protected $element = 'iframe';
 }

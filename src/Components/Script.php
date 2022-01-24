@@ -3,7 +3,7 @@
 namespace Lar\Layout\Components;
 
 /**
- * Class Script
+ * Class Script.
  *
  * @package Lar\Layout\Components
  * @component linkScript2
@@ -11,11 +11,11 @@ namespace Lar\Layout\Components;
 class Script extends \Lar\Layout\Tags\SCRIPT
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "script";
+    protected $element = 'script';
 
     /**
      * Script constructor.
@@ -28,7 +28,6 @@ class Script extends \Lar\Layout\Tags\SCRIPT
         parent::__construct();
 
         if ($src) {
-
             $this->setSrc($src);
             $this->attr('data-turbolinks-track', 'reload');
         }

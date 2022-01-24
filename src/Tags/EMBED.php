@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class EMBED extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "embed";
+    protected $element = 'embed';
 }

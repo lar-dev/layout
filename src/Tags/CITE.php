@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class CITE extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "cite";
+    protected $element = 'cite';
 }

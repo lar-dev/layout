@@ -5,18 +5,18 @@ namespace Lar\Layout\Components;
 use Lar\Layout\Abstracts\Component;
 
 /**
- * Class CSS
+ * Class CSS.
  * @package Lar\Layout\Components
  * @component cssLink
  */
 class CSS extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "link";
+    protected $element = 'link';
 
     /**
      * Script constructor.
@@ -28,15 +28,17 @@ class CSS extends Component
     {
         parent::__construct();
 
-        $this->setRel("stylesheet");
-        $this->setType("text/css");
+        $this->setRel('stylesheet');
+        $this->setType('text/css');
         $this->attr('data-turbolinks-track', 'reload');
 
-        if ($href) $this->setHref($href);
+        if ($href) {
+            $this->setHref($href);
+        }
     }
 
     /**
-     * Set href by asset
+     * Set href by asset.
      *
      * @param string $path
      * @return $this|Component

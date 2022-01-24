@@ -6,7 +6,7 @@ use Illuminate\Contracts\Support\Renderable;
 use Lar\Layout\Respond;
 
 /**
- * Class jQuery
+ * Class jQuery.
  *
  * @package Lar\Layout\Respond
  */
@@ -34,7 +34,7 @@ class jQuery
     }
 
     /**
-     * After
+     * After.
      *
      * Insert content, specified by the parameter, after each element in the set of matched elements.
      *
@@ -45,7 +45,6 @@ class jQuery
     public function after($data)
     {
         if (is_object($data) && method_exists($data, 'render')) {
-
             $data = $data->render();
         }
 
@@ -53,7 +52,7 @@ class jQuery
     }
 
     /**
-     * Add class
+     * Add class.
      *
      * @param  string  $class
      * @return $this
@@ -64,7 +63,7 @@ class jQuery
     }
 
     /**
-     * Append
+     * Append.
      *
      * @param  mixed  $data
      * @return $this
@@ -72,7 +71,6 @@ class jQuery
     public function append($data)
     {
         if (is_object($data) && method_exists($data, 'render')) {
-
             $data = $data->render();
         }
 
@@ -80,7 +78,7 @@ class jQuery
     }
 
     /**
-     * Append to
+     * Append to.
      *
      * @param  string  $selector
      * @return $this
@@ -91,7 +89,7 @@ class jQuery
     }
 
     /**
-     * Attr
+     * Attr.
      *
      * @param  string  $attribute
      * @param  string|null  $value
@@ -100,7 +98,6 @@ class jQuery
     public function attr(string $attribute, string $value = null)
     {
         if ($value !== null) {
-
             return $this->make('attr', $attribute, $value);
         }
 
@@ -108,7 +105,7 @@ class jQuery
     }
 
     /**
-     * CSS
+     * CSS.
      *
      * @param  string  $prop
      * @param  string|null  $value
@@ -117,7 +114,6 @@ class jQuery
     public function css(string $prop, string $value = null)
     {
         if ($value !== null) {
-
             return $this->make('css', $prop, $value);
         }
 
@@ -125,7 +121,7 @@ class jQuery
     }
 
     /**
-     * Data
+     * Data.
      *
      * @param  string  $data_name
      * @param  string|null  $value
@@ -134,7 +130,6 @@ class jQuery
     public function data(string $data_name, string $value = null)
     {
         if ($value !== null) {
-
             return $this->make('data', $data_name, $value);
         }
 
@@ -142,7 +137,7 @@ class jQuery
     }
 
     /**
-     * Detach
+     * Detach.
      *
      * The .detach() method is the same as .remove(), except that .detach() keeps all jQuery
      * data associated with the removed elements. This method is useful when removed elements
@@ -156,7 +151,7 @@ class jQuery
     }
 
     /**
-     * Empty
+     * Empty.
      *
      * This method removes not only child (and other descendant) elements, but also any text within
      * the set of matched elements. This is because, according to the DOM specification, any string
@@ -170,7 +165,7 @@ class jQuery
     }
 
     /**
-     * Eq
+     * Eq.
      *
      * Reduce the set of matched elements to the one at the specified index.
      *
@@ -183,7 +178,7 @@ class jQuery
     }
 
     /**
-     * Before
+     * Before.
      *
      * @param  string  $data
      * @return $this
@@ -194,7 +189,7 @@ class jQuery
     }
 
     /**
-     * Blur
+     * Blur.
      *
      * Trigger that event on an element.
      *
@@ -206,7 +201,7 @@ class jQuery
     }
 
     /**
-     * Change
+     * Change.
      *
      * Trigger that event on an element.
      *
@@ -218,7 +213,7 @@ class jQuery
     }
 
     /**
-     * Click
+     * Click.
      *
      * Trigger that event on an element.
      *
@@ -230,7 +225,7 @@ class jQuery
     }
 
     /**
-     * Contextmenu
+     * Contextmenu.
      *
      * Trigger that event on an element.
      *
@@ -242,7 +237,7 @@ class jQuery
     }
 
     /**
-     * Dblclick
+     * Dblclick.
      *
      * Trigger that event on an element.
      *
@@ -254,7 +249,7 @@ class jQuery
     }
 
     /**
-     * Fade in
+     * Fade in.
      *
      * Display the matched elements by fading them to opaque.
      *
@@ -264,7 +259,6 @@ class jQuery
     public function fade_in($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('fadeIn', $duration);
         }
 
@@ -272,7 +266,7 @@ class jQuery
     }
 
     /**
-     * Fade out
+     * Fade out.
      *
      * Hide the matched elements by fading them to transparent.
      *
@@ -282,7 +276,6 @@ class jQuery
     public function fade_out($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('fadeOut', $duration);
         }
 
@@ -290,7 +283,7 @@ class jQuery
     }
 
     /**
-     * Fade to
+     * Fade to.
      *
      * Adjust the opacity of the matched elements.
      *
@@ -304,7 +297,7 @@ class jQuery
     }
 
     /**
-     * Fade toggle
+     * Fade toggle.
      *
      * Display or hide the matched elements by animating their opacity.
      *
@@ -314,7 +307,6 @@ class jQuery
     public function fade_toggle($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('fadeToggle', $duration);
         }
 
@@ -322,7 +314,7 @@ class jQuery
     }
 
     /**
-     * Focus
+     * Focus.
      *
      * Bind an event handler to the “focus” JavaScript event, or trigger that event on an element.
      *
@@ -334,7 +326,7 @@ class jQuery
     }
 
     /**
-     * Height
+     * Height.
      *
      * Get/Set the current computed height for the first element in the set of matched elements.
      *
@@ -344,7 +336,6 @@ class jQuery
     public function height($height = null)
     {
         if ($height !== null) {
-
             return $this->make('height', $height);
         }
 
@@ -352,7 +343,7 @@ class jQuery
     }
 
     /**
-     * Hide
+     * Hide.
      *
      * Hide the matched elements.
      *
@@ -362,7 +353,6 @@ class jQuery
     public function hide($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('hide', $duration);
         }
 
@@ -370,7 +360,7 @@ class jQuery
     }
 
     /**
-     * Html
+     * Html.
      *
      * Get/Set the HTML contents of the first element in the set of matched elements or set the
      * HTML contents of every matched element.
@@ -381,9 +371,7 @@ class jQuery
     public function html($data = null)
     {
         if ($data !== null) {
-
             if (is_object($data) && method_exists($data, 'render')) {
-
                 $data = $data->render();
             }
 
@@ -394,7 +382,7 @@ class jQuery
     }
 
     /**
-     * Inner height
+     * Inner height.
      *
      * @param  null|int|string  $value
      * @return $this
@@ -402,7 +390,6 @@ class jQuery
     public function inner_height($value = null)
     {
         if ($value !== null) {
-
             return $this->make('innerHeight', $value);
         }
 
@@ -410,7 +397,7 @@ class jQuery
     }
 
     /**
-     * Inner width
+     * Inner width.
      *
      * Get the current computed inner width for the first element in the set of matched elements,
      * including padding but not border.
@@ -421,7 +408,6 @@ class jQuery
     public function inner_width($value = null)
     {
         if ($value !== null) {
-
             return $this->make('innerWidth', $value);
         }
 
@@ -429,7 +415,7 @@ class jQuery
     }
 
     /**
-     * Insert after
+     * Insert after.
      *
      * Insert every element in the set of matched elements after the target.
      *
@@ -442,7 +428,7 @@ class jQuery
     }
 
     /**
-     * Insert before
+     * Insert before.
      *
      * Insert every element in the set of matched elements before the target.
      *
@@ -455,7 +441,7 @@ class jQuery
     }
 
     /**
-     * Keydown
+     * Keydown.
      *
      * trigger that event on an element.
      *
@@ -467,7 +453,7 @@ class jQuery
     }
 
     /**
-     * Keypress
+     * Keypress.
      *
      * trigger that event on an element.
      *
@@ -479,7 +465,7 @@ class jQuery
     }
 
     /**
-     * Keyup
+     * Keyup.
      *
      * trigger that event on an element.
      *
@@ -491,7 +477,7 @@ class jQuery
     }
 
     /**
-     * Mousedown
+     * Mousedown.
      *
      * trigger that event on an element.
      *
@@ -503,7 +489,7 @@ class jQuery
     }
 
     /**
-     * Mousemove
+     * Mousemove.
      *
      * trigger that event on an element.
      *
@@ -515,7 +501,7 @@ class jQuery
     }
 
     /**
-     * Mouseout
+     * Mouseout.
      *
      * trigger that event on an element.
      *
@@ -527,7 +513,7 @@ class jQuery
     }
 
     /**
-     * Mouseover
+     * Mouseover.
      *
      * trigger that event on an element.
      *
@@ -539,7 +525,7 @@ class jQuery
     }
 
     /**
-     * Mouseup
+     * Mouseup.
      *
      * trigger that event on an element.
      *
@@ -551,7 +537,7 @@ class jQuery
     }
 
     /**
-     * Prepend
+     * Prepend.
      *
      * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
      *
@@ -561,7 +547,6 @@ class jQuery
     public function prepend($data)
     {
         if (is_object($data) && method_exists($data, 'render')) {
-
             $data = $data->render();
         }
 
@@ -569,7 +554,7 @@ class jQuery
     }
 
     /**
-     * Prepend to
+     * Prepend to.
      *
      * Insert every element in the set of matched elements to the beginning of the target.
      *
@@ -582,7 +567,7 @@ class jQuery
     }
 
     /**
-     * Remove
+     * Remove.
      *
      * Remove the set of matched elements from the DOM.
      *
@@ -592,7 +577,6 @@ class jQuery
     public function remove(string $selector = null)
     {
         if ($selector !== null) {
-
             return $this->make('remove', $selector);
         }
 
@@ -600,7 +584,7 @@ class jQuery
     }
 
     /**
-     * Remove attr
+     * Remove attr.
      *
      * Remove an attribute from each element in the set of matched elements.
      *
@@ -613,7 +597,7 @@ class jQuery
     }
 
     /**
-     * Remove class
+     * Remove class.
      *
      * Remove a single class, multiple classes, or all classes from each element in the set of matched elements.
      *
@@ -626,7 +610,7 @@ class jQuery
     }
 
     /**
-     * Remove data
+     * Remove data.
      *
      * Remove a previously-stored piece of data.
      *
@@ -639,7 +623,7 @@ class jQuery
     }
 
     /**
-     * Replace all
+     * Replace all.
      *
      * Replace each target element with the set of matched elements.
      *
@@ -652,7 +636,7 @@ class jQuery
     }
 
     /**
-     * Replace with
+     * Replace with.
      *
      * Replace each element in the set of matched elements with the provided new content and return the set of
      * elements that was removed.
@@ -663,7 +647,6 @@ class jQuery
     public function replace_with($data)
     {
         if (is_object($data) && method_exists($data, 'render')) {
-
             $data = $data->render();
         }
 
@@ -671,7 +654,7 @@ class jQuery
     }
 
     /**
-     * Resize
+     * Resize.
      *
      * trigger that event on an element.
      *
@@ -683,7 +666,7 @@ class jQuery
     }
 
     /**
-     * Scroll
+     * Scroll.
      *
      * trigger that event on an element.
      *
@@ -695,7 +678,7 @@ class jQuery
     }
 
     /**
-     * Select
+     * Select.
      *
      * trigger that event on an element.
      *
@@ -707,7 +690,7 @@ class jQuery
     }
 
     /**
-     * Scroll left
+     * Scroll left.
      *
      * Get/Set the current horizontal position of the scroll bar for the first element in the set of matched elements.
      *
@@ -717,7 +700,6 @@ class jQuery
     public function scroll_left(int $value = null)
     {
         if ($value !== null) {
-
             return $this->make('scrollLeft', $value);
         }
 
@@ -725,7 +707,7 @@ class jQuery
     }
 
     /**
-     * Scroll top
+     * Scroll top.
      *
      * Get/Set the current vertical position of the scroll bar for the first element in the set of matched
      * elements or set the vertical position of the scroll bar for every matched element.
@@ -736,7 +718,6 @@ class jQuery
     public function scroll_top(int $value = null)
     {
         if ($value !== null) {
-
             return $this->make('scrollTop', $value);
         }
 
@@ -744,7 +725,7 @@ class jQuery
     }
 
     /**
-     * Show
+     * Show.
      *
      * Display the matched elements.
      *
@@ -754,7 +735,6 @@ class jQuery
     public function show($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('show', $duration);
         }
 
@@ -762,7 +742,7 @@ class jQuery
     }
 
     /**
-     * Slide down
+     * Slide down.
      *
      * Display the matched elements with a sliding motion.
      *
@@ -772,7 +752,6 @@ class jQuery
     public function slide_down($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('slideDown', $duration);
         }
 
@@ -780,7 +759,7 @@ class jQuery
     }
 
     /**
-     * Slide toggle
+     * Slide toggle.
      *
      * Display or hide the matched elements with a sliding motion.
      *
@@ -790,7 +769,6 @@ class jQuery
     public function slide_toggle($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('slideToggle', $duration);
         }
 
@@ -798,7 +776,7 @@ class jQuery
     }
 
     /**
-     * Slide up
+     * Slide up.
      *
      * Hide the matched elements with a sliding motion.
      *
@@ -808,7 +786,6 @@ class jQuery
     public function slide_up($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('slideUp', $duration);
         }
 
@@ -816,7 +793,7 @@ class jQuery
     }
 
     /**
-     * Submit
+     * Submit.
      *
      * Bind an event handler to the “submit” JavaScript event, or trigger that event on an element.
      *
@@ -828,7 +805,7 @@ class jQuery
     }
 
     /**
-     * Text
+     * Text.
      *
      * Set the content of each element in the set of matched elements to the specified text.
      *
@@ -838,9 +815,7 @@ class jQuery
     public function text($data = null)
     {
         if ($data !== null) {
-
             if (is_object($data) && method_exists($data, 'render')) {
-
                 $data = $data->render();
             }
 
@@ -851,7 +826,7 @@ class jQuery
     }
 
     /**
-     * Toggle
+     * Toggle.
      *
      * Display or hide the matched elements.
      *
@@ -861,7 +836,6 @@ class jQuery
     public function toggle($duration = null)
     {
         if ($duration !== null) {
-
             return $this->make('toggle', $duration);
         }
 
@@ -869,7 +843,7 @@ class jQuery
     }
 
     /**
-     * Toggle class
+     * Toggle class.
      *
      * Add or remove one or more classes from each element in the set of matched elements,
      * depending on either the class's presence or the value of the state argument.
@@ -883,7 +857,7 @@ class jQuery
     }
 
     /**
-     * Trigger
+     * Trigger.
      *
      * Execute all handlers and behaviors attached to the matched elements for the given event type.
      *
@@ -896,7 +870,7 @@ class jQuery
     }
 
     /**
-     * Trigger handler
+     * Trigger handler.
      *
      * Execute all handlers attached to an element for an event.
      *
@@ -909,7 +883,7 @@ class jQuery
     }
 
     /**
-     * Val
+     * Val.
      *
      * Set the value of each element in the set of matched elements.
      *
@@ -919,9 +893,7 @@ class jQuery
     public function val($data = null)
     {
         if ($data !== null) {
-
             if (is_object($data) && method_exists($data, 'render')) {
-
                 $data = $data->render();
             }
 
@@ -932,7 +904,7 @@ class jQuery
     }
 
     /**
-     * Width
+     * Width.
      *
      * Get/Set the current computed height for the first element in the set of matched elements.
      *
@@ -942,7 +914,6 @@ class jQuery
     public function width($width = null)
     {
         if ($width !== null) {
-
             return $this->make('width', $width);
         }
 
@@ -958,13 +929,9 @@ class jQuery
     public function attribute(string $attribute_name, string $value, string $selector = null)
     {
         if ($selector !== null) {
-
-            $this->respond->put("$::attribute", [$selector, $attribute_name, $value]);
-        }
-
-        else {
-
-            $this->respond->put("$::attribute", [$attribute_name, $value]);
+            $this->respond->put('$::attribute', [$selector, $attribute_name, $value]);
+        } else {
+            $this->respond->put('$::attribute', [$attribute_name, $value]);
         }
 
         return $this;
@@ -978,13 +945,9 @@ class jQuery
     public function attributes(array $values, string $selector = null)
     {
         if ($selector !== null) {
-
-            $this->respond->put("$::attribute", [$selector, $values]);
-        }
-
-        else {
-
-            $this->respond->put("$::attribute", [$values]);
+            $this->respond->put('$::attribute', [$selector, $values]);
+        } else {
+            $this->respond->put('$::attribute', [$values]);
         }
 
         return $this;
@@ -996,13 +959,13 @@ class jQuery
      */
     public function manyAttributes(array $values)
     {
-        $this->respond->put("$::manyAttributes", $values);
+        $this->respond->put('$::manyAttributes', $values);
 
         return $this;
     }
 
     /**
-     * globalEval
+     * globalEval.
      *
      * @param $data
      * @return $this
@@ -1010,11 +973,10 @@ class jQuery
     public function eval($data)
     {
         if ($data instanceof Renderable) {
-
             $data = $data->render();
         }
 
-        $this->respond->put("$::eval", $data);
+        $this->respond->put('$::eval', $data);
 
         return $this;
     }
@@ -1039,21 +1001,17 @@ class jQuery
     }
 
     /**
-     * Make command
+     * Make command.
      *
      * @param  string  $method
      * @param  mixed  ...$props
      * @return $this
      */
-    public function make(string $method, ...$props) {
-
+    public function make(string $method, ...$props)
+    {
         if ($this->selector) {
-
             $this->respond->put("$::{$method}", array_merge([$this->selector], $props));
-        }
-
-        else {
-
+        } else {
             $this->respond->put("$:{$method}", $props);
         }
 

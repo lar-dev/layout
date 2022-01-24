@@ -3,12 +3,11 @@
 namespace Lar\Layout\Components;
 
 /**
- * Class Template
+ * Class Template.
  * @package Lar\LteAdmin\Components
  */
 class Template extends \Lar\Layout\Tags\TEMPLATE
 {
-
     /**
      * Col constructor.
      * @param  string|null  $id

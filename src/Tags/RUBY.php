@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class RUBY extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "ruby";
+    protected $element = 'ruby';
 }

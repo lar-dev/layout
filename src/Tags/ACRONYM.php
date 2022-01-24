@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class ACRONYM extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "acronym";
+    protected $element = 'acronym';
 }

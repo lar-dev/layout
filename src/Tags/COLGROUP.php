@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class COLGROUP extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "colgroup";
+    protected $element = 'colgroup';
 }

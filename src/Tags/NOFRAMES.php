@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class NOFRAMES extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "noframes";
+    protected $element = 'noframes';
 }

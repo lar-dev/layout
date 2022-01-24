@@ -5,12 +5,11 @@ namespace Lar\Layout\Components;
 use Lar\Layout\Tags\SPAN;
 
 /**
- * Class Template
+ * Class Template.
  * @package Lar\LteAdmin\Components
  */
 class TemplateArea extends SPAN
 {
-
     /**
      * Col constructor.
      * @param  string|null  $id
@@ -24,7 +23,6 @@ class TemplateArea extends SPAN
         $data = ['tpl' => $id];
 
         if ($autoload) {
-
             $data['load'] = 'tpl::replaceTo';
 
             $data['load-params'] = $id;

@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class BASEFONT extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "basefont";
+    protected $element = 'basefont';
 }

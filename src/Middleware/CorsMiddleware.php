@@ -5,7 +5,7 @@ namespace Lar\Layout\Middleware;
 use Closure;
 
 /**
- * Class CorsMiddleware
+ * Class CorsMiddleware.
  *
  * @package Lar\Layout\Middleware
  */

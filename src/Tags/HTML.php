@@ -7,11 +7,11 @@ use Lar\Layout\Abstracts\Component;
 class HTML extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "html";
+    protected $element = 'html';
 
     /**
      * HTML constructor.

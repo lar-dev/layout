@@ -9,7 +9,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class ContentableCommand
+ * Class ContentableCommand.
  *
  * @package Lar\Layout\Commands
  */
@@ -25,7 +25,7 @@ class MakeJSWatcher extends Command
     /**
      * @var string
      */
-    protected $prev_name = "";
+    protected $prev_name = '';
 
     /**
      * The console command description.
@@ -53,29 +53,27 @@ class MakeJSWatcher extends Command
     {
         $dir = $this->rp('/watchers');
 
-        if (!is_dir($dir)) {
-
+        if (! is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 
-        $file_name = $this->camel_name() . ".js";
-        $file = $dir . "/" . $file_name;
+        $file_name = $this->camel_name().'.js';
+        $file = $dir.'/'.$file_name;
 
         if (is_file($file)) {
-
-            $this->error("The js watcher [{$this->camel_name()}] already exists!"); return ;
+            $this->error("The js watcher [{$this->camel_name()}] already exists!");
+            return;
         }
 
         $exec_data = str_replace([
-            "{CLASS}", "{NAME}"
+            '{CLASS}', '{NAME}',
         ], [
-            $this->camel_name(), $this->name()
-        ], file_get_contents(__DIR__ . "/Stumbs/lar_watcher"));
+            $this->camel_name(), $this->name(),
+        ], file_get_contents(__DIR__.'/Stumbs/lar_watcher'));
 
-        $ins_file = str_replace($this->rp() . "/", "", $file);
-        
+        $ins_file = str_replace($this->rp().'/', '', $file);
+
         if (file_put_contents($file, $exec_data)) {
-
             $this->info("Watcher [{$this->name()}][{$ins_file}] created!");
 
             (new LarJsonResource())->addWatcher($file_name);
@@ -126,12 +124,11 @@ class MakeJSWatcher extends Command
      * @param  string  $path
      * @return string
      */
-    protected function rp(string $path = "")
+    protected function rp(string $path = '')
     {
         if ($this->option('dir')) {
-
-            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
+            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
         }
-        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
+        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

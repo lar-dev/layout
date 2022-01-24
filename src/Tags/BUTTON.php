@@ -3,16 +3,16 @@
 namespace Lar\Layout\Tags;
 
 use Lar\Layout\Abstracts\Component;
-use Lar\LteAdmin\Segments\Tagable\ButtonGroup;
+use Lar\LteAdmin\Components\ButtonsContent;
 
 class BUTTON extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "button";
+    protected $element = 'button';
 
     /**
      * @param  array  $params

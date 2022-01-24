@@ -8,7 +8,7 @@ use Lar\EntityCarrier\Core\Entities\DocumentorEntity;
 use Lar\Layout\Abstracts\LayoutComponent;
 
 /**
- * Class ContentableCommand
+ * Class ContentableCommand.
  *
  * @package Lar\Layout\Commands
  */
@@ -47,43 +47,41 @@ class MakeLayout extends Command
     {
         $dir = app_path('Layouts');
 
-        $file = $dir . "/" . $this->class_name() . ".php";
+        $file = $dir.'/'.$this->class_name().'.php';
 
-        if (!is_dir($dir)) {
-
+        if (! is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 
         if (is_file($file)) {
+            $this->error("The layout [{$this->class_name()}] already exists!");
 
-            $this->error("The layout [{$this->class_name()}] already exists!"); return ;
+            return;
         }
 
         $entity = class_entity($this->class_name());
         $entity->wrap('php');
-        $entity->namespace("App\\Layouts");
+        $entity->namespace('App\\Layouts');
         $entity->extend(LayoutComponent::class);
 
         $entity->prop('protected:name', $this->input->getArgument('layout_name'));
-        $entity->prop('protected:head_styles', ['css/app.css','ljs/css/ljs.css', 'ljs']);
+        $entity->prop('protected:head_styles', ['css/app.css', 'ljs/css/ljs.css', 'ljs']);
         $entity->prop('protected:body_scripts', ['js/app.js', 'ljs' => ['jquery', 'jq', 'alert', 'nav', 'vue']]);
         $entity->prop('protected:metas', entity('[]'));
         $entity->prop('protected:pjax', false)->doc(function ($documentor) {
             /** @var DocumentorEntity $documentor */
-            $documentor->description("To enable the module, specify the container identifier in the parameter.");
-            $documentor->tagVar("bool|string");
+            $documentor->description('To enable the module, specify the container identifier in the parameter.');
+            $documentor->tagVar('bool|string');
         });
 
         if (file_put_contents($file, $entity->render())) {
-
             $this->info("Layout [{$file}] created!");
         }
 
-        return ;
     }
 
     /**
-     * Get class name
+     * Get class name.
      *
      * @return string|string[]|null
      */

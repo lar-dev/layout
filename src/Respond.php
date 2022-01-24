@@ -16,13 +16,13 @@ use Lar\Layout\Respond\Vue;
 use Lar\Tagable\Tag;
 
 /**
- * Class Respond
+ * Class Respond.
  *
  * @package Lar\Layout
  * @mixin RespondDoc
  */
-class Respond extends Collection implements Renderable, Htmlable {
-
+class Respond extends Collection implements Renderable, Htmlable
+{
     use Core,
         jQueryDecoratorTrait,
         AlertSystemsTrait,
@@ -49,14 +49,9 @@ class Respond extends Collection implements Renderable, Htmlable {
     public function __construct($parent = null)
     {
         if ($parent) {
-
             if (is_embedded_call($parent)) {
-
                 call_user_func($parent, $this);
-            }
-
-            else {
-
+            } else {
                 $this->parent = $parent;
             }
         }
@@ -84,22 +79,21 @@ class Respond extends Collection implements Renderable, Htmlable {
     }
 
     /**
-     * Set cursor pointer in the parent tag
+     * Set cursor pointer in the parent tag.
      *
      * @return $this
      */
     public function pointer()
     {
         if ($this->parent instanceof Tag) {
-
-            $this->parent->setStyle("cursor: pointer");
+            $this->parent->setStyle('cursor: pointer');
         }
 
         return $this;
     }
 
     /**
-     * Put rule
+     * Put rule.
      *
      * @param $key
      * @param mixed $value
@@ -108,15 +102,14 @@ class Respond extends Collection implements Renderable, Htmlable {
     public function put($key, $value = null)
     {
         if ($this->parent && preg_match('/^\:.*/', $key) && $this->parent instanceof Tag) {
-
             $key = $this->parent->getHandlerName().$key;
         }
 
-        return parent::put($this->count().":".$key, $value);
+        return parent::put($this->count().':'.$key, $value);
     }
 
     /**
-     * Put rule alias
+     * Put rule alias.
      *
      * @param $key
      * @param null $value
@@ -134,7 +127,6 @@ class Respond extends Collection implements Renderable, Htmlable {
     public function justMerge($data)
     {
         if ($data instanceof Arrayable) {
-
             $data = $data->toArray();
         }
 
@@ -144,7 +136,7 @@ class Respond extends Collection implements Renderable, Htmlable {
     }
 
     /**
-     * Merge rules
+     * Merge rules.
      *
      * @param mixed $data
      * @return $this|Collection
@@ -152,7 +144,6 @@ class Respond extends Collection implements Renderable, Htmlable {
     public function merge($data)
     {
         foreach ($data as $key => $value) {
-
             $this->put(
                 preg_replace('/^([0-9\:]+)\:/', '', $key),
                 $value
@@ -169,13 +160,9 @@ class Respond extends Collection implements Renderable, Htmlable {
      */
     public function __call($method, $parameters)
     {
-        if (!isset($this->parent)) {
-
+        if (! isset($this->parent)) {
             return parent::__call($method, $parameters);
-        }
-
-        else {
-
+        } else {
             return $this->parent->{$method}(...$parameters);
         }
     }

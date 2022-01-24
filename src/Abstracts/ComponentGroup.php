@@ -5,21 +5,21 @@ namespace Lar\Layout\Abstracts;
 use Illuminate\Contracts\Support\Renderable;
 
 /**
- * Class ComponentGroup
+ * Class ComponentGroup.
  *
  * @package Lar\Layout\Abstracts
  */
-class ComponentGroup implements Renderable {
-
+class ComponentGroup implements Renderable
+{
     /**
-     * Having component list
+     * Having component list.
      *
      * @var array
      */
-    static $components = [];
+    public static $components = [];
 
     /**
-     * Injected component list
+     * Injected component list.
      *
      * @var array
      */
@@ -33,7 +33,6 @@ class ComponentGroup implements Renderable {
     public function inject($name, ...$arguments)
     {
         if (isset(static::$components[$name])) {
-
             $inject = new static::$components[$name](...$arguments);
 
             $this->injected[] = $inject;
@@ -50,7 +49,6 @@ class ComponentGroup implements Renderable {
     public function __call($name, $arguments)
     {
         if (isset(static::$components[$name])) {
-
             $inject = new static::$components[$name](...$arguments);
 
             $this->injected[] = $inject;
@@ -70,7 +68,7 @@ class ComponentGroup implements Renderable {
     }
 
     /**
-     * Add component in to having component list
+     * Add component in to having component list.
      *
      * @param string $name
      * @param string $object
@@ -81,7 +79,7 @@ class ComponentGroup implements Renderable {
     }
 
     /**
-     * Add component collection in to having component list
+     * Add component collection in to having component list.
      *
      * @param array $array
      */
@@ -97,6 +95,8 @@ class ComponentGroup implements Renderable {
      */
     public function render()
     {
-        return implode('', array_map(function (Renderable $r) { return $r->render(); }, $this->injected));
+        return implode('', array_map(function (Renderable $r) {
+            return $r->render();
+        }, $this->injected));
     }
 }

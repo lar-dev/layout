@@ -5,7 +5,7 @@ namespace Lar\Layout\Traits;
 use Lar\Layout\Respond;
 
 /**
- * Trait LjsDataAttributes
+ * Trait LjsDataAttributes.
  * @package Lar\Layout\Traits
  */
 trait LjsDataAttributes
@@ -18,17 +18,12 @@ trait LjsDataAttributes
     public function dataClick(string $command = null, $props = [])
     {
         if ($this->hasAttribute('data-click')) {
-
             $respond = $this->getAttribute('data-click');
-        }
-
-        else {
-
+        } else {
             $respond = new Respond();
         }
 
         if ($command) {
-
             $respond->put($command, $props);
         }
 
@@ -45,17 +40,12 @@ trait LjsDataAttributes
     public function dataLoad(string $command = null, $props = [])
     {
         if ($this->hasAttribute('data-load')) {
-
             $respond = $this->getAttribute('data-load');
-        }
-
-        else {
-
+        } else {
             $respond = new Respond();
         }
 
         if ($command) {
-
             $respond->put($command, $props);
         }
 

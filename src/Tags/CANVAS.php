@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class CANVAS extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "canvas";
+    protected $element = 'canvas';
 }

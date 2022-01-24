@@ -5,23 +5,24 @@ namespace Lar\Layout\Abstracts;
 use Lar\Developer\Core\Traits\Eventable;
 use Lar\Layout\Core\ComponentStatic;
 use Lar\Layout\Tags\INPUT;
+use Lar\Layout\Traits\AlpineInjectionTrait;
 use Lar\Layout\Traits\DataTrait;
 use Lar\Layout\Traits\LjsDataAttributes;
 use Lar\Tagable\Core\HTML5Library;
 use Lar\Tagable\Tag;
 
 /**
- * Class Component
+ * Class Component.
  * @package Lar\Layout\Abstracts
  */
 class Component extends ComponentStatic
 {
-    use LjsDataAttributes, Eventable, DataTrait;
+    use LjsDataAttributes, Eventable, DataTrait, AlpineInjectionTrait;
 
     /**
      * @var Component
      */
-    static $last_component;
+    public static $last_component;
 
     /**
      * @var array
@@ -45,45 +46,38 @@ class Component extends ComponentStatic
         parent::__construct($params);
 
         foreach ($this->apply as $item) {
-
             if (is_string($item)) {
-
                 embedded_call([$this, $item]);
-            }
-
-            else if (is_embedded_call($item)) {
-
+            } elseif (is_embedded_call($item)) {
                 embedded_call($item);
             }
         }
     }
 
     /**
-     * Add hiddens inputs
+     * Add hiddens inputs.
      *
      * @param array $hidden_datas
      */
     public function hiddens(array $hidden_datas)
     {
         foreach ($hidden_datas as $name => $value) {
-
             $this->appEnd(INPUT::create()->hidden($name, $value));
         }
     }
 
     /**
-     * Make data events
+     * Make data events.
      */
-    protected function makeDataEvents () {
-
-        if (!$this->only_content) {
-
+    protected function makeDataEvents()
+    {
+        if (! $this->only_content) {
             $this->setDatas($this->data);
         }
     }
 
     /**
-     * Add new child
+     * Add new child.
      *
      * @param string $element
      * @param array $arguments
@@ -92,8 +86,9 @@ class Component extends ComponentStatic
      */
     public function add(string $element, array $arguments = [])
     {
-        if (!$this->isElement())
-            throw new \Exception("Element not initialized! Clall \"initTag\"");
+        if (! $this->isElement()) {
+            throw new \Exception('Element not initialized! Clall "initTag"');
+        }
 
         $class = $this->getClassNameByTag($element);
 
@@ -131,7 +126,6 @@ class Component extends ComponentStatic
         return $newObj;
     }
 
-
     /**
      * @param string $element
      * @param mixed ...$props
@@ -140,7 +134,7 @@ class Component extends ComponentStatic
     public function tag(string $element, ...$props)
     {
         /** @var Component $new */
-        $new = new Component(...$props);
+        $new = new self(...$props);
 
         $new->initTag($element);
 
@@ -150,7 +144,7 @@ class Component extends ComponentStatic
     }
 
     /**
-     * Get class name by tag name
+     * Get class name by tag name.
      *
      * @param string $element
      * @return string
@@ -158,20 +152,21 @@ class Component extends ComponentStatic
     public static function getClassNameByTag(string $element)
     {
         if (isset(HTML5Library::$tags_extends[$element])) {
-
             return HTML5Library::$tags_extends[$element];
         }
 
-        if ($element == 'use')
-            $element = "svg" . $element;
+        if ($element == 'use') {
+            $element = 'svg'.$element;
+        }
 
         if (
             $element == 'object' ||
             $element == 'var'
-        )
-            $element = "tag" . $element;
+        ) {
+            $element = 'tag'.$element;
+        }
 
-        return "Lar\\Layout\\Tags\\" . strtoupper($element);
+        return 'Lar\\Layout\\Tags\\'.strtoupper($element);
     }
 
     /**

@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class H2 extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "h2";
+    protected $element = 'h2';
 }

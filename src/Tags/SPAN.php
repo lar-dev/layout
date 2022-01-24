@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class SPAN extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "span";
+    protected $element = 'span';
 }

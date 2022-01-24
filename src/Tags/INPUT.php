@@ -7,14 +7,14 @@ use Lar\Layout\Abstracts\Component;
 class INPUT extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "input";
+    protected $element = 'input';
 
     /**
-     * Rewrite input to the hidden state
+     * Rewrite input to the hidden state.
      *
      * @param $name
      * @param $value
@@ -32,7 +32,7 @@ class INPUT extends Component
      */
     public function typeButton()
     {
-        $this->setType("button");
+        $this->setType('button');
 
         return $this;
     }
@@ -42,7 +42,7 @@ class INPUT extends Component
      */
     public function typeCheckbox()
     {
-        $this->setType("checkbox");
+        $this->setType('checkbox');
 
         return $this;
     }
@@ -52,7 +52,7 @@ class INPUT extends Component
      */
     public function typeColor()
     {
-        $this->setType("color");
+        $this->setType('color');
 
         return $this;
     }
@@ -62,7 +62,7 @@ class INPUT extends Component
      */
     public function typeDate()
     {
-        $this->setType("date");
+        $this->setType('date');
 
         return $this;
     }
@@ -72,7 +72,7 @@ class INPUT extends Component
      */
     public function typeDatetimeLocal()
     {
-        $this->setType("datetime-local");
+        $this->setType('datetime-local');
 
         return $this;
     }
@@ -82,7 +82,7 @@ class INPUT extends Component
      */
     public function typeEmail()
     {
-        $this->setType("email");
+        $this->setType('email');
 
         return $this;
     }
@@ -92,7 +92,7 @@ class INPUT extends Component
      */
     public function typeFile()
     {
-        $this->setType("file");
+        $this->setType('file');
 
         return $this;
     }
@@ -102,7 +102,7 @@ class INPUT extends Component
      */
     public function typeHidden()
     {
-        $this->setType("hidden");
+        $this->setType('hidden');
 
         return $this;
     }
@@ -112,7 +112,7 @@ class INPUT extends Component
      */
     public function typeImage()
     {
-        $this->setType("image");
+        $this->setType('image');
 
         return $this;
     }
@@ -122,7 +122,7 @@ class INPUT extends Component
      */
     public function typeMonth()
     {
-        $this->setType("month");
+        $this->setType('month');
 
         return $this;
     }
@@ -132,7 +132,7 @@ class INPUT extends Component
      */
     public function typeNumber()
     {
-        $this->setType("number");
+        $this->setType('number');
 
         return $this;
     }
@@ -142,7 +142,7 @@ class INPUT extends Component
      */
     public function typePassword()
     {
-        $this->setType("password");
+        $this->setType('password');
 
         return $this;
     }
@@ -152,7 +152,7 @@ class INPUT extends Component
      */
     public function typeRadio()
     {
-        $this->setType("radio");
+        $this->setType('radio');
 
         return $this;
     }
@@ -162,7 +162,7 @@ class INPUT extends Component
      */
     public function typeRange()
     {
-        $this->setType("range");
+        $this->setType('range');
 
         return $this;
     }
@@ -172,7 +172,7 @@ class INPUT extends Component
      */
     public function typeReset()
     {
-        $this->setType("reset");
+        $this->setType('reset');
 
         return $this;
     }
@@ -182,7 +182,7 @@ class INPUT extends Component
      */
     public function typeSearch()
     {
-        $this->setType("search");
+        $this->setType('search');
 
         return $this;
     }
@@ -192,7 +192,7 @@ class INPUT extends Component
      */
     public function typeTel()
     {
-        $this->setType("tel");
+        $this->setType('tel');
 
         return $this;
     }
@@ -202,7 +202,7 @@ class INPUT extends Component
      */
     public function typeText()
     {
-        $this->setType("text");
+        $this->setType('text');
 
         return $this;
     }
@@ -212,7 +212,7 @@ class INPUT extends Component
      */
     public function typeTime()
     {
-        $this->setType("time");
+        $this->setType('time');
 
         return $this;
     }
@@ -222,7 +222,7 @@ class INPUT extends Component
      */
     public function typeUrl()
     {
-        $this->setType("url");
+        $this->setType('url');
 
         return $this;
     }
@@ -232,7 +232,7 @@ class INPUT extends Component
      */
     public function typeWeek()
     {
-        $this->setType("week");
+        $this->setType('week');
 
         return $this;
     }

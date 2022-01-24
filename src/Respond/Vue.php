@@ -3,7 +3,7 @@
 namespace Lar\Layout\Respond;
 
 /**
- * Trait Systems
+ * Trait Systems.
  *
  * @package Lar\Layout\Respond
  */
@@ -14,7 +14,7 @@ trait Vue
      */
     public function vue()
     {
-        $this->put("vue::init");
+        $this->put('vue::init');
 
         return $this;
     }

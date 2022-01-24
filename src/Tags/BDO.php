@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class BDO extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "bdo";
+    protected $element = 'bdo';
 }

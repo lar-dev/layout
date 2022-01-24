@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class SUP extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "sup";
+    protected $element = 'sup';
 }

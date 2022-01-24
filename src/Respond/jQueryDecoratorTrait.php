@@ -2,18 +2,15 @@
 
 namespace Lar\Layout\Respond;
 
-use Illuminate\Contracts\Support\Renderable;
-use Lar\Tagable\Tag;
-
 /**
- * Trait jQueryDecoratorTrait
+ * Trait jQueryDecoratorTrait.
  *
  * @package Lar\Layout\Respond
  */
 trait jQueryDecoratorTrait
 {
     /**
-     * New jQuery decorator
+     * New jQuery decorator.
      *
      * @param  string|null  $selector
      * @return \Lar\Layout\Respond\jQuery
@@ -24,7 +21,7 @@ trait jQueryDecoratorTrait
     }
 
     /**
-     * Submit parent form
+     * Submit parent form.
      *
      * @return \Lar\Layout\Respond
      */

@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class PROGRESS extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "progress";
+    protected $element = 'progress';
 }

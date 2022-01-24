@@ -5,7 +5,7 @@ namespace Lar\Layout\Middleware;
 use Closure;
 
 /**
- * Class DomMiddleware
+ * Class DomMiddleware.
  *
  * @package Lar\Layout\Middleware
  */

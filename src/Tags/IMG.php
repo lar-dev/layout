@@ -7,14 +7,14 @@ use Lar\Layout\Abstracts\Component;
 class IMG extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "img";
+    protected $element = 'img';
 
     /**
-     * Set asset src
+     * Set asset src.
      *
      * @param $path
      * @return $this

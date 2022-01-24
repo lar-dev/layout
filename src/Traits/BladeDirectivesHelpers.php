@@ -7,7 +7,7 @@ use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
 
 /**
- * Trait BladeDirectivesHelpers
+ * Trait BladeDirectivesHelpers.
  *
  * @package Lar\Layout\Traits
  */
@@ -21,10 +21,9 @@ trait BladeDirectivesHelpers
      */
     public static function createAttributeWatcher(string $name = null, ...$attributes)
     {
-        $name = $name ? \Str::slug($name, "_") : count(static::$_attr_watchess);
+        $name = $name ? \Str::slug($name, '_') : count(static::$_attr_watchess);
 
         if (isset(static::$_attr_watches[$name])) {
-
             throw new \Exception("[{$name}] Such an identifier of watcher is already exists.");
         }
 
@@ -39,8 +38,8 @@ trait BladeDirectivesHelpers
      */
     public static function createLiveTag($name = null)
     {
-        $name = $name ? \Str::slug($name, "_") : count(static::$_lives);
-        
+        $name = $name ? \Str::slug($name, '_') : count(static::$_lives);
+
         static::$_lives[] = $name;
 
         return "data-live=\"{$name}\"";
@@ -55,14 +54,10 @@ trait BladeDirectivesHelpers
     public static function vueTagOpen(string $component, ...$props)
     {
         if (Tag::$components->has($component)) {
-
             $component = Tag::$components->get($component);
 
             $component = new $component(...$props);
-        }
-
-        else {
-
+        } else {
             $component = (new Vue())->initTag($component)->when($props);
         }
 
@@ -77,12 +72,11 @@ trait BladeDirectivesHelpers
     /**
      * @return string
      */
-    public static function vueTagClose() {
-
+    public static function vueTagClose()
+    {
         $last = \Arr::last(static::$_last_vue_state);
 
         if ($last instanceof Component) {
-
             $return = $last->element_closer();
 
             unset(static::$_last_vue_state[array_key_last(static::$_last_vue_state)]);
@@ -90,6 +84,6 @@ trait BladeDirectivesHelpers
             return $return;
         }
 
-        return "";
+        return '';
     }
 }

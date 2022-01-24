@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class CENTER extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "center";
+    protected $element = 'center';
 }

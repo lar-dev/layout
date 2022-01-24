@@ -10,11 +10,11 @@ class I extends Component
     use FontAwesome;
 
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "i";
+    protected $element = 'i';
 
     /**
      * @param  string  $icon

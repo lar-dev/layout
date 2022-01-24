@@ -5,7 +5,7 @@ namespace Lar\Layout\Interfaces;
 use Illuminate\Http\Request;
 
 /**
- * Interface GuardExecutor
+ * Interface GuardExecutor.
  *
  * @package Lar\Layout\Intefaces
  */

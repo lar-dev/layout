@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class VIDEO extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "video";
+    protected $element = 'video';
 }

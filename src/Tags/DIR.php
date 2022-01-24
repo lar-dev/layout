@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class DIR extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "dir";
+    protected $element = 'dir';
 }

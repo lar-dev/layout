@@ -7,14 +7,14 @@ use Lar\Layout\Abstracts\Component;
 class A extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "a";
+    protected $element = 'a';
 
     /**
-     * Set href by rout name
+     * Set href by rout name.
      *
      * @param $route
      * @param array $params
@@ -28,7 +28,7 @@ class A extends Component
     }
 
     /**
-     * Set href asset
+     * Set href asset.
      *
      * @param string $url
      * @return $this|Component
@@ -41,36 +41,36 @@ class A extends Component
     }
 
     /**
-     * Set Target blank attribute
+     * Set Target blank attribute.
      *
      * @return $this
      * @throws \Exception
      */
     public function targetBlank()
     {
-        $this->attr("target", "_blank");
+        $this->attr('target', '_blank');
 
         return $this;
     }
 
     /**
-     * Set onclick attribute
+     * Set onclick attribute.
      *
      * @param string $value
      * @return $this|Component
      * @throws \Exception
      */
-    public function setOnclick($value = "")
+    public function setOnclick($value = '')
     {
-        $this->setHref(":js");
+        $this->setHref(':js');
 
-        $this->attr("onclick", $value);
+        $this->attr('onclick', $value);
 
         return $this;
     }
 
     /**
-     * Set no Pjax state from "a" tag
+     * Set no Pjax state from "a" tag.
      *
      * @return $this
      * @throws \Exception
@@ -83,13 +83,13 @@ class A extends Component
     }
 
     /**
-     * Set empty click
+     * Set empty click.
      *
      * @return $this
      */
     public function emptyClick()
     {
-        $this->setHref(":js");
+        $this->setHref(':js');
 
         return $this;
     }

@@ -6,11 +6,12 @@ use Illuminate\Contracts\Support\Renderable;
 use Lar\Layout\Tags\SCRIPT;
 
 /**
- * Class LjsScripts
+ * Class LjsScripts.
  * @package Lar\Layout\Components
  */
 class LjsScripts implements Renderable
 {
+    protected $props;
     /**
      * @var array
      */
@@ -21,9 +22,10 @@ class LjsScripts implements Renderable
      *
      * @param  array  $plugins
      */
-    public function __construct(array $plugins = [])
+    public function __construct(array $plugins = [], ...$props)
     {
         $this->plugins = $plugins;
+        $this->props = $props;
     }
 
     /**
@@ -31,36 +33,37 @@ class LjsScripts implements Renderable
      */
     public function render()
     {
-        $js_path = \App::isLocal() && !is_link(base_path('lar')) ? 'js.dev' : 'js';
+        $js_path = \App::isLocal() && ! is_link(base_path('lar')) ? 'js.dev' : 'js';
 
         if (\App::isLocal() && request()->has('dev')) {
-
             $js_path = 'js.dev';
         }
 
         $scripts = [
-            SCRIPT::create()->setType('text/javascript')->asset("ljs/{$js_path}/ljs.js")->render()
+            SCRIPT::create(...$this->props)->setType('text/javascript')->asset("ljs/{$js_path}/ljs.js")->render(),
         ];
 
         $first = [];
 
         foreach ($this->plugins as $plugin) {
+            $scr = SCRIPT::create(...$this->props)->setType('text/javascript')->asset("ljs/{$js_path}/plugins/{$plugin}.js")->render();
 
-            $scr = SCRIPT::create()->setType('text/javascript')->asset("ljs/{$js_path}/plugins/{$plugin}.js")->render();
-
-            if ($plugin === 'jquery') $first[] = $scr;
-            else $scripts[] = $scr;
+            if ($plugin === 'jquery') {
+                $first[] = $scr;
+            } else {
+                $scripts[] = $scr;
+            }
         }
 
-        return implode("", array_merge($first, $scripts));
+        return implode('', array_merge($first, $scripts));
     }
 
     /**
      * @param  array  $plugins
      * @return string
      */
-    public static function create(array $plugins = [])
+    public static function create(array $plugins = [], ...$props)
     {
-        return (new static($plugins))->render();
+        return (new static($plugins, ...$props))->render();
     }
 }

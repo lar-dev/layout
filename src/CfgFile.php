@@ -3,28 +3,28 @@
 namespace Lar\Layout;
 
 /**
- * Class CfgFile
+ * Class CfgFile.
  *
  * @package Lar\Layout
  */
 class CfgFile
 {
     /**
-     * File path
+     * File path.
      *
      * @var string
      */
     protected $file;
 
     /**
-     * File data
+     * File data.
      *
      * @var array
      */
     protected $file_data = [];
 
     /**
-     * Get file data
+     * Get file data.
      *
      * @return array
      */
@@ -40,14 +40,13 @@ class CfgFile
      */
     public function __construct($file = null)
     {
-        if($file) {
-
+        if ($file) {
             $this->file($file);
         }
     }
 
     /**
-     * Check, has data or not
+     * Check, has data or not.
      *
      * @param $name
      * @return bool
@@ -60,7 +59,7 @@ class CfgFile
     }
 
     /**
-     * Add file in to work
+     * Add file in to work.
      *
      * @param $path
      * @return $this
@@ -75,7 +74,7 @@ class CfgFile
     }
 
     /**
-     * Write or rewrite data in to config list
+     * Write or rewrite data in to config list.
      *
      * @param $name
      * @param null $value
@@ -86,11 +85,8 @@ class CfgFile
         $this->readFromFile();
 
         if (is_string($name)) {
-
             $this->file_data[$name] = $value;
-
-        } else if (is_array($name)) {
-
+        } elseif (is_array($name)) {
             $this->file_data = array_merge($this->file_data, $name);
         }
 
@@ -107,15 +103,10 @@ class CfgFile
     public function writeIfUnique(string $name, $value = null)
     {
         if (isset($this->file_data[$name])) {
-
             if (json_encode($this->file_data[$name]) !== json_encode($value)) {
-
                 $this->write($name, $value);
             }
-        }
-
-        else {
-
+        } else {
             $this->write($name, $value);
         }
 
@@ -133,7 +124,6 @@ class CfgFile
         $this->readFromFile();
 
         if (is_array($this->file_data)) {
-
             $this->file_data[$group][$key] = $value;
         }
 
@@ -158,7 +148,7 @@ class CfgFile
     }
 
     /**
-     * Remove data from config list
+     * Remove data from config list.
      *
      * @param $name
      * @return $this
@@ -167,8 +157,7 @@ class CfgFile
     {
         $this->readFromFile();
 
-        if (!is_array($name)) {
-
+        if (! is_array($name)) {
             $name = func_get_args();
         }
 
@@ -180,7 +169,7 @@ class CfgFile
     }
 
     /**
-     * Write all data in to file
+     * Write all data in to file.
      *
      * @return $this
      */
@@ -192,18 +181,16 @@ class CfgFile
     }
 
     /**
-     * Read or reread from file
+     * Read or reread from file.
      *
      * @return $this
      */
     protected function readFromFile()
     {
         if (is_file($this->file)) {
-
             $file_data = include $this->file;
 
             if (is_array($file_data)) {
-
                 $this->file_data = $file_data;
             }
         }
@@ -212,13 +199,13 @@ class CfgFile
     }
 
     /**
-     * Open CFG file
+     * Open CFG file.
      *
      * @param $file
      * @return CfgFile
      */
-    static function open ($file) {
-
+    public static function open($file)
+    {
         return (new static())->file($file);
     }
 }

@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class FIELDSET extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "fieldset";
+    protected $element = 'fieldset';
 }

@@ -7,7 +7,7 @@ use Lar\Tagable\Tag;
 final class Dom
 {
     /**
-     * Collection recursive builder and imploding
+     * Collection recursive builder and imploding.
      *
      * @return string
      * @throws \Exception
@@ -16,33 +16,15 @@ final class Dom
     {
         $html = Tag::$doctype;
 
-        $closes = [];
-
         if (Tag::$collect) {
-
-            foreach (Tag::$collect as $key => $item) {
-
-                /** @var Tag $item */
-                if (!$item->isRendered()) {
-
-                    $html .= $item->render();
-
-                    if ($item instanceof Tag && $item->opened_mode)
-                        $closes[] = $item->getElement();
-                }
-            }
-
-            foreach (array_reverse($closes) as $close)
-            {
-                $html .= Tag::$lecoe.$close.Tag::$rces;
-            }
+            $html .= Tag::$collect->first()->render();
         }
 
         return $html;
     }
 
     /**
-     * Tag storage
+     * Tag storage.
      *
      * @return \Illuminate\Support\Collection
      */

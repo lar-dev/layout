@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class OPTGROUP extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "optgroup";
+    protected $element = 'optgroup';
 }

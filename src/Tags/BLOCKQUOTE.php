@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class BLOCKQUOTE extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "blockquote";
+    protected $element = 'blockquote';
 }

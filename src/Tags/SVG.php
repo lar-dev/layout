@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class SVG extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "svg";
+    protected $element = 'svg';
 }

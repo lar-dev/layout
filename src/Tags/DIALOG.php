@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class DIALOG extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "dialog";
+    protected $element = 'dialog';
 }

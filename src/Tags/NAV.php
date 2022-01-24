@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class NAV extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "nav";
+    protected $element = 'nav';
 }

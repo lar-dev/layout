@@ -11,7 +11,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class ContentableCommand
+ * Class ContentableCommand.
  *
  * @package Lar\Layout\Commands
  */
@@ -51,12 +51,10 @@ class MakeVue extends Command
         $dir = app_path('Components/Vue');
         $dir_resource = $d_res = $this->rp('/components');
 
-        $namespace = "App\\Components\\Vue";
+        $namespace = 'App\\Components\\Vue';
 
         foreach ($this->component_segments() as $component_segment) {
-
             if ($component_segment != $this->component_name()) {
-
                 $normal_part = ucfirst(Str::camel(Str::snake($component_segment)));
 
                 $namespace .= "\\{$normal_part}";
@@ -70,26 +68,25 @@ class MakeVue extends Command
         $class_namespace = "{$namespace}\\{$this->class_name()}";
 
         if (class_exists($class_namespace)) {
+            $this->error("The class [{$class_namespace}] already exists!");
 
-            $this->error("The class [{$class_namespace}] already exists!"); return ;
+            return;
         }
 
-        $file = $dir . "/" . $this->class_name() . ".php";
+        $file = $dir.'/'.$this->class_name().'.php';
 
-        if (!is_dir($dir_resource)) {
-
+        if (! is_dir($dir_resource)) {
             mkdir($dir_resource, 0777, 1);
         }
 
         if ($this->option('global')) {
-
-            if (!is_dir($dir)) {
-
+            if (! is_dir($dir)) {
                 mkdir($dir, 0777, 1);
             }
 
             if (is_file($file)) {
                 $this->error("The vue [{$this->class_name()}] already exists!");
+
                 return;
             }
 
@@ -105,11 +102,11 @@ class MakeVue extends Command
 
                 CfgFile::open(config_path('components.php'))->write($this->name(), $class_namespace);
 
-                $this->info("Config [config/components.php] updated!");
+                $this->info('Config [config/components.php] updated!');
             }
         }
 
-        $file_resource = $dir_resource . "/" . $this->class_name() . ".vue";
+        $file_resource = $dir_resource.'/'.$this->class_name().'.vue';
         $inner_path = str_replace($d_res.'/', '', $file_resource);
 
         $name = $this->argument('name');
@@ -137,27 +134,22 @@ class MakeVue extends Command
 </script>
 HTML;
 
-        if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
-
+        if (! is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
             $this->info("Vue component [{$file_resource}] created!");
         }
 
         if ($this->option('global')) {
-
             (new LarJsonResource())->addVueComponent($name, $inner_path);
 
             $this->call_composer('dump-autoload');
-        }
-
-        else if (is_file($this->rp('/components/Components.js'))) {
-
+        } elseif (is_file($this->rp('/components/Components.js'))) {
             $file = $this->rp('/components/Components.js');
             $data = explode("\n", file_get_contents($file));
             $d_count = count($data);
-            for ($i=1;$i<=$d_count;$i++) {
-                $line = $data[$d_count-$i];
+            for ($i = 1; $i <= $d_count; $i++) {
+                $line = $data[$d_count - $i];
                 if (trim($line) == '}') {
-                    $data[$d_count-$i] = "    Vue.component('$name', require('./{$inner_path}').default);\n}";
+                    $data[$d_count - $i] = "    Vue.component('$name', require('./{$inner_path}').default);\n}";
                     break;
                 }
             }
@@ -167,7 +159,6 @@ HTML;
 
         $this->info("Done! Vue component [{$this->class_name()}] created!");
 
-        return ;
     }
 
     /**
@@ -177,19 +168,16 @@ HTML;
     protected function call_composer(string $command)
     {
         if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-
             $this->comment("> Use \"composer {$command}\" for finish!");
-
         } else {
-
-            exec('cd ' . base_path() . " && composer {$command}");
+            exec('cd '.base_path()." && composer {$command}");
         }
 
         return null;
     }
 
     /**
-     * Get class name
+     * Get class name.
      *
      * @return string|string[]|null
      */
@@ -201,8 +189,8 @@ HTML;
     /**
      * @return string
      */
-    protected function name () {
-
+    protected function name()
+    {
         return Str::slug(implode('_', $this->component_segments()), '_');
     }
 
@@ -219,7 +207,7 @@ HTML;
      */
     protected function component_segments()
     {
-        return array_map("Str::snake", explode("/", $this->input->getArgument('vue_name')));
+        return array_map('Str::snake', explode('/', $this->input->getArgument('vue_name')));
     }
 
     /**
@@ -252,12 +240,12 @@ HTML;
      * @param  string  $path
      * @return string
      */
-    protected function rp(string $path = "")
+    protected function rp(string $path = '')
     {
         if ($this->option('dir')) {
-
-            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
+            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
         }
-        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
+
+        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

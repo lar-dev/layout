@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class NOSCRIPT extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "noscript";
+    protected $element = 'noscript';
 }

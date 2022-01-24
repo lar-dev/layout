@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
 /**
- * Class MakeLjsProject
+ * Class MakeLjsProject.
  * @package Lar\Layout\Commands
  */
 class MakeLjsProject extends Command
@@ -46,11 +46,9 @@ class MakeLjsProject extends Command
         $dirs = ['', '/components', '/executors', '/watchers'];
 
         foreach ($dirs as $dir) {
-
             $dir = $this->rp($dir);
 
-            if (!is_dir($dir)) {
-
+            if (! is_dir($dir)) {
                 mkdir($dir, 0777, true);
                 $this->info("Folder [{$dir}] created!");
             }
@@ -63,32 +61,30 @@ class MakeLjsProject extends Command
             '/lar_methods.js' => 'lar_methods',
             '/lar_resources.json' => 'lar_resources',
             '/lar_resource.js' => 'lar_resource',
-            '/app.js' => null
+            '/app.js' => null,
         ];
 
         foreach ($files as $path => $stub) {
-
             $path = $this->rp($path);
 
-            if (!is_file($path)) {
-                file_put_contents($path, $stub ? file_get_contents(__DIR__ . "/Stumbs/{$stub}") : '');
+            if (! is_file($path)) {
+                file_put_contents($path, $stub ? file_get_contents(__DIR__."/Stumbs/{$stub}") : '');
                 $this->info("Script file [{$path}] created!");
             }
         }
 
         $file_data = file_get_contents($this->rp('/app.js'));
 
-        if (!preg_match('/require\s*\(.*lar_resource.*\)/', $file_data)) {
-
+        if (! preg_match('/require\s*\(.*lar_resource.*\)/', $file_data)) {
             file_put_contents(
                 $this->rp('/app.js'),
-                $file_data . "\nrequire('./lar_resource.js')"
+                $file_data."\nrequire('./lar_resource.js')"
             );
 
-            $this->info(" > Required lar in you [/app.js]!");
+            $this->info(' > Required lar in you [/app.js]!');
         }
 
-        $this->info("Lar resources file [/lar_resource.js] created!");
+        $this->info('Lar resources file [/lar_resource.js] created!');
     }
 
     /**
@@ -107,12 +103,12 @@ class MakeLjsProject extends Command
      * @param  string  $path
      * @return string
      */
-    protected function rp(string $path = "")
+    protected function rp(string $path = '')
     {
         if ($this->option('dir')) {
-
-            return "/". trim(base_path($this->option('dir') . '/' . trim($path, '/')), '/');
+            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
         }
-        return "/". trim(resource_path(config('layout.resource_js_path', 'js') . '/' . trim($path, '/')), '/');
+
+        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

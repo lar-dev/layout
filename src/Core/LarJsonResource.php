@@ -5,11 +5,11 @@ namespace Lar\Layout\Core;
 use Composer\Json\JsonFormatter;
 
 /**
- * Class LarJsonResource
+ * Class LarJsonResource.
  * @package Lar\Developer\Core
  */
-class LarJsonResource {
-
+class LarJsonResource
+{
     /**
      * @var string
      */
@@ -61,7 +61,6 @@ class LarJsonResource {
         $file_data = $this->resource;
 
         if (is_file($file_data)) {
-
             $file_data = file_get_contents($file_data);
 
             $file_data = json_decode($file_data, 1);

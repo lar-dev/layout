@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class TEXTAREA extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "textarea";
+    protected $element = 'textarea';
 }

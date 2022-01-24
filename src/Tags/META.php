@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class META extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "meta";
+    protected $element = 'meta';
 }

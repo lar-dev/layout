@@ -5,7 +5,7 @@ namespace Lar\Layout\Core;
 use Lar\Tagable\Tag;
 
 /**
- * Class AHtmlCompiler
+ * Class AHtmlCompiler.
  *
  * @package Lar\Layout\Core
  */
@@ -19,7 +19,7 @@ class AHtmlCompiler
     /**
      * @var string
      */
-    private $build = "";
+    private $build = '';
 
     /**
      * AHtmlCompiler constructor.
@@ -48,101 +48,63 @@ class AHtmlCompiler
      */
     private function build($data, int $level = 0)
     {
-        $return = "";
+        $return = '';
 
         if (is_array($data)) {
-
             foreach ($data as $key => $value) {
-
                 if (is_int($key)) {
-
                     $return .= $value;
-                }
-
-                else if (!Tag::hasComponent($key)) {
-
+                } elseif (! Tag::hasComponent($key)) {
                     $close = is_tag_closing($key);
 
                     if (is_string($value)) {
-
                         $return .= $close ? "<{$key}>" : "<{$key}/>";
 
                         $return .= $value;
-                    }
-
-                    else if (is_array($value)) {
-
-                        $v_content = "";
+                    } elseif (is_array($value)) {
+                        $v_content = '';
                         $v_attrs = [];
 
                         foreach ($value as $v_key => $v_value) {
-
                             if (is_numeric($v_key) && is_array($v_value)) {
-
-                                $v_content .= $this->build($v_value, $level+1);
-                            }
-
-                            else if (is_numeric($v_key)) {
-
+                                $v_content .= $this->build($v_value, $level + 1);
+                            } elseif (is_numeric($v_key)) {
                                 if (preg_match('/^\.([a-zA-Z0-9\_\-]+)/', $v_value, $m)) {
-
                                     $this->addVarToArr($v_attrs, 'class', $m[1], true);
-                                }
-
-                                else if (preg_match('/^\#([a-zA-Z0-9\_\-]+)/', $v_value, $m)) {
-
+                                } elseif (preg_match('/^\#([a-zA-Z0-9\_\-]+)/', $v_value, $m)) {
                                     $this->addVarToArr($v_attrs, 'id', $m[1]);
-                                }
-
-                                else {
-
+                                } else {
                                     $this->addVarToArr($v_attrs, $v_value);
                                 }
-                            }
-
-                            else if ($v_key === "data" && is_array($v_value)) {
-
+                            } elseif ($v_key === 'data' && is_array($v_value)) {
                                 foreach ($v_value as $k=>$i) {
-
                                     $this->addVarToArr($v_attrs, "data-{$k}", $i);
                                 }
-                            }
-
-                            else {
-
+                            } else {
                                 $this->addVarToArr($v_attrs, $v_key, $v_value);
                             }
                         }
 
-                        $p = count($v_attrs) ? " ":"";
+                        $p = count($v_attrs) ? ' ' : '';
 
                         $v_attrs2 = [];
 
                         foreach ($v_attrs as $v_a_k => $v_attr) {
-
                             if (is_string($v_attr) || is_numeric($v_attr)) {
-
                                 $v_attrs2[] = "$v_a_k=\"{$v_attr}\"";
-                            }
-
-                            else if (is_null($v_attr)) {
-
+                            } elseif (is_null($v_attr)) {
                                 $v_attrs2[] = $v_a_k;
-                            }
-
-                            else if (is_array($v_attr)){
-
+                            } elseif (is_array($v_attr)) {
                                 $v_attrs2[] = "$v_a_k='".json_encode($v_attr)."'";
                             }
                         }
 
-                        $v_attrs = implode(" ", $v_attrs2);
+                        $v_attrs = implode(' ', $v_attrs2);
 
                         $return .= $close ? "<{$key}{$p}{$v_attrs}>" : "<{$key}{$p}{$v_attrs}/>";
 
                         $return .= $v_content;
                     }
-
 
                     if ($close) {
                         $return .= "</{$key}>";
@@ -164,12 +126,8 @@ class AHtmlCompiler
     protected function addVarToArr(&$arr, $name, $value = null, bool $append = false)
     {
         if (isset($arr[$name]) && $append) {
-
-            $arr[$name] .= " " . $value;
-        }
-
-        else {
-
+            $arr[$name] .= ' '.$value;
+        } else {
             $arr[$name] = $value;
         }
     }

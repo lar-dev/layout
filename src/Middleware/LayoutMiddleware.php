@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Str;
 use Lar\Layout\Abstracts\LayoutComponent;
-use Lar\Layout\Core\LConfigs;
 use Lar\Layout\Layout;
 
 class LayoutMiddleware
@@ -14,22 +13,20 @@ class LayoutMiddleware
     /**
      * @var array
      */
-    static protected $on_load = [];
+    protected static $on_load = [];
 
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
-     * @param null $name
-     * @param array $related
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \Closure  $next
+     * @param  string  $name
      * @return mixed
      * @throws \Exception
      */
-    public function handle($request, Closure $next, $name = "")
+    public function handle($request, Closure $next, $name = '')
     {
-        if ($request->ajax() && !$request->pjax() || !$request->isMethod("get")) {
-
+        if ($request->ajax() && ! $request->pjax() || ! $request->isMethod('get')) {
             return $next($request);
         }
 
@@ -37,9 +34,8 @@ class LayoutMiddleware
 
         $component = static::makeLayoutComponent($name);
 
-        if (!$component instanceof LayoutComponent) {
-
-            throw new \Exception("The layout mast be a [LayoutComponent]!");
+        if (! $component instanceof LayoutComponent) {
+            throw new \Exception('The layout mast be a [LayoutComponent]!');
         }
 
         Layout::$selected_layout = $component;
@@ -49,9 +45,8 @@ class LayoutMiddleware
 
         $component->setInContent($response->getContent());
 
-        if (!$response->exception && !$response instanceof RedirectResponse) {
-
-            $response->setContent("");
+        if (! $response->exception && ! $response instanceof RedirectResponse) {
+            $response->setContent('');
         }
 
         return $response;
@@ -62,7 +57,7 @@ class LayoutMiddleware
      * @return LayoutComponent|mixed
      * @throws \Exception
      */
-    public static function makeLayoutComponent(string $name = "")
+    public static function makeLayoutComponent(string $name = '')
     {
         $component = static::getLayoutComponent($name);
 
@@ -74,25 +69,15 @@ class LayoutMiddleware
      * @return string
      * @throws \Exception
      */
-    public static function getLayoutComponent(string $name = "")
+    public static function getLayoutComponent(string $name = '')
     {
         if (Layout::$collect && Layout::$collect->has($name)) {
-
             return Layout::$collect->get($name);
-        }
-
-        else if (!empty($name) && class_exists($class = "App\\Layouts\\" . ucfirst(Str::camel(Str::slug($name, '_'))))) {
-
+        } elseif (! empty($name) && class_exists($class = 'App\\Layouts\\'.ucfirst(Str::camel(Str::slug($name, '_'))))) {
             return $class;
-        }
-
-        else if (class_exists($name)) {
-
+        } elseif (class_exists($name)) {
             return $name;
-        }
-
-        else {
-
+        } else {
             return LayoutComponent::class;
         }
     }
@@ -105,6 +90,7 @@ class LayoutMiddleware
         foreach (static::$on_load as $item) {
             call_user_func($item, $this);
         }
+
         return $this;
     }
 
@@ -114,7 +100,6 @@ class LayoutMiddleware
     public static function onLoad($call)
     {
         if (is_embedded_call($call)) {
-
             static::$on_load[] = $call;
         }
     }

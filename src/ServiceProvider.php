@@ -17,9 +17,8 @@ use Lar\Layout\Middleware\LanguageMiddleware;
 use Lar\Layout\Middleware\LayoutMiddleware;
 use Lar\Tagable\Tag;
 
-
 /**
- * Class ServiceProvider
+ * Class ServiceProvider.
  *
  * @package Lar\Layout
  */
@@ -36,7 +35,7 @@ class ServiceProvider extends ServiceProviderIlluminate
         JaxList::class,
         MakeLayout::class,
         MakeVue::class,
-        MakeJSWatcher::class
+        MakeJSWatcher::class,
     ];
 
     /**
@@ -45,10 +44,10 @@ class ServiceProvider extends ServiceProviderIlluminate
      * @var array
      */
     protected $routeMiddleware = [
-        "dom" => DomMiddleware::class,
-        "layout" => LayoutMiddleware::class,
-        "lang" => LanguageMiddleware::class,
-        "cors" => CorsMiddleware::class
+        'dom' => DomMiddleware::class,
+        'layout' => LayoutMiddleware::class,
+        'lang' => LanguageMiddleware::class,
+        'cors' => CorsMiddleware::class,
     ];
 
     /**
@@ -60,7 +59,6 @@ class ServiceProvider extends ServiceProviderIlluminate
     public function boot()
     {
         if ($this->app->runningInConsole()) {
-
             $this->publishes([__DIR__.'/../config' => config_path()], 'lar-layout-config');
         }
 
@@ -69,7 +67,6 @@ class ServiceProvider extends ServiceProviderIlluminate
         new BladeDirectives();
 
         if (Layout::$lang_select) {
-
             \App::setLocale(Layout::$lang_select);
         }
     }
@@ -86,7 +83,6 @@ class ServiceProvider extends ServiceProviderIlluminate
         );
 
         if (config('layout.lang_mode', false)) {
-
             $this->makeLang();
         }
 
@@ -98,14 +94,13 @@ class ServiceProvider extends ServiceProviderIlluminate
     }
 
     /**
-     * Make language date
+     * Make language date.
      */
     protected function makeLang()
     {
         $segment = request()->segment(1);
 
         if ($segment && array_search($segment, config('layout.languages')) !== false) {
-
             \Cookie::queue(cookie()->forever('lang', $segment));
             Layout::$lang_select = $segment;
         }
@@ -124,4 +119,3 @@ class ServiceProvider extends ServiceProviderIlluminate
         }
     }
 }
-

@@ -9,14 +9,14 @@ use Lar\Layout\Abstracts\Component;
 class SELECT extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "select";
+    protected $element = 'select';
 
     /**
-     * Add options from array
+     * Add options from array.
      *
      * @param array $data
      * @param null $select
@@ -25,32 +25,22 @@ class SELECT extends Component
     public function options($data = [], $select = null)
     {
         if ($select instanceof Collection) {
-
             $select = $select->pluck('id');
         }
 
         if ($select instanceof Arrayable) {
-
             $select = $select->toArray();
         }
 
         foreach ($data as $key => $val) {
-
             $last = $this->option($val)
-                ->setValue((string)$key);
+                ->setValue((string) $key);
 
             if (is_array($select) && (array_search($key, $select) !== false)) {
-
                 $last->setSelected();
-            }
-
-            else if ($this->paramEq($select) === $this->paramEq($key)) {
-
+            } elseif ($this->paramEq($select) === $this->paramEq($key)) {
                 $last->setSelected();
-            }
-
-            else if ($this->paramEq($this->getValue()) === $this->paramEq($key)) {
-
+            } elseif ($this->paramEq($this->getValue()) === $this->paramEq($key)) {
                 $last->setSelected();
             }
         }
@@ -64,7 +54,10 @@ class SELECT extends Component
      */
     protected function paramEq($value)
     {
-        if(is_array($value)) $value = json_encode($value);
-        return (string)$value;
+        if (is_array($value)) {
+            $value = json_encode($value);
+        }
+
+        return (string) $value;
     }
 }

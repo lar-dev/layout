@@ -3,7 +3,7 @@
 namespace Lar\Layout\Respond;
 
 /**
- * Trait Systems
+ * Trait Systems.
  *
  * @package Lar\Layout\Respond
  */

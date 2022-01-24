@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class FOOTER extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "footer";
+    protected $element = 'footer';
 }

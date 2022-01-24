@@ -5,7 +5,7 @@ namespace Lar\Layout\Components;
 use Illuminate\Contracts\Support\Renderable;
 
 /**
- * Class LjsScripts
+ * Class LjsScripts.
  * @package Lar\Layout\Components
  */
 class LjsStyles implements Renderable
@@ -31,15 +31,14 @@ class LjsStyles implements Renderable
     public function render()
     {
         $links = [
-            CSS::create()->asset("ljs/css/ljs.css")->render()
+            CSS::create()->asset('ljs/css/ljs.css')->render(),
         ];
 
         foreach ($this->plugins as $plugin) {
-
             $links[] = CSS::create()->asset("ljs/css/plugins/{$plugin}.css")->render();
         }
 
-        return implode("", $links);
+        return implode('', $links);
     }
 
     /**

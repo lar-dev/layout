@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class CAPTION extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "caption";
+    protected $element = 'caption';
 }

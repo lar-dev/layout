@@ -8,7 +8,7 @@ use Lar\Layout\Abstracts\Component;
 use Lar\Layout\CfgFile;
 
 /**
- * Class MakeComponent
+ * Class MakeComponent.
  *
  * @package Lar\Layout\Commands
  */
@@ -46,14 +46,12 @@ class MakeComponent extends Command
      */
     public function handle()
     {
-        $dir = base_path($this->option("dir") ? $this->option("dir") : 'app/Components');
+        $dir = base_path($this->option('dir') ? $this->option('dir') : 'app/Components');
 
-        $namespace = "App\\Components";
+        $namespace = 'App\\Components';
 
         foreach ($this->component_segments() as $component_segment) {
-
             if ($component_segment != $this->component_name()) {
-
                 $normal_part = ucfirst(Str::camel(Str::snake($component_segment)));
 
                 $namespace .= "\\{$normal_part}";
@@ -62,18 +60,17 @@ class MakeComponent extends Command
             }
         }
 
-        $file = $dir . "/" . $this->class_name() . ".php";
+        $file = $dir.'/'.$this->class_name().'.php';
 
         $class_namespace = "{$namespace}\\{$this->class_name()}";
 
-        if (!is_dir($dir)) {
-
+        if (! is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 
         if (is_file($file)) {
-
-            $this->error("The component [{$this->class_name()}] already exists!"); return ;
+            $this->error("The component [{$this->class_name()}] already exists!");
+            return;
         }
 
         $entity = class_entity($this->class_name());
@@ -93,23 +90,21 @@ class MakeComponent extends Command
             ->line('$this->when($params);');
 
         if (file_put_contents($file, $entity->render())) {
-
             CfgFile::open(config_path('components.php'))->write($this->name(), $class_namespace);
 
-            $this->info("Config [config/components.php] updated!");
+            $this->info('Config [config/components.php] updated!');
 
             $this->info("Component [{$file}] created!");
 
-            $this->info("Dump autoload...");
+            $this->info('Dump autoload...');
 
             $this->call('lar:dump');
         }
 
-        return ;
     }
 
     /**
-     * Get class name
+     * Get class name.
      *
      * @return string|string[]|null
      */
@@ -121,8 +116,8 @@ class MakeComponent extends Command
     /**
      * @return string
      */
-    protected function name () {
-
+    protected function name()
+    {
         return Str::slug($this->component_name(), '_');
     }
 
@@ -139,6 +134,6 @@ class MakeComponent extends Command
      */
     protected function component_segments()
     {
-        return array_map("Str::snake", explode("/", $this->input->getArgument('component_name')));
+        return array_map('Str::snake', explode('/', $this->input->getArgument('component_name')));
     }
 }

@@ -7,9 +7,9 @@ use Lar\Layout\Abstracts\Component;
 class DFN extends Component
 {
     /**
-     * Tag element
+     * Tag element.
      *
      * @var string
      */
-    protected $element = "dfn";
+    protected $element = 'dfn';
 }

@@ -3,27 +3,27 @@
 namespace Lar\Layout\Respond;
 
 /**
- * Trait DocTrait
+ * Trait DocTrait.
  *
  * @package Lar\Layout\Respond
  */
 trait DocTrait
 {
     /**
-     * doc::title
+     * doc::title.
      *
      * @param string $title
      * @return $this
      */
     public function title(string $title)
     {
-        $this->put("doc::title", $title);
+        $this->put('doc::title', $title);
 
         return $this;
     }
 
     /**
-     * doc::redirect
+     * doc::redirect.
      *
      * @param  string  $url
      * @param  array  $parameters
@@ -33,17 +33,16 @@ trait DocTrait
     public function redirect(string $url, $parameters = [], $absolute = true)
     {
         if (\Route::has($url)) {
-
             $url = route($url, $parameters, $absolute);
         }
 
-        $this->put("doc::redirect", $url);
+        $this->put('doc::redirect', $url);
 
         return $this;
     }
 
     /**
-     * doc::location
+     * doc::location.
      *
      * @param  string  $url
      * @param  array  $params
@@ -51,13 +50,13 @@ trait DocTrait
      */
     public function location(string $url, array $params = [])
     {
-        $this->put("doc::location", $url, json_encode($params));
+        $this->put('doc::location', $url, json_encode($params));
 
         return $this;
     }
 
     /**
-     * doc::location
+     * doc::location.
      *
      * @param string $route
      * @param array $parameters
@@ -66,32 +65,32 @@ trait DocTrait
      */
     public function route(string $route, $parameters = [], $absolute = true)
     {
-        $this->put("doc::location", route($route, $parameters, $absolute));
+        $this->put('doc::location', route($route, $parameters, $absolute));
 
         return $this;
     }
 
     /**
-     * History back
+     * History back.
      *
      * @return $this
      */
     public function back()
     {
-        $this->put("doc::back");
+        $this->put('doc::back');
 
         return $this;
     }
 
     /**
-     * doc::reload
+     * doc::reload.
      *
      * @param string $selector
      * @return $this
      */
     public function reload()
     {
-        $this->put("doc::reload");
+        $this->put('doc::reload');
 
         return $this;
     }
@@ -103,7 +102,7 @@ trait DocTrait
      */
     public function scrollTo($element = 'body', $ms = 1000)
     {
-        $this->put("doc::scrollTo", [$element, $ms]);
+        $this->put('doc::scrollTo', [$element, $ms]);
 
         return $this;
     }
@@ -113,7 +112,7 @@ trait DocTrait
      */
     public function preventDefault()
     {
-        $this->put("doc::preventDefault");
+        $this->put('doc::preventDefault');
 
         return $this;
     }
@@ -124,7 +123,7 @@ trait DocTrait
      */
     public function dispatch_event($event)
     {
-        $this->put("doc::dispatch_event", $event);
+        $this->put('doc::dispatch_event', $event);
 
         return $this;
     }
