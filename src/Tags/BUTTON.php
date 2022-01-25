@@ -30,7 +30,7 @@ class BUTTON extends Component
      * @param  string|null  $method
      * @return $this
      */
-    public function toPageMethod(string $method = null)
+    public function queryMethod(string $method = null)
     {
         if ($method) {
             $this->location(['method' => $method]);
@@ -38,6 +38,28 @@ class BUTTON extends Component
             $this->location([], ['method']);
         }
 
+        return $this;
+    }
+
+    /**
+     * @param  string  $name
+     * @param $value
+     * @return $this
+     */
+    public function switchQuery(string $name, $value = 1)
+    {
+        if (request()->has($name)) {
+            $this->location([], [$name]);
+        } else {
+            $this->location([$name => $value]);
+        }
+
+        return $this;
+    }
+
+    public function setQuery(string $name, $value = 1)
+    {
+        $this->location([$name => $value]);
         return $this;
     }
 }
