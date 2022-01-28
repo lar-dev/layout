@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Abstracts;
 
+use App;
+use Exception;
 use Lar\Layout\Components\CSS;
 use Lar\Layout\Components\LjsScripts;
 use Lar\Layout\Components\LjsStyles;
@@ -13,6 +15,8 @@ use Lar\Layout\Tags\LINK;
 use Lar\Layout\Tags\META;
 use Lar\Layout\Tags\TITLE;
 use Lar\LJS\LJS;
+use Route;
+use Str;
 
 /**
  * Class LayoutComponent.
@@ -21,54 +25,47 @@ use Lar\LJS\LJS;
 class LayoutComponent extends HTML
 {
     /**
+     * Container object link.
+     *
+     * @var Component
+     */
+    public $container;
+    /**
      * Layout name.
      *
      * @var string
      */
     protected $name = 'app';
-
     /**
      * Title object.
      *
      * @var TITLE
      */
     protected $title;
-
     /**
      * Head tag link.
      *
      * @var HEAD
      */
     protected $head;
-
     /**
      * Metas Quick Infusion.
      *
      * @var array
      */
     protected $metas = [];
-
     /**
      * Links Quick Infusion.
      *
      * @var array
      */
     protected $links = [];
-
     /**
      * Body tag link.
      *
      * @var BODY
      */
     protected $body;
-
-    /**
-     * Container object link.
-     *
-     * @var Component
-     */
-    public $container;
-
     /**
      * Default title from head.
      *
@@ -119,7 +116,7 @@ class LayoutComponent extends HTML
     /**
      * LayoutComponent constructor.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
@@ -128,7 +125,7 @@ class LayoutComponent extends HTML
         $this->makeDefaultTitle();
 
         foreach ($this->js_lang as $lib) {
-            $this->head_scripts[] = 'locales/'.\App::getLocale()."/{$lib}.js";
+            $this->head_scripts[] = 'locales/'.App::getLocale()."/{$lib}.js";
         }
 
         $this->initLayout();
@@ -139,11 +136,11 @@ class LayoutComponent extends HTML
      */
     protected function makeDefaultTitle()
     {
-        $route = \Route::currentRouteName();
+        $route = Route::currentRouteName();
         if ($route) {
             $route = preg_replace('/[^a-z0-9]/', '_', $route);
             $route = str_replace('__', '_', $route);
-            $method = \Str::camel("title_{$route}");
+            $method = Str::camel("title_{$route}");
             if (method_exists($this, $method)) {
                 $this->default_title = $this->{$method}();
             }
@@ -151,7 +148,7 @@ class LayoutComponent extends HTML
     }
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     protected function initLayout()
     {
@@ -178,7 +175,7 @@ class LayoutComponent extends HTML
     /**
      * Inject Layout assets.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function assetInjects()
     {
@@ -229,7 +226,7 @@ class LayoutComponent extends HTML
     /**
      * Asset bottom assets.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     protected function assetsBottomInject()
     {
@@ -238,7 +235,7 @@ class LayoutComponent extends HTML
             (config('debugbar.enabled') === null || config('debugbar.enabled') === true) &&
             class_exists('Barryvdh\\Debugbar\\LaravelDebugbar')
         ) {
-            if (isset($this->body_scripts['ljs']) && ! in_array('vue', $this->body_scripts['ljs'])) {
+            if (isset($this->body_scripts['ljs']) && !in_array('vue', $this->body_scripts['ljs'])) {
                 $this->body_scripts['ljs'][] = 'vue';
             }
 
@@ -264,41 +261,9 @@ class LayoutComponent extends HTML
     }
 
     /**
-     * Add meta config.
-     *
-     * @param string $name
-     * @param $value
-     * @return $this
-     */
-    protected function config(string $name, $value)
-    {
-        LConfigs::add($name, $value);
-
-        return $this;
-    }
-
-    /**
-     * On render executor.
-     *
-     * @throws \Exception
-     */
-    protected function init_scripts()
-    {
-        $ljs = new LJS(static::class);
-
-        $obj = $this->body;
-
-        if (request()->pjax()) {
-            $obj = $this->container;
-        }
-
-        $obj->script(['data-exec-on-popstate' => '']);
-    }
-
-    /**
      * Set container.
      *
-     * @param Component $component
+     * @param  Component  $component
      * @return $this
      */
     public function setContainer(Component $component)
@@ -313,7 +278,7 @@ class LayoutComponent extends HTML
      *
      * @param $data
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function setInContent($data)
     {
@@ -333,10 +298,42 @@ class LayoutComponent extends HTML
     }
 
     /**
+     * Add meta config.
+     *
+     * @param  string  $name
+     * @param $value
+     * @return $this
+     */
+    protected function config(string $name, $value)
+    {
+        LConfigs::add($name, $value);
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getDefaultTitle()
     {
         return $this->default_title;
+    }
+
+    /**
+     * On render executor.
+     *
+     * @throws Exception
+     */
+    protected function init_scripts()
+    {
+        $ljs = new LJS(static::class);
+
+        $obj = $this->body;
+
+        if (request()->pjax()) {
+            $obj = $this->container;
+        }
+
+        $obj->script(['data-exec-on-popstate' => '']);
     }
 }

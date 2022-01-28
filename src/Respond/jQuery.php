@@ -52,6 +52,24 @@ class jQuery
     }
 
     /**
+     * Make command.
+     *
+     * @param  string  $method
+     * @param  mixed  ...$props
+     * @return $this
+     */
+    public function make(string $method, ...$props)
+    {
+        if ($this->selector) {
+            $this->respond->put("$::{$method}", array_merge([$this->selector], $props));
+        } else {
+            $this->respond->put("$:{$method}", $props);
+        }
+
+        return $this;
+    }
+
+    /**
      * Add class.
      *
      * @param  string  $class
@@ -287,8 +305,8 @@ class jQuery
      *
      * Adjust the opacity of the matched elements.
      *
-     * @param string|int $duration
-     * @param int $opacity
+     * @param  string|int  $duration
+     * @param  int  $opacity
      * @return $this
      */
     public function fade_to($duration, int $opacity)
@@ -347,7 +365,7 @@ class jQuery
      *
      * Hide the matched elements.
      *
-     * @param null|int|string $duration
+     * @param  null|int|string  $duration
      * @return $this
      */
     public function hide($duration = null)
@@ -541,7 +559,7 @@ class jQuery
      *
      * Insert content, specified by the parameter, to the beginning of each element in the set of matched elements.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return $this
      */
     public function prepend($data)
@@ -830,7 +848,7 @@ class jQuery
      *
      * Display or hide the matched elements.
      *
-     * @param  mixed $duration
+     * @param  mixed  $duration
      * @return $this
      */
     public function toggle($duration = null)
@@ -921,9 +939,9 @@ class jQuery
     }
 
     /**
-     * @param string $attribute_name
-     * @param string $value
-     * @param string|null $selector
+     * @param  string  $attribute_name
+     * @param  string  $value
+     * @param  string|null  $selector
      * @return $this
      */
     public function attribute(string $attribute_name, string $value, string $selector = null)
@@ -938,8 +956,8 @@ class jQuery
     }
 
     /**
-     * @param array $values
-     * @param string|null $selector
+     * @param  array  $values
+     * @param  string|null  $selector
      * @return $this
      */
     public function attributes(array $values, string $selector = null)
@@ -954,7 +972,7 @@ class jQuery
     }
 
     /**
-     * @param array $values
+     * @param  array  $values
      * @return $this
      */
     public function manyAttributes(array $values)
@@ -998,23 +1016,5 @@ class jQuery
     public function __call($name, $arguments)
     {
         return $this->make($name, ...$arguments);
-    }
-
-    /**
-     * Make command.
-     *
-     * @param  string  $method
-     * @param  mixed  ...$props
-     * @return $this
-     */
-    public function make(string $method, ...$props)
-    {
-        if ($this->selector) {
-            $this->respond->put("$::{$method}", array_merge([$this->selector], $props));
-        } else {
-            $this->respond->put("$:{$method}", $props);
-        }
-
-        return $this;
     }
 }

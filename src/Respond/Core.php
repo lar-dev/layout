@@ -25,7 +25,7 @@ trait Core
      */
     public static function glob()
     {
-        if (! static::$instance_glob) {
+        if (!static::$instance_glob) {
             static::$instance_glob = new Respond();
         }
 

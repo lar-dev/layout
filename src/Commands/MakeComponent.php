@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Commands;
 
+use Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Lar\Layout\Abstracts\Component;
@@ -64,7 +65,7 @@ class MakeComponent extends Command
 
         $class_namespace = "{$namespace}\\{$this->class_name()}";
 
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 
@@ -104,6 +105,22 @@ class MakeComponent extends Command
     }
 
     /**
+     * @return array
+     */
+    protected function component_segments()
+    {
+        return array_map('Str::snake', explode('/', $this->input->getArgument('component_name')));
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function component_name()
+    {
+        return Arr::last($this->component_segments());
+    }
+
+    /**
      * Get class name.
      *
      * @return string|string[]|null
@@ -119,21 +136,5 @@ class MakeComponent extends Command
     protected function name()
     {
         return Str::slug($this->component_name(), '_');
-    }
-
-    /**
-     * @return mixed
-     */
-    protected function component_name()
-    {
-        return \Arr::last($this->component_segments());
-    }
-
-    /**
-     * @return array
-     */
-    protected function component_segments()
-    {
-        return array_map('Str::snake', explode('/', $this->input->getArgument('component_name')));
     }
 }

@@ -3,6 +3,7 @@
 namespace Lar\Layout\Respond;
 
 use Lar\Layout\Respond;
+use Route;
 
 /**
  * Trait Systems.
@@ -74,7 +75,7 @@ trait Systems
      */
     public function change_link($link, array $params = [], bool $absolute = true)
     {
-        if (\Route::has($link)) {
+        if (Route::has($link)) {
             $link = route($link, $params, $absolute);
         }
 
@@ -84,7 +85,7 @@ trait Systems
     }
 
     /**
-     * @param int $ms
+     * @param  int  $ms
      * @return Respond
      */
     public function time_out(int $ms)

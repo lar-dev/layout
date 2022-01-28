@@ -19,8 +19,8 @@ interface GuardExecutor
      * In order to create a defender only for a method,
      * use the instruction (method_name => guard_method_name)
      *
-     * @param Request $request
+     * @param  Request  $request
      * @return bool
      */
-    public function guard_executor(Request $request) : bool;
+    public function guard_executor(Request $request): bool;
 }

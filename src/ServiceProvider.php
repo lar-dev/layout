@@ -2,6 +2,9 @@
 
 namespace Lar\Layout;
 
+use App;
+use Cookie;
+use Exception;
 use Illuminate\Support\ServiceProvider as ServiceProviderIlluminate;
 use Lar\Layout\Commands\ComponentList;
 use Lar\Layout\Commands\JaxList;
@@ -54,7 +57,7 @@ class ServiceProvider extends ServiceProviderIlluminate
      * Bootstrap services.
      *
      * @return void
-     * @throws \Exception
+     * @throws Exception
      */
     public function boot()
     {
@@ -67,7 +70,7 @@ class ServiceProvider extends ServiceProviderIlluminate
         new BladeDirectives();
 
         if (Layout::$lang_select) {
-            \App::setLocale(Layout::$lang_select);
+            App::setLocale(Layout::$lang_select);
         }
     }
 
@@ -101,7 +104,7 @@ class ServiceProvider extends ServiceProviderIlluminate
         $segment = request()->segment(1);
 
         if ($segment && array_search($segment, config('layout.languages')) !== false) {
-            \Cookie::queue(cookie()->forever('lang', $segment));
+            Cookie::queue(cookie()->forever('lang', $segment));
             Layout::$lang_select = $segment;
         }
     }

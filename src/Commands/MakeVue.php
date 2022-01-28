@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Commands;
 
+use Arr;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 use Lar\Layout\CfgFile;
@@ -75,12 +76,12 @@ class MakeVue extends Command
 
         $file = $dir.'/'.$this->class_name().'.php';
 
-        if (! is_dir($dir_resource)) {
+        if (!is_dir($dir_resource)) {
             mkdir($dir_resource, 0777, 1);
         }
 
         if ($this->option('global')) {
-            if (! is_dir($dir)) {
+            if (!is_dir($dir)) {
                 mkdir($dir, 0777, 1);
             }
 
@@ -123,7 +124,7 @@ class MakeVue extends Command
         props: {},
         data () {
             return {
-                
+
             };
         },
         mounted () {},
@@ -134,7 +135,7 @@ class MakeVue extends Command
 </script>
 HTML;
 
-        if (! is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
+        if (!is_file($file_resource) && file_put_contents($file_resource, $js_template)) {
             $this->info("Vue component [{$file_resource}] created!");
         }
 
@@ -161,18 +162,32 @@ HTML;
     }
 
     /**
-     * @param  string  $command
-     * @return null
+     * @param  string  $path
+     * @return string
      */
-    protected function call_composer(string $command)
+    protected function rp(string $path = '')
     {
-        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
-            $this->comment("> Use \"composer {$command}\" for finish!");
-        } else {
-            exec('cd '.base_path()." && composer {$command}");
+        if ($this->option('dir')) {
+            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
         }
 
-        return null;
+        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
+    }
+
+    /**
+     * @return array
+     */
+    protected function component_segments()
+    {
+        return array_map('Str::snake', explode('/', $this->input->getArgument('vue_name')));
+    }
+
+    /**
+     * @return mixed
+     */
+    protected function component_name()
+    {
+        return Arr::last($this->component_segments());
     }
 
     /**
@@ -194,19 +209,18 @@ HTML;
     }
 
     /**
-     * @return mixed
+     * @param  string  $command
+     * @return null
      */
-    protected function component_name()
+    protected function call_composer(string $command)
     {
-        return \Arr::last($this->component_segments());
-    }
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            $this->comment("> Use \"composer {$command}\" for finish!");
+        } else {
+            exec('cd '.base_path()." && composer {$command}");
+        }
 
-    /**
-     * @return array
-     */
-    protected function component_segments()
-    {
-        return array_map('Str::snake', explode('/', $this->input->getArgument('vue_name')));
+        return null;
     }
 
     /**
@@ -233,18 +247,5 @@ HTML;
             ['global', 'g', InputOption::VALUE_NONE, 'Create global component'],
             ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
         ];
-    }
-
-    /**
-     * @param  string  $path
-     * @return string
-     */
-    protected function rp(string $path = '')
-    {
-        if ($this->option('dir')) {
-            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
-        }
-
-        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

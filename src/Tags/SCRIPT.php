@@ -3,6 +3,7 @@
 namespace Lar\Layout\Tags;
 
 use Lar\Layout\Abstracts\Component;
+use Lar\Tagable\Tag;
 
 class SCRIPT extends Component
 {
@@ -16,8 +17,8 @@ class SCRIPT extends Component
     /**
      * Set path in to src for asset.
      *
-     * @param string $path
-     * @return $this|Component|\Lar\Tagable\Tag
+     * @param  string  $path
+     * @return $this|Component|Tag
      */
     public function asset($path)
     {

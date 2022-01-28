@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Tags;
 
+use App;
+use Exception;
 use Lar\Layout\Abstracts\Component;
 
 class HTML extends Component
@@ -16,12 +18,12 @@ class HTML extends Component
     /**
      * HTML constructor.
      *
-     * @throws \Exception
+     * @throws Exception
      */
     public function __construct()
     {
         parent::__construct();
 
-        $this->setLang(\App::getLocale());
+        $this->setLang(App::getLocale());
     }
 }

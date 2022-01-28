@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Components;
 
+use Exception;
 use Lar\Layout\Abstracts\Component;
 
 /**
@@ -21,8 +22,8 @@ class CSS extends Component
     /**
      * Script constructor.
      *
-     * @param null $href
-     * @throws \Exception
+     * @param  null  $href
+     * @throws Exception
      */
     public function __construct($href = null)
     {
@@ -40,7 +41,7 @@ class CSS extends Component
     /**
      * Set href by asset.
      *
-     * @param string $path
+     * @param  string  $path
      * @return $this|Component
      */
     public function asset($path)

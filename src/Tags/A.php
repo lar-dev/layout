@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Tags;
 
+use Exception;
 use Lar\Layout\Abstracts\Component;
 
 class A extends Component
@@ -17,7 +18,7 @@ class A extends Component
      * Set href by rout name.
      *
      * @param $route
-     * @param array $params
+     * @param  array  $params
      * @return $this
      */
     public function route($route, $params = [])
@@ -30,7 +31,7 @@ class A extends Component
     /**
      * Set href asset.
      *
-     * @param string $url
+     * @param  string  $url
      * @return $this|Component
      */
     public function asset($url)
@@ -44,7 +45,7 @@ class A extends Component
      * Set Target blank attribute.
      *
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function targetBlank()
     {
@@ -56,9 +57,9 @@ class A extends Component
     /**
      * Set onclick attribute.
      *
-     * @param string $value
+     * @param  string  $value
      * @return $this|Component
-     * @throws \Exception
+     * @throws Exception
      */
     public function setOnclick($value = '')
     {
@@ -73,7 +74,7 @@ class A extends Component
      * Set no Pjax state from "a" tag.
      *
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     public function noPjax()
     {

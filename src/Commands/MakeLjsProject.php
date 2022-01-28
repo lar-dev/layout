@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -39,7 +40,7 @@ class MakeLjsProject extends Command
      * Execute the console command.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle()
     {
@@ -48,7 +49,7 @@ class MakeLjsProject extends Command
         foreach ($dirs as $dir) {
             $dir = $this->rp($dir);
 
-            if (! is_dir($dir)) {
+            if (!is_dir($dir)) {
                 mkdir($dir, 0777, true);
                 $this->info("Folder [{$dir}] created!");
             }
@@ -67,7 +68,7 @@ class MakeLjsProject extends Command
         foreach ($files as $path => $stub) {
             $path = $this->rp($path);
 
-            if (! is_file($path)) {
+            if (!is_file($path)) {
                 file_put_contents($path, $stub ? file_get_contents(__DIR__."/Stumbs/{$stub}") : '');
                 $this->info("Script file [{$path}] created!");
             }
@@ -75,7 +76,7 @@ class MakeLjsProject extends Command
 
         $file_data = file_get_contents($this->rp('/app.js'));
 
-        if (! preg_match('/require\s*\(.*lar_resource.*\)/', $file_data)) {
+        if (!preg_match('/require\s*\(.*lar_resource.*\)/', $file_data)) {
             file_put_contents(
                 $this->rp('/app.js'),
                 $file_data."\nrequire('./lar_resource.js')"
@@ -85,18 +86,6 @@ class MakeLjsProject extends Command
         }
 
         $this->info('Lar resources file [/lar_resource.js] created!');
-    }
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
-        ];
     }
 
     /**
@@ -110,5 +99,17 @@ class MakeLjsProject extends Command
         }
 
         return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
+    }
+
+    /**
+     * Get the console command options.
+     *
+     * @return array
+     */
+    protected function getOptions()
+    {
+        return [
+            ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
+        ];
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Tags;
 
+use Exception;
 use Lar\Layout\Abstracts\Component;
 use Lar\Tagable\Events\onRender;
 
@@ -22,28 +23,21 @@ class FORM extends Component implements onRender
      * Function execute on render component.
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function onRender()
     {
-        if (! $this->hasAttribute('method')) {
+        if (!$this->hasAttribute('method')) {
             $this->setMethod('get');
         }
     }
 
     /**
-     * Set action by rout name.
-     *
-     * @param $route
-     * @param array $parameters
-     * @param bool $absolute
-     * @return $this
+     * Restore component in to log uot form.
      */
-    public function route($route, $parameters = [], $absolute = true)
+    public function logOutForm()
     {
-        $this->setAction(route($route, $parameters, $absolute));
-
-        return $this;
+        $this->route('logout')->post()->setId('logout-form')->hide();
     }
 
     /**
@@ -59,17 +53,24 @@ class FORM extends Component implements onRender
     }
 
     /**
-     * Restore component in to log uot form.
+     * Set action by rout name.
+     *
+     * @param $route
+     * @param  array  $parameters
+     * @param  bool  $absolute
+     * @return $this
      */
-    public function logOutForm()
+    public function route($route, $parameters = [], $absolute = true)
     {
-        $this->route('logout')->post()->setId('logout-form')->hide();
+        $this->setAction(route($route, $parameters, $absolute));
+
+        return $this;
     }
 
     /**
      * Set action asset.
      *
-     * @param string $url
+     * @param  string  $url
      * @return $this|Component
      */
     public function asset($url)

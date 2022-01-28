@@ -11,6 +11,24 @@ trait AlpineInjectionTrait
         return $this->xAttribute('init', $data);
     }
 
+    /**
+     * @param  string  $name
+     * @param  mixed  $value
+     * @param  array  $modifiers
+     * @return $this
+     */
+    public function xAttribute(string $name, mixed $value = '', array $modifiers = []): static
+    {
+        $modifiers = array_merge($this->next_modifiers, $modifiers);
+        $this->next_modifiers = [];
+        $this->attr(
+            "x-{$name}".($modifiers ? '.'.implode('.', $modifiers) : ''),
+            is_array($value) ? json_encode($value) : $value
+        );
+
+        return $this;
+    }
+
     public function xData($data = ''): static
     {
         return $this->xAttribute('data', $data);
@@ -24,11 +42,6 @@ trait AlpineInjectionTrait
     public function xBind(string $attribute, string $value = '')
     {
         return $this->xAttribute("bind:$attribute", $value);
-    }
-
-    public function xOn(string $event, string $value): static
-    {
-        return $this->xAttribute("on:{$event}", $value);
     }
 
     public function xText(string $value): static
@@ -94,6 +107,11 @@ trait AlpineInjectionTrait
     public function xOnClick(string $value): static
     {
         return $this->xOn('click', $value);
+    }
+
+    public function xOn(string $event, string $value): static
+    {
+        return $this->xAttribute("on:{$event}", $value);
     }
 
     public function xOnSubmit(string $value): static
@@ -189,23 +207,5 @@ trait AlpineInjectionTrait
     public function xOnLoad(string $value): static
     {
         return $this->xOn('load', $value);
-    }
-
-    /**
-     * @param  string  $name
-     * @param  mixed  $value
-     * @param  array  $modifiers
-     * @return $this
-     */
-    public function xAttribute(string $name, mixed $value = '', array $modifiers = []): static
-    {
-        $modifiers = array_merge($this->next_modifiers, $modifiers);
-        $this->next_modifiers = [];
-        $this->attr(
-            "x-{$name}".($modifiers ? '.'.implode('.', $modifiers) : ''),
-            is_array($value) ? json_encode($value) : $value
-        );
-
-        return $this;
     }
 }

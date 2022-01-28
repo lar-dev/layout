@@ -27,6 +27,56 @@ trait DataTrait
     }
 
     /**
+     * @param  string  $event
+     * @param  string|object  $command
+     * @param  null  $value
+     * @param  string  $param_type
+     * @return $this
+     */
+    public function addDataRule(string $event, $command, $value = null, string $param_type = 'params')
+    {
+        if (is_string($command) && class_exists($command)) {
+            $val = [];
+
+            if (is_array($value) ? $value : []) {
+                $val = $value;
+                $value = null;
+            }
+
+            $cmd = new $command($val);
+
+            if ($cmd instanceof HTMLCustomCommand) {
+                $command = $cmd->render();
+            }
+        } elseif (is_object($command)) {
+            if ($command instanceof HTMLCustomCommand) {
+                $command = $command->render();
+            } else {
+                return $this;
+            }
+        }
+
+        if (is_array($value)) {
+            foreach ($value as $key => $item) {
+                if (is_array($item)) {
+                    $value[$key] = json_encode($item);
+                }
+            }
+            $value = implode(' && ', $value);
+        }
+
+        $value = (string) $value;
+
+        $this->data[$event] = $command;
+
+        if ($value) {
+            $this->data["{$event}-{$param_type}"] = $value;
+        }
+
+        return $this;
+    }
+
+    /**
      * @param $command
      * @param $value
      * @return $this
@@ -1414,55 +1464,5 @@ trait DataTrait
     public function on_load_head(string $command, $value = null)
     {
         return $this->addDataRule('load-head', $command, $value);
-    }
-
-    /**
-     * @param  string  $event
-     * @param  string|object  $command
-     * @param  null  $value
-     * @param  string  $param_type
-     * @return $this
-     */
-    public function addDataRule(string $event, $command, $value = null, string $param_type = 'params')
-    {
-        if (is_string($command) && class_exists($command)) {
-            $val = [];
-
-            if (is_array($value) ? $value : []) {
-                $val = $value;
-                $value = null;
-            }
-
-            $cmd = new $command($val);
-
-            if ($cmd instanceof HTMLCustomCommand) {
-                $command = $cmd->render();
-            }
-        } elseif (is_object($command)) {
-            if ($command instanceof HTMLCustomCommand) {
-                $command = $command->render();
-            } else {
-                return $this;
-            }
-        }
-
-        if (is_array($value)) {
-            foreach ($value as $key => $item) {
-                if (is_array($item)) {
-                    $value[$key] = json_encode($item);
-                }
-            }
-            $value = implode(' && ', $value);
-        }
-
-        $value = (string) $value;
-
-        $this->data[$event] = $command;
-
-        if ($value) {
-            $this->data["{$event}-{$param_type}"] = $value;
-        }
-
-        return $this;
     }
 }

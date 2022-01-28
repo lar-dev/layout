@@ -26,6 +26,27 @@ class ComponentGroup implements Renderable
     protected $injected = [];
 
     /**
+     * Add component in to having component list.
+     *
+     * @param  string  $name
+     * @param  string  $object
+     */
+    public static function addComponent(string $name, string $object)
+    {
+        static::$components[$name] = $object;
+    }
+
+    /**
+     * Add component collection in to having component list.
+     *
+     * @param  array  $array
+     */
+    public static function addComponentCollection(array $array = [])
+    {
+        static::$components = array_merge(static::$components, $array);
+    }
+
+    /**
      * @param $name
      * @param $arguments
      * @return $this|Component
@@ -65,27 +86,6 @@ class ComponentGroup implements Renderable
     public function __toString()
     {
         return $this->render();
-    }
-
-    /**
-     * Add component in to having component list.
-     *
-     * @param string $name
-     * @param string $object
-     */
-    public static function addComponent(string $name, string $object)
-    {
-        static::$components[$name] = $object;
-    }
-
-    /**
-     * Add component collection in to having component list.
-     *
-     * @param array $array
-     */
-    public static function addComponentCollection(array $array = [])
-    {
-        static::$components = array_merge(static::$components, $array);
     }
 
     /**

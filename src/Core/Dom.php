@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Core;
 
+use Exception;
+use Illuminate\Support\Collection;
 use Lar\Tagable\Tag;
 
 final class Dom
@@ -10,7 +12,7 @@ final class Dom
      * Collection recursive builder and imploding.
      *
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public static function buildCollect()
     {
@@ -26,7 +28,7 @@ final class Dom
     /**
      * Tag storage.
      *
-     * @return \Illuminate\Support\Collection
+     * @return Collection
      */
     public static function storage()
     {

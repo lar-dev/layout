@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Respond;
 
+use Route;
+
 /**
  * Trait DocTrait.
  *
@@ -12,7 +14,7 @@ trait DocTrait
     /**
      * doc::title.
      *
-     * @param string $title
+     * @param  string  $title
      * @return $this
      */
     public function title(string $title)
@@ -32,7 +34,7 @@ trait DocTrait
      */
     public function redirect(string $url, $parameters = [], $absolute = true)
     {
-        if (\Route::has($url)) {
+        if (Route::has($url)) {
             $url = route($url, $parameters, $absolute);
         }
 
@@ -58,9 +60,9 @@ trait DocTrait
     /**
      * doc::location.
      *
-     * @param string $route
-     * @param array $parameters
-     * @param bool $absolute
+     * @param  string  $route
+     * @param  array  $parameters
+     * @param  bool  $absolute
      * @return $this
      */
     public function route(string $route, $parameters = [], $absolute = true)
@@ -85,7 +87,7 @@ trait DocTrait
     /**
      * doc::reload.
      *
-     * @param string $selector
+     * @param  string  $selector
      * @return $this
      */
     public function reload()

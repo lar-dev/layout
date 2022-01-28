@@ -26,6 +26,15 @@ class LjsStyles implements Renderable
     }
 
     /**
+     * @param  array  $plugins
+     * @return string
+     */
+    public static function create(array $plugins = [])
+    {
+        return (new static($plugins))->render();
+    }
+
+    /**
      * @return string
      */
     public function render()
@@ -39,14 +48,5 @@ class LjsStyles implements Renderable
         }
 
         return implode('', $links);
-    }
-
-    /**
-     * @param  array  $plugins
-     * @return string
-     */
-    public static function create(array $plugins = [])
-    {
-        return (new static($plugins))->render();
     }
 }

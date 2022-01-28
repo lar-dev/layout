@@ -2,7 +2,11 @@
 
 namespace Lar\Layout\Middleware;
 
+use App;
 use Closure;
+use Exception;
+use Illuminate\Http\Request;
+use Layout;
 
 /**
  * Class DomMiddleware.
@@ -14,14 +18,14 @@ class LanguageMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle($request, Closure $next)
     {
-        \App::setLocale(\Layout::nowLang());
+        App::setLocale(Layout::nowLang());
 
         return $next($request);
     }

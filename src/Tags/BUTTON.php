@@ -15,18 +15,6 @@ class BUTTON extends Component
     protected $element = 'button';
 
     /**
-     * @param  array  $params
-     * @param  array  $unset
-     * @return $this
-     */
-    public function location(array $params = [], array $unset = [])
-    {
-        $this->on_click('doc::location', urlWithGet($params, $unset));
-
-        return $this;
-    }
-
-    /**
      * @param  string|null  $method
      * @return $this
      */
@@ -42,24 +30,42 @@ class BUTTON extends Component
     }
 
     /**
-     * @param  string  $name
-     * @param $value
+     * @param  array  $params
+     * @param  array  $unset
      * @return $this
      */
-    public function switchQuery(string $name, $value = 1)
+    public function location(array $params = [], array $unset = [])
+    {
+        $this->on_click('doc::location', urlWithGet($params, $unset));
+
+        return $this;
+    }
+
+    /**
+     * @param  string|array  $name
+     * @param  int  $value
+     * @return $this
+     */
+    public function switchQuery(string|array $name, $value = 1)
     {
         if (request()->has($name)) {
-            $this->location([], [$name]);
+            $this->location([], (array)$name);
         } else {
-            $this->location([$name => $value]);
+            $this->location(array_fill_keys((array)$name, $value));
         }
 
         return $this;
     }
 
-    public function setQuery(string $name, $value = 1)
+    public function setQuery(string|array $name, $value = 1)
     {
-        $this->location([$name => $value]);
+        $this->location(array_fill_keys((array)$name, $value));
+        return $this;
+    }
+
+    public function forgetQuery(string|array $name)
+    {
+        $this->location([], (array)$name);
         return $this;
     }
 }

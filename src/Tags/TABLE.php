@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Tags;
 
+use Exception;
 use Lar\Layout\Abstracts\Component;
 
 class TABLE extends Component
@@ -16,8 +17,8 @@ class TABLE extends Component
     /**
      * TABLE constructor.
      *
-     * @param mixed ...$params
-     * @throws \Exception
+     * @param  mixed  ...$params
+     * @throws Exception
      */
     public function __construct(...$params)
     {

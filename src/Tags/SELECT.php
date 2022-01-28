@@ -18,8 +18,8 @@ class SELECT extends Component
     /**
      * Add options from array.
      *
-     * @param array $data
-     * @param null $select
+     * @param  array  $data
+     * @param  null  $select
      * @return $this
      */
     public function options($data = [], $select = null)

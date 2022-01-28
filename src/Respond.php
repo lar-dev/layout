@@ -2,6 +2,7 @@
 
 namespace Lar\Layout;
 
+use Closure;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\Support\Renderable;
@@ -44,7 +45,7 @@ class Respond extends Collection implements Renderable, Htmlable
     /**
      * Respond constructor.
      *
-     * @param \Closure|array|static|null $parent
+     * @param  Closure|array|static|null  $parent
      */
     public function __construct($parent = null)
     {
@@ -58,12 +59,20 @@ class Respond extends Collection implements Renderable, Htmlable
     }
 
     /**
-     * @param \Closure $closure
+     * @return array|Respond|RespondDoc
+     */
+    public static function get_macro_names()
+    {
+        return array_keys(static::$macros);
+    }
+
+    /**
+     * @param  Closure  $closure
      * @return $this|RespondDoc|mixed
      */
-    public function do(\Closure $closure)
+    public function do(Closure $closure)
     {
-        $closure = \Closure::bind($closure, $this, static::class);
+        $closure = Closure::bind($closure, $this, static::class);
 
         $closure($this);
 
@@ -93,27 +102,11 @@ class Respond extends Collection implements Renderable, Htmlable
     }
 
     /**
-     * Put rule.
-     *
-     * @param $key
-     * @param mixed $value
-     * @return $this|Collection
-     */
-    public function put($key, $value = null)
-    {
-        if ($this->parent && preg_match('/^\:.*/', $key) && $this->parent instanceof Tag) {
-            $key = $this->parent->getHandlerName().$key;
-        }
-
-        return parent::put($this->count().':'.$key, $value);
-    }
-
-    /**
      * Put rule alias.
      *
      * @param $key
-     * @param null $value
-     * @return \Illuminate\Support\Collection|Respond
+     * @param  null  $value
+     * @return Collection|Respond
      */
     public function insert($key, $value = null)
     {
@@ -138,7 +131,7 @@ class Respond extends Collection implements Renderable, Htmlable
     /**
      * Merge rules.
      *
-     * @param mixed $data
+     * @param  mixed  $data
      * @return $this|Collection
      */
     public function merge($data)
@@ -154,25 +147,33 @@ class Respond extends Collection implements Renderable, Htmlable
     }
 
     /**
-     * @param string $method
-     * @param array $parameters
+     * Put rule.
+     *
+     * @param $key
+     * @param  mixed  $value
+     * @return $this|Collection
+     */
+    public function put($key, $value = null)
+    {
+        if ($this->parent && preg_match('/^\:.*/', $key) && $this->parent instanceof Tag) {
+            $key = $this->parent->getHandlerName().$key;
+        }
+
+        return parent::put($this->count().':'.$key, $value);
+    }
+
+    /**
+     * @param  string  $method
+     * @param  array  $parameters
      * @return mixed
      */
     public function __call($method, $parameters)
     {
-        if (! isset($this->parent)) {
+        if (!isset($this->parent)) {
             return parent::__call($method, $parameters);
         } else {
             return $this->parent->{$method}(...$parameters);
         }
-    }
-
-    /**
-     * @return array|Respond|RespondDoc
-     */
-    public static function get_macro_names()
-    {
-        return array_keys(static::$macros);
     }
 
     /**
@@ -184,11 +185,11 @@ class Respond extends Collection implements Renderable, Htmlable
     }
 
     /**
-     * Get content as a string of HTML.
+     * Get the evaluated contents of the object.
      *
      * @return string
      */
-    public function toHtml()
+    public function render()
     {
         return $this->toJson();
     }
@@ -203,11 +204,11 @@ class Respond extends Collection implements Renderable, Htmlable
     }
 
     /**
-     * Get the evaluated contents of the object.
+     * Get content as a string of HTML.
      *
      * @return string
      */
-    public function render()
+    public function toHtml()
     {
         return $this->toJson();
     }

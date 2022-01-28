@@ -34,25 +34,6 @@ class LarJsonResource
     }
 
     /**
-     * @param  string  $file
-     * @return bool
-     */
-    public function addExecutor(string $file)
-    {
-        return $this->writeVar(['executors' => [$file]]);
-    }
-
-    /**
-     * @param  string  $name
-     * @param  string  $file
-     * @return bool
-     */
-    public function addVueComponent(string $name, string $file)
-    {
-        return $this->writeVar(['vue_components' => [$name => $file]]);
-    }
-
-    /**
      * @param  array  $array
      * @return bool|false|int
      */
@@ -72,5 +53,24 @@ class LarJsonResource
         }
 
         return false;
+    }
+
+    /**
+     * @param  string  $file
+     * @return bool
+     */
+    public function addExecutor(string $file)
+    {
+        return $this->writeVar(['executors' => [$file]]);
+    }
+
+    /**
+     * @param  string  $name
+     * @param  string  $file
+     * @return bool
+     */
+    public function addVueComponent(string $name, string $file)
+    {
+        return $this->writeVar(['vue_components' => [$name => $file]]);
     }
 }

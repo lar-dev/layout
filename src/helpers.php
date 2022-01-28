@@ -1,11 +1,12 @@
 <?php
 
-if (! function_exists('exe')) {
+use Lar\Layout\Respond;
 
+if (!function_exists('exe')) {
     /**
-     * @param string|null $command
-     * @param null $param
-     * @return \Lar\Layout\Respond
+     * @param  string|null  $command
+     * @param  null  $param
+     * @return Respond
      */
     function exe(string $command = null, $param = null)
     {
@@ -19,35 +20,33 @@ if (! function_exists('exe')) {
     }
 }
 
-if (! function_exists('respond')) {
-
+if (!function_exists('respond')) {
     /**
-     * @param bool $new
-     * @return \Lar\Layout\Respond
+     * @param  bool  $new
+     * @return Respond
      */
     function respond(bool $new = false)
     {
         if ($new) {
-            return new \Lar\Layout\Respond();
+            return new Respond();
         } else {
-            return \Lar\Layout\Respond::glob();
+            return Respond::glob();
         }
     }
 }
 
-if (! function_exists('remake_lang_url')) {
-
+if (!function_exists('remake_lang_url')) {
     /**
-     * @param string $lang
-     * @param string|null $url
+     * @param  string  $lang
+     * @param  string|null  $url
      * @return string
      */
     function remake_lang_url(string $lang, string $url = null)
     {
-        if (! $url) {
+        if (!$url) {
             $url = url()->current();
         }
 
-        return preg_replace("/(.*\:\/\/.*\/)(".\App::getLocale().')(.*)/', "$1{$lang}$3", $url);
+        return preg_replace("/(.*\:\/\/.*\/)(".App::getLocale().')(.*)/', "$1{$lang}$3", $url);
     }
 }

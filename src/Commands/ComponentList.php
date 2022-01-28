@@ -2,8 +2,11 @@
 
 namespace Lar\Layout\Commands;
 
+use Exception;
 use Illuminate\Console\Command;
 use Lar\Tagable\Tag;
+use Psr\SimpleCache\InvalidArgumentException;
+use Str;
 
 /**
  * Class compList.
@@ -24,8 +27,8 @@ class ComponentList extends Command
 
     /**
      * Handler.
-     * @throws \Psr\SimpleCache\InvalidArgumentException
-     * @throws \Exception
+     * @throws InvalidArgumentException
+     * @throws Exception
      */
     public function handle()
     {
@@ -41,7 +44,7 @@ class ComponentList extends Command
             return [
                 $vue ? "<info>{$i}</info>" : $i,
                 $vue ? "<info>{$key}</info>" : $key,
-                $vue ? '<info>'.\Str::camel($key).'</info>' : \Str::camel($key),
+                $vue ? '<info>'.Str::camel($key).'</info>' : Str::camel($key),
                 $vue ? "<info>Vue:{$item}</info>" : $item,
             ];
         }));

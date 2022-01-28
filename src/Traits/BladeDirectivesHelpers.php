@@ -2,9 +2,12 @@
 
 namespace Lar\Layout\Traits;
 
+use Arr;
+use Exception;
 use Lar\Layout\Abstracts\Component;
 use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
+use Str;
 
 /**
  * Trait BladeDirectivesHelpers.
@@ -14,17 +17,17 @@ use Lar\Tagable\Vue;
 trait BladeDirectivesHelpers
 {
     /**
-     * @param string|null $name
-     * @param array|string|null $attributes
+     * @param  string|null  $name
+     * @param  array|string|null  $attributes
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public static function createAttributeWatcher(string $name = null, ...$attributes)
     {
-        $name = $name ? \Str::slug($name, '_') : count(static::$_attr_watchess);
+        $name = $name ? Str::slug($name, '_') : count(static::$_attr_watchess);
 
         if (isset(static::$_attr_watches[$name])) {
-            throw new \Exception("[{$name}] Such an identifier of watcher is already exists.");
+            throw new Exception("[{$name}] Such an identifier of watcher is already exists.");
         }
 
         static::$_attr_watches[$name] = [$name, $attributes];
@@ -33,12 +36,12 @@ trait BladeDirectivesHelpers
     }
 
     /**
-     * @param string|int $name
+     * @param  string|int  $name
      * @return string
      */
     public static function createLiveTag($name = null)
     {
-        $name = $name ? \Str::slug($name, '_') : count(static::$_lives);
+        $name = $name ? Str::slug($name, '_') : count(static::$_lives);
 
         static::$_lives[] = $name;
 
@@ -46,10 +49,10 @@ trait BladeDirectivesHelpers
     }
 
     /**
-     * @param string $component
-     * @param mixed ...$props
+     * @param  string  $component
+     * @param  mixed  ...$props
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     public static function vueTagOpen(string $component, ...$props)
     {
@@ -74,7 +77,7 @@ trait BladeDirectivesHelpers
      */
     public static function vueTagClose()
     {
-        $last = \Arr::last(static::$_last_vue_state);
+        $last = Arr::last(static::$_last_vue_state);
 
         if ($last instanceof Component) {
             $return = $last->element_closer();

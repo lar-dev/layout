@@ -16,7 +16,7 @@ class HEAD extends Component
     /**
      * Create charset meta tag.
      *
-     * @param string $charset
+     * @param  string  $charset
      * @return $this
      */
     public function charset($charset = 'utf-8')

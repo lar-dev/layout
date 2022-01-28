@@ -1,6 +1,9 @@
 <?php
 
+use Lar\Layout\Components\CSS;
+use Lar\Layout\Components\Script;
+
 return [
-    'cssLink' => \Lar\Layout\Components\CSS::class,
-    'scriptLink' => \Lar\Layout\Components\Script::class,
+    'cssLink' => CSS::class,
+    'scriptLink' => Script::class,
 ];

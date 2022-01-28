@@ -24,11 +24,28 @@ class AHtmlCompiler
     /**
      * AHtmlCompiler constructor.
      *
-     * @param array $data
+     * @param  array  $data
      */
     public function __construct(array $data)
     {
         $this->data = $data;
+    }
+
+    /**
+     * @param  array  $data
+     * @return string
+     */
+    public static function compile(array $data)
+    {
+        return (new static($data))->runBuild()->get();
+    }
+
+    /**
+     * @return string
+     */
+    public function get()
+    {
+        return $this->build;
     }
 
     /**
@@ -42,8 +59,8 @@ class AHtmlCompiler
     }
 
     /**
-     * @param array|string $data
-     * @param int $level
+     * @param  array|string  $data
+     * @param  int  $level
      * @return string
      */
     private function build($data, int $level = 0)
@@ -54,7 +71,7 @@ class AHtmlCompiler
             foreach ($data as $key => $value) {
                 if (is_int($key)) {
                     $return .= $value;
-                } elseif (! Tag::hasComponent($key)) {
+                } elseif (!Tag::hasComponent($key)) {
                     $close = is_tag_closing($key);
 
                     if (is_string($value)) {
@@ -77,7 +94,7 @@ class AHtmlCompiler
                                     $this->addVarToArr($v_attrs, $v_value);
                                 }
                             } elseif ($v_key === 'data' && is_array($v_value)) {
-                                foreach ($v_value as $k=>$i) {
+                                foreach ($v_value as $k => $i) {
                                     $this->addVarToArr($v_attrs, "data-{$k}", $i);
                                 }
                             } else {
@@ -120,7 +137,7 @@ class AHtmlCompiler
      * @param $arr
      * @param $name
      * @param $value
-     * @param bool $append
+     * @param  bool  $append
      * @return void
      */
     protected function addVarToArr(&$arr, $name, $value = null, bool $append = false)
@@ -130,22 +147,5 @@ class AHtmlCompiler
         } else {
             $arr[$name] = $value;
         }
-    }
-
-    /**
-     * @return string
-     */
-    public function get()
-    {
-        return $this->build;
-    }
-
-    /**
-     * @param array $data
-     * @return string
-     */
-    public static function compile(array $data)
-    {
-        return (new static($data))->runBuild()->get();
     }
 }

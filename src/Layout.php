@@ -2,6 +2,8 @@
 
 namespace Lar\Layout;
 
+use Closure;
+use Exception;
 use Illuminate\Support\Collection;
 use Lar\Layout\Abstracts\LayoutComponent;
 
@@ -37,37 +39,29 @@ final class Layout
     public static $injected_files = [];
 
     /**
-     * @return LayoutComponent
-     */
-    public function current()
-    {
-        return self::$selected_layout;
-    }
-
-    /**
      * Registration component.
      *
-     * @param string $name
-     * @param \Closure|array|string $component
-     * @throws \Exception
+     * @param  string  $name
+     * @param  Closure|array|string  $component
+     * @throws Exception
      */
     public static function registerComponent(string $name, $component)
     {
-        if (! static::$collect) {
+        if (!static::$collect) {
             static::$collect = new Collection(config('app.layouts', []));
         }
 
         if (is_embedded_call($component)) {
             static::$collect->put($name, $component);
         } else {
-            throw new \Exception('Undefined type component');
+            throw new Exception('Undefined type component');
         }
     }
 
     /**
      * Check has component or not.
      *
-     * @param string $name
+     * @param  string  $name
      * @return bool
      */
     public static function hasComponent(string $name)
@@ -79,20 +73,20 @@ final class Layout
      * Inject collection from file.
      *
      * @param $file
-     * @throws \Exception
+     * @throws Exception
      */
     public static function injectFile($file)
     {
-        if (! is_file($file)) {
-            throw new \Exception("File not found! $file");
+        if (!is_file($file)) {
+            throw new Exception("File not found! $file");
         }
 
         $data = require $file;
 
         static::$injected_files[] = $file;
 
-        if (! is_array($data)) {
-            throw new \Exception('File data must be component array');
+        if (!is_array($data)) {
+            throw new Exception('File data must be component array');
         }
 
         static::injectCollection($data);
@@ -101,11 +95,11 @@ final class Layout
     /**
      * Inject collection in to component collection.
      *
-     * @param array $collection
+     * @param  array  $collection
      */
     public static function injectCollection($collection = [])
     {
-        if (! static::$collect) {
+        if (!static::$collect) {
             static::$collect = new Collection(config('app.layouts', []));
         }
 
@@ -117,9 +111,9 @@ final class Layout
     /**
      * Component getter.
      *
-     * @param string $name
+     * @param  string  $name
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public static function getComponent(string $name)
     {
@@ -132,8 +126,16 @@ final class Layout
                 return new $component;
             }
         } else {
-            throw new \Exception("Component [{$name}] not found!");
+            throw new Exception("Component [{$name}] not found!");
         }
+    }
+
+    /**
+     * @return LayoutComponent
+     */
+    public function current()
+    {
+        return self::$selected_layout;
     }
 
     /**
@@ -145,13 +147,13 @@ final class Layout
     {
         $select = self::$lang_select;
 
-        if (! $select && session()->has('lang')) {
+        if (!$select && session()->has('lang')) {
             $lang = session()->get('lang');
 
             if (in_array($lang, config('layout.languages'))) {
                 $select = $lang;
             }
-        } elseif (! $select && request()->cookie('lang')) {
+        } elseif (!$select && request()->cookie('lang')) {
             $lang = request()->cookie('lang');
 
             if (in_array($lang, config('layout.languages'))) {
@@ -159,7 +161,7 @@ final class Layout
             }
         }
 
-        if (! $select) {
+        if (!$select) {
             $select = config('app.locale');
         }
 

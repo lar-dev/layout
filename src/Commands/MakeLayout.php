@@ -49,7 +49,7 @@ class MakeLayout extends Command
 
         $file = $dir.'/'.$this->class_name().'.php';
 
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 

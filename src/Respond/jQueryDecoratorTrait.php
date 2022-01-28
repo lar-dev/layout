@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Respond;
 
+use Lar\Layout\Respond;
+
 /**
  * Trait jQueryDecoratorTrait.
  *
@@ -13,7 +15,7 @@ trait jQueryDecoratorTrait
      * New jQuery decorator.
      *
      * @param  string|null  $selector
-     * @return \Lar\Layout\Respond\jQuery
+     * @return jQuery
      */
     public function jq(string $selector = null)
     {
@@ -23,7 +25,7 @@ trait jQueryDecoratorTrait
     /**
      * Submit parent form.
      *
-     * @return \Lar\Layout\Respond
+     * @return Respond
      */
     public function submit()
     {

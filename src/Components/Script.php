@@ -2,6 +2,8 @@
 
 namespace Lar\Layout\Components;
 
+use Exception;
+
 /**
  * Class Script.
  *
@@ -20,8 +22,8 @@ class Script extends \Lar\Layout\Tags\SCRIPT
     /**
      * Script constructor.
      *
-     * @param null $src
-     * @throws \Exception
+     * @param  null  $src
+     * @throws Exception
      */
     public function __construct($src = null)
     {

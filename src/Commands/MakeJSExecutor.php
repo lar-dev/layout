@@ -53,7 +53,7 @@ class MakeJSExecutor extends Command
     {
         $dir = $this->rp('/executors');
 
-        if (! is_dir($dir)) {
+        if (!is_dir($dir)) {
             mkdir($dir, 0777, 1);
         }
 
@@ -79,6 +79,19 @@ class MakeJSExecutor extends Command
 
             (new LarJsonResource())->addExecutor($file_name);
         }
+    }
+
+    /**
+     * @param  string  $path
+     * @return string
+     */
+    protected function rp(string $path = '')
+    {
+        if ($this->option('dir')) {
+            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
+        }
+
+        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 
     /**
@@ -119,18 +132,5 @@ class MakeJSExecutor extends Command
         return [
             ['dir', 'd', InputOption::VALUE_OPTIONAL, 'Directory of creation'],
         ];
-    }
-
-    /**
-     * @param  string  $path
-     * @return string
-     */
-    protected function rp(string $path = '')
-    {
-        if ($this->option('dir')) {
-            return '/'.trim(base_path($this->option('dir').'/'.trim($path, '/')), '/');
-        }
-
-        return '/'.trim(resource_path(config('layout.resource_js_path', 'js').'/'.trim($path, '/')), '/');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Lar\Layout\Components;
 
+use App;
 use Illuminate\Contracts\Support\Renderable;
 use Lar\Layout\Tags\SCRIPT;
 
@@ -29,13 +30,22 @@ class LjsScripts implements Renderable
     }
 
     /**
+     * @param  array  $plugins
+     * @return string
+     */
+    public static function create(array $plugins = [], ...$props)
+    {
+        return (new static($plugins, ...$props))->render();
+    }
+
+    /**
      * @return string
      */
     public function render()
     {
-        $js_path = \App::isLocal() && ! is_link(base_path('lar')) ? 'js.dev' : 'js';
+        $js_path = App::isLocal() && !is_link(base_path('lar')) ? 'js.dev' : 'js';
 
-        if (\App::isLocal() && request()->has('dev')) {
+        if (App::isLocal() && request()->has('dev')) {
             $js_path = 'js.dev';
         }
 
@@ -46,7 +56,8 @@ class LjsScripts implements Renderable
         $first = [];
 
         foreach ($this->plugins as $plugin) {
-            $scr = SCRIPT::create(...$this->props)->setType('text/javascript')->asset("ljs/{$js_path}/plugins/{$plugin}.js")->render();
+            $scr = SCRIPT::create(...
+                $this->props)->setType('text/javascript')->asset("ljs/{$js_path}/plugins/{$plugin}.js")->render();
 
             if ($plugin === 'jquery') {
                 $first[] = $scr;
@@ -56,14 +67,5 @@ class LjsScripts implements Renderable
         }
 
         return implode('', array_merge($first, $scripts));
-    }
-
-    /**
-     * @param  array  $plugins
-     * @return string
-     */
-    public static function create(array $plugins = [], ...$props)
-    {
-        return (new static($plugins, ...$props))->render();
     }
 }

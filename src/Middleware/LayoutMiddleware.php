@@ -3,7 +3,10 @@
 namespace Lar\Layout\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 use Lar\Layout\Abstracts\LayoutComponent;
 use Lar\Layout\Layout;
@@ -16,17 +19,27 @@ class LayoutMiddleware
     protected static $on_load = [];
 
     /**
+     * @param  Closure|array  $call
+     */
+    public static function onLoad($call)
+    {
+        if (is_embedded_call($call)) {
+            static::$on_load[] = $call;
+        }
+    }
+
+    /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @param  string  $name
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle($request, Closure $next, $name = '')
     {
-        if ($request->ajax() && ! $request->pjax() || ! $request->isMethod('get')) {
+        if ($request->ajax() && !$request->pjax() || !$request->isMethod('get')) {
             return $next($request);
         }
 
@@ -34,52 +47,22 @@ class LayoutMiddleware
 
         $component = static::makeLayoutComponent($name);
 
-        if (! $component instanceof LayoutComponent) {
-            throw new \Exception('The layout mast be a [LayoutComponent]!');
+        if (!$component instanceof LayoutComponent) {
+            throw new Exception('The layout mast be a [LayoutComponent]!');
         }
 
         Layout::$selected_layout = $component;
 
-        /** @var \Illuminate\Http\Response $response */
+        /** @var Response $response */
         $response = $next($request);
 
         $component->setInContent($response->getContent());
 
-        if (! $response->exception && ! $response instanceof RedirectResponse) {
+        if (!$response->exception && !$response instanceof RedirectResponse) {
             $response->setContent('');
         }
 
         return $response;
-    }
-
-    /**
-     * @param string $name
-     * @return LayoutComponent|mixed
-     * @throws \Exception
-     */
-    public static function makeLayoutComponent(string $name = '')
-    {
-        $component = static::getLayoutComponent($name);
-
-        return new $component();
-    }
-
-    /**
-     * @param string $name
-     * @return string
-     * @throws \Exception
-     */
-    public static function getLayoutComponent(string $name = '')
-    {
-        if (Layout::$collect && Layout::$collect->has($name)) {
-            return Layout::$collect->get($name);
-        } elseif (! empty($name) && class_exists($class = 'App\\Layouts\\'.ucfirst(Str::camel(Str::slug($name, '_'))))) {
-            return $class;
-        } elseif (class_exists($name)) {
-            return $name;
-        } else {
-            return LayoutComponent::class;
-        }
     }
 
     /**
@@ -95,12 +78,32 @@ class LayoutMiddleware
     }
 
     /**
-     * @param  Closure|array  $call
+     * @param  string  $name
+     * @return LayoutComponent|mixed
+     * @throws Exception
      */
-    public static function onLoad($call)
+    public static function makeLayoutComponent(string $name = '')
     {
-        if (is_embedded_call($call)) {
-            static::$on_load[] = $call;
+        $component = static::getLayoutComponent($name);
+
+        return new $component();
+    }
+
+    /**
+     * @param  string  $name
+     * @return string
+     * @throws Exception
+     */
+    public static function getLayoutComponent(string $name = '')
+    {
+        if (Layout::$collect && Layout::$collect->has($name)) {
+            return Layout::$collect->get($name);
+        } elseif (!empty($name) && class_exists($class = 'App\\Layouts\\'.ucfirst(Str::camel(Str::slug($name, '_'))))) {
+            return $class;
+        } elseif (class_exists($name)) {
+            return $name;
+        } else {
+            return LayoutComponent::class;
         }
     }
 }

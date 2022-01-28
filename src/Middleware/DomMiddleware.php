@@ -3,6 +3,7 @@
 namespace Lar\Layout\Middleware;
 
 use Closure;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -24,14 +25,14 @@ class DomMiddleware
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param  Request  $request
+     * @param  Closure  $next
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle($request, Closure $next)
     {
-        /** @var \Illuminate\Http\Response $response */
+        /** @var Response $response */
         $response = $next($request);
 
         if ($response->isRedirection()) {
@@ -40,11 +41,11 @@ class DomMiddleware
             return $response;
         }
 
-        if ($request->ajax() && ! $request->pjax()) {
+        if ($request->ajax() && !$request->pjax()) {
             return $response;
         }
 
-        if (! $request->isMethod('get')) {
+        if (!$request->isMethod('get')) {
             return $response;
         }
 
@@ -60,21 +61,21 @@ class DomMiddleware
     }
 
     /**
-     * @param Request $request
-     * @param Response $response
+     * @param  Request  $request
+     * @param  Response  $response
      * @return $this
-     * @throws \Exception
+     * @throws Exception
      */
     protected function setContent(Request $request, Response $response)
     {
         $js = '';
 
-        if (! $response->exception) {
+        if (!$response->exception) {
             $content = Dom::buildCollect();
 
             $js = \LJS::render();
 
-            if (! $request->ajax()) {
+            if (!$request->ajax()) {
                 $content = str_replace(
                     '<script data-exec-on-popstate></script>',
                     '<script data-exec-on-popstate>'.$js.'</script>',
@@ -101,7 +102,7 @@ class DomMiddleware
 
             $js = $ljs->render().$js;
 
-            if (! empty($js)) {
+            if (!empty($js)) {
                 if (strpos($content, '<script data-exec-on-popstate></script>') !== false) {
                     $content = str_replace(
                         '<script data-exec-on-popstate></script>',
@@ -142,26 +143,6 @@ class DomMiddleware
     /**
      * @return $this
      */
-    protected function setErrorsToasts()
-    {
-        if (config('layout.toast_errors', true) && session()->has('errors')) {
-
-            /** @var ViewErrorBag $bags */
-            $bags = session('errors');
-
-            $messages = $bags->getBag('default')->all();
-
-            foreach ($messages as $message) {
-                Respond::glob()->toast_error($message);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
     protected function setFlashRespond()
     {
         if (session()->has('respond')) {
@@ -188,8 +169,27 @@ class DomMiddleware
     }
 
     /**
-     * @param Response|RedirectResponse $response
-     * @param Request $request
+     * @return $this
+     */
+    protected function setErrorsToasts()
+    {
+        if (config('layout.toast_errors', true) && session()->has('errors')) {
+            /** @var ViewErrorBag $bags */
+            $bags = session('errors');
+
+            $messages = $bags->getBag('default')->all();
+
+            foreach ($messages as $message) {
+                Respond::glob()->toast_error($message);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param  Response|RedirectResponse  $response
+     * @param  Request  $request
      * @return DomMiddleware
      */
     protected function setUriHeader($response, Request $request)

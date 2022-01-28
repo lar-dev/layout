@@ -30,6 +30,16 @@ class INPUT extends Component
     /**
      * @return $this
      */
+    public function typeHidden()
+    {
+        $this->setType('hidden');
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
     public function typeButton()
     {
         $this->setType('button');
@@ -93,16 +103,6 @@ class INPUT extends Component
     public function typeFile()
     {
         $this->setType('file');
-
-        return $this;
-    }
-
-    /**
-     * @return $this
-     */
-    public function typeHidden()
-    {
-        $this->setType('hidden');
 
         return $this;
     }
