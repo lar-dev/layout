@@ -28,7 +28,7 @@ trait DataTrait
 
     /**
      * @param  string  $event
-     * @param  string|object  $command
+     * @param  string|object|array  $command
      * @param  null  $value
      * @param  string  $param_type
      * @return $this

@@ -2,10 +2,6 @@
 
 namespace Lar\Layout\Components;
 
-/**
- * Class Template.
- * @package Lar\LteAdmin\Components
- */
 class Template extends \Lar\Layout\Tags\TEMPLATE
 {
     /**

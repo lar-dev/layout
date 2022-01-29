@@ -4,10 +4,6 @@ namespace Lar\Layout\Components;
 
 use Lar\Layout\Tags\SPAN;
 
-/**
- * Class Template.
- * @package Lar\LteAdmin\Components
- */
 class TemplateArea extends SPAN
 {
     /**
