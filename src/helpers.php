@@ -50,3 +50,14 @@ if (!function_exists('remake_lang_url')) {
         return preg_replace("/(.*\:\/\/.*\/)(".App::getLocale().')(.*)/', "$1{$lang}$3", $url);
     }
 }
+
+if (!function_exists('is_embedded_call')) {
+    /**
+     * @param  mixed  $subject
+     * @return bool
+     */
+    function is_embedded_call($subject)
+    {
+        return is_string($subject) ? class_exists($subject) : is_callable($subject);
+    }
+}
