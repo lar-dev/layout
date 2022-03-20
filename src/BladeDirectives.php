@@ -4,7 +4,6 @@ namespace Lar\Layout;
 
 use Blade;
 use Illuminate\View\View;
-use Lar\Developer\Commands\Dump\GenerateBladeHelpers;
 use Lar\Layout\Components\LjsScripts;
 use Lar\Layout\Components\LjsStyles;
 use Lar\Layout\Components\Template;
@@ -130,9 +129,6 @@ class BladeDirectives
         Blade::directive('endtpl', function ($attrs = '') {
             return '</template>';
         });
-
-        GenerateBladeHelpers::$just[] = 'endtpl';
-        GenerateBladeHelpers::$just[] = 'endtplarea';
     }
 
     /**

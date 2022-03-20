@@ -2,12 +2,6 @@
 
 namespace Lar\Layout\Core;
 
-use Composer\Json\JsonFormatter;
-
-/**
- * Class LarJsonResource.
- * @package Lar\Developer\Core
- */
 class LarJsonResource
 {
     /**
