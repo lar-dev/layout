@@ -6,6 +6,8 @@ use Closure;
 use Exception;
 use Illuminate\Support\Collection;
 use Lar\Layout\Abstracts\LayoutComponent;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 
 /**
  * Class Layout.
@@ -142,6 +144,8 @@ final class Layout
      * Get request lang.
      *
      * @return array|string|null
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function nowLang()
     {
