@@ -4,7 +4,7 @@ namespace Lar\Layout\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Lar\EntityCarrier\Core\Entities\DocumentorEntity;
+use Bfg\Entity\Core\Entities\DocumentorEntity;
 use Lar\Layout\Abstracts\LayoutComponent;
 
 /**
