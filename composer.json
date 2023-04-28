@@ -22,7 +22,7 @@
         "symfony/dom-crawler": "^v6.0.1",
         "symfony/css-selector": "^v6.0.1",
         "nikic/php-parser": "~4.0",
-        "predis/predis": "^1.1",
+        "predis/predis": "^1.1|^2.0.2",
         "lar/tagable": "^1.1.1",
         "bfg/entity": "^1.2",
         "lar/roads": "^2.2.1",
