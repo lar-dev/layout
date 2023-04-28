@@ -3,6 +3,7 @@
 namespace Lar\Layout;
 
 use Blade;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Lar\Layout\Components\LjsScripts;
 use Lar\Layout\Components\LjsStyles;
@@ -12,7 +13,6 @@ use Lar\Layout\Core\LConfigs;
 use Lar\Layout\Traits\BladeDirectivesHelpers;
 use Lar\Tagable\Core\HTML5Library;
 use Lar\Tagable\Tag;
-use Str;
 
 /**
  * Class BladeDirectives.
