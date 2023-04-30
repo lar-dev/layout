@@ -16,7 +16,7 @@ use Lar\Layout\Tags\META;
 use Lar\Layout\Tags\TITLE;
 use Lar\LJS\LJS;
 use Route;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class LayoutComponent.

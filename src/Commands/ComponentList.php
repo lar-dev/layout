@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Console\Command;
 use Lar\Tagable\Tag;
 use Psr\SimpleCache\InvalidArgumentException;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Class compList.

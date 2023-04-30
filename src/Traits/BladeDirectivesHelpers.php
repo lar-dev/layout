@@ -7,7 +7,7 @@ use Exception;
 use Lar\Layout\Abstracts\Component;
 use Lar\Tagable\Tag;
 use Lar\Tagable\Vue;
-use Str;
+use Illuminate\Support\Str;
 
 /**
  * Trait BladeDirectivesHelpers.
